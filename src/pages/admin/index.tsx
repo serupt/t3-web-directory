@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { LoadingOverlay } from "@mantine/core";
+import LoginComponent from "../../components/LoginComponent";
 
 export default function Admin() {
   const { data: session, status } = useSession();
@@ -21,10 +22,7 @@ export default function Admin() {
           </button>
         </div>
       ) : (
-        <div>
-          <p>Login to proceed</p>
-          <button onClick={() => signIn("auth0")}>Sign In</button>
-        </div>
+        <LoginComponent />
       )}
     </div>
   );
