@@ -1,5 +1,8 @@
 import NextAuth, { type NextAuthOptions } from "next-auth";
 import Auth0Provider from "next-auth/providers/auth0";
+import Credentials, {
+  CredentialsProvider,
+} from "next-auth/providers/credentials";
 
 // Prisma adapter for NextAuth, optional and can be removed
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
@@ -18,6 +21,8 @@ export const authOptions: NextAuthOptions = {
   },
   // Configure one or more authentication providers
   adapter: PrismaAdapter(prisma),
+  secret: env.NEXTAUTH_SECRET,
+  session: { strategy: "jwt" },
   providers: [
     Auth0Provider({
       id: "auth0",
@@ -25,7 +30,6 @@ export const authOptions: NextAuthOptions = {
       clientSecret: env.AUTH0_CLIENT_SECRET,
       issuer: env.AUTH0_ISSUER,
     }),
-    // ...add more providers here
   ],
 };
 

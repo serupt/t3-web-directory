@@ -16,7 +16,9 @@ export default function Admin() {
       {session ? (
         <div>
           <p>hi {session.user?.email}</p>
-          <button onClick={() => signOut()}>Sign Out</button>
+          <button onClick={() => signOut({ callbackUrl: "/admin" })}>
+            Sign Out
+          </button>
         </div>
       ) : (
         <div>
