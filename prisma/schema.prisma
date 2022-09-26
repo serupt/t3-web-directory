@@ -20,7 +20,7 @@ model Places {
     description   String
     address       String
     phone_number  String
-    opening_Hours Json
+    opening_hours Json
     website       String
     category      String   @default("Other")
     subcategories String[] @default(["Other"])
