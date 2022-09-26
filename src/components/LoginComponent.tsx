@@ -1,19 +1,3 @@
-/*
-  This example requires Tailwind CSS v2.0+ 
-  
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
 import { IconLogin } from "@tabler/icons";
 import { signIn } from "next-auth/react";
 
@@ -103,7 +87,7 @@ export default function Example() {
               <button
                 // type="submit"
                 className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                onClick={() => signIn("auth0")}
+                onClick={() => signIn("auth0", { callbackUrl: "/admin" })}
               >
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                   <IconLogin

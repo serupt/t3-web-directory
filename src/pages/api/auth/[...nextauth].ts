@@ -21,8 +21,8 @@ export const authOptions: NextAuthOptions = {
   },
   // Configure one or more authentication providers
   adapter: PrismaAdapter(prisma),
-  secret: env.NEXTAUTH_SECRET,
-  session: { strategy: "jwt" },
+  // secret: env.NEXTAUTH_SECRET,
+  // session: { strategy: "jwt" },
   providers: [
     Auth0Provider({
       id: "auth0",
