@@ -10,16 +10,18 @@ import {
 } from "@tabler/icons";
 import { NavbarLink } from "./NavbarLink";
 import EditComponent from "./EditComponent";
+import { trpc } from "../utils/trpc";
 
-const mockdata = [
+const navitems = [
   { icon: IconHome2, label: "Home" },
   { icon: IconEdit, label: "Edit" },
 ];
 
 export default function DashboardComponent() {
   const [active, setActive] = useState("Home");
+  const hello = trpc.useQuery(["example.getAll"]);
 
-  const links = mockdata.map((link) => (
+  const links = navitems.map((link) => (
     <NavbarLink
       {...link}
       key={link.label}
