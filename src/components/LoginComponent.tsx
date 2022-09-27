@@ -1,106 +1,73 @@
-import { IconLogin } from "@tabler/icons";
+import {
+  TextInput,
+  PasswordInput,
+  Checkbox,
+  Anchor,
+  Paper,
+  Title,
+  Text,
+  Container,
+  Group,
+  Button,
+} from "@mantine/core";
 import { signIn } from "next-auth/react";
 
-export default function Example() {
+export default function LoginComponent() {
   return (
-    <>
-      {/*
-        This example requires updating your template:
+    <Container size={450} my={40}>
+      <Title
+        mt={200}
+        align="center"
+        sx={(theme) => ({
+          fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+          fontWeight: 900,
+        })}
+        color={"brand.7"}
+      >
+        Login to continue
+      </Title>
 
-        ```
-        <html class="h-full bg-gray-50">
-        <body class="h-full">
-        ```
-      */}
-      <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div className="w-full max-w-md space-y-8">
-          <div>
-            {/* <img
-              className="mx-auto h-12 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-              alt="Your Company"
-            /> */}
-            <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
-              Login to continue
-            </h2>
-          </div>
-          <form className="mt-8 space-y-6" action="#" method="POST">
-            <input type="hidden" name="remember" defaultValue="true" />
-            <div className="-space-y-px rounded-md shadow-sm">
-              <div>
-                <label htmlFor="email-address" className="sr-only">
-                  Email address
-                </label>
-                <input
-                  id="email-address"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                  placeholder="Email address"
-                />
-              </div>
-              <div>
-                <label htmlFor="password" className="sr-only">
-                  Password
-                </label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  className="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                  placeholder="Password"
-                />
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <input
-                  id="remember-me"
-                  name="remember-me"
-                  type="checkbox"
-                  className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                />
-                <label
-                  htmlFor="remember-me"
-                  className="ml-2 block text-sm text-gray-900"
-                >
-                  Remember me
-                </label>
-              </div>
-
-              <div className="text-sm">
-                <a
-                  href="#"
-                  className="font-medium text-indigo-600 hover:text-indigo-500"
-                >
-                  Forgot your password?
-                </a>
-              </div>
-            </div>
-
-            <div>
-              <button
-                // type="submit"
-                className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                onClick={() => signIn("auth0", { callbackUrl: "/admin" })}
-              >
-                <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                  <IconLogin
-                    className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
-                    aria-hidden="true"
-                  />
-                </span>
-                Sign in
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </>
+      <Paper p={30} mt={50} radius="lg">
+        <TextInput
+          label="Email"
+          placeholder="Email"
+          variant="unstyled"
+          styles={{
+            input: {
+              color: "black",
+            },
+          }}
+        />
+        <PasswordInput
+          label="Password"
+          placeholder="Password"
+          mt="md"
+          styles={{
+            innerInput: {
+              color: "black",
+            },
+          }}
+        />
+        <Group position="right" mt="md">
+          {/* <Checkbox label="Remember me" /> */}
+          <Anchor<"a">
+            onClick={(event) => event.preventDefault()}
+            href="#"
+            size="sm"
+            color={"brand.7"}
+          >
+            Forgot password?
+          </Anchor>
+        </Group>
+        <Button
+          fullWidth
+          mt="xl"
+          color={"brand.7"}
+          onClick={() => signIn("auth0", { callbackUrl: "/admin" })}
+        >
+          Sign in
+        </Button>
+      </Paper>
+    </Container>
   );
 }

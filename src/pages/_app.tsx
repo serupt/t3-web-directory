@@ -15,7 +15,42 @@ const MyApp: AppType<{ session: Session | null }> = ({
   pageProps: { session, ...pageProps },
 }) => {
   return (
-    <MantineProvider withGlobalStyles withNormalizeCSS>
+    <MantineProvider
+      withGlobalStyles
+      withNormalizeCSS
+      theme={{
+        /** Put your mantine theme override here */
+        colorScheme: "dark",
+        colors: {
+          // override dark colors to change them for all components
+          dark: [
+            "#F8F9FA",
+            "#E9ECEF",
+            "#DEE2E6",
+            "#CED4DA",
+            "#ADB5BD",
+            "#6C757D",
+            "#495057",
+            "#343A40",
+            "#2B3035",
+            "#212529",
+          ],
+          brand: [
+            "#E1BEBA",
+            "#F7D1CD",
+            "#F0CACC",
+            "#E8C2CA",
+            "#DDBBC7",
+            "#D1B3C4",
+            "#C2A3B8",
+            "#B392AC",
+            "#937892",
+            "#735D78",
+          ],
+        },
+        primaryColor: "brand",
+      }}
+    >
       <SessionProvider session={session}>
         <Component {...pageProps} />
       </SessionProvider>

@@ -20,10 +20,10 @@ model Places {
     description   String
     address       String
     phone_number  String
-    opening_hours Json
+    opening_hours String
     website       String
     category      String   @default("Other")
-    subcategories String[] @default(["Other"])
+    tags          String[] @default(["Other"])
     coords        Json
     created_at    DateTime @default(now())
 }
