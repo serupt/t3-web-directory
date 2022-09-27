@@ -9,6 +9,7 @@ import {
   Icon3dCubeSphere,
 } from "@tabler/icons";
 import { NavbarLink } from "./NavbarLink";
+import EditComponent from "./EditComponent";
 
 const mockdata = [
   { icon: IconHome2, label: "Home" },
@@ -51,7 +52,16 @@ export default function DashboardComponent() {
         </Navbar>
       }
     >
-      {active === "Home" ? "THIS IS HOME!!!" : "NOT HOME"}
+      {active === "Home" ? (
+        <div>
+          This is dashboard home{" "}
+          <p>prob gonna show some statistic stuff here</p>
+        </div>
+      ) : "Edit" ? (
+        <EditComponent />
+      ) : (
+        "NEITHER????"
+      )}
     </AppShell>
   );
 }

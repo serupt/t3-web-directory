@@ -15,11 +15,7 @@ export default function Admin() {
       <Head>
         <title>Dashboard</title>
       </Head>
-      {session ? (
-        <DashboardComponent session={session} expires={session.expires} />
-      ) : (
-        <LoginComponent />
-      )}
+      {session ? <DashboardComponent /> : <LoginComponent />}
     </div>
   );
 }
