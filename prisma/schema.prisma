@@ -26,6 +26,7 @@ model Places {
     tags          String[] @default(["Other"])
     coords        Json
     created_at    DateTime @default(now())
+    updated_at    DateTime @default(now()) @updatedAt
 }
 
 // Necessary for Next auth
