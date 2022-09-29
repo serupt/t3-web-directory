@@ -11,6 +11,8 @@ import {
 import { NavbarLink } from "./NavbarLink";
 import EditComponent from "./EditComponent";
 import { trpc } from "../utils/trpc";
+import { BrowserRouter as Router, Link, Route, Routes } from "react-router-dom";
+import DashboardHomeComponent from "./DashboardHomeComponent";
 
 const navitems = [
   { icon: IconHome2, label: "Home" },
@@ -31,39 +33,35 @@ export default function DashboardComponent() {
   ));
 
   return (
-    <AppShell
-      navbar={
-        <Navbar height={"100vh"} width={{ base: 80 }} p="md">
-          <Center>
-            <Icon3dCubeSphere />
-          </Center>
-          <Navbar.Section grow mt={50}>
-            <Stack justify="center" spacing={0}>
-              {links}
-            </Stack>
-          </Navbar.Section>
-          <Navbar.Section>
-            <Stack justify="center" spacing={0}>
-              <NavbarLink
-                icon={IconLogout}
-                label="Logout"
-                onClick={() => signOut({ callbackUrl: "/admin" })}
-              />
-            </Stack>
-          </Navbar.Section>
-        </Navbar>
-      }
-    >
-      {active === "Home" ? (
-        <div>
-          This is dashboard home{" "}
-          <p>prob gonna show some statistic stuff here</p>
-        </div>
-      ) : "Edit" ? (
-        <EditComponent />
-      ) : (
-        "NEITHER????"
-      )}
-    </AppShell>
+    <Router>
+      <AppShell
+        navbar={
+          <Navbar height={"100vh"} width={{ base: 80 }} p="md">
+            <Center>
+              <Icon3dCubeSphere />
+            </Center>
+            <Navbar.Section grow mt={50}>
+              <Stack justify="center" spacing={0}>
+                {links}
+              </Stack>
+            </Navbar.Section>
+            <Navbar.Section>
+              <Stack justify="center" spacing={0}>
+                <NavbarLink
+                  icon={IconLogout}
+                  label="Logout"
+                  onClick={() => signOut({ callbackUrl: "/admin" })}
+                />
+              </Stack>
+            </Navbar.Section>
+          </Navbar>
+        }
+      >
+        <Routes>
+          <Route path="/admin" element={<DashboardHomeComponent />} />
+          <Route path="/admin/edit" element={<EditComponent />} />
+        </Routes>
+      </AppShell>
+    </Router>
   );
 }

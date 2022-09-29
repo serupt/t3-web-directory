@@ -1,5 +1,6 @@
 import { Tooltip, UnstyledButton, createStyles } from "@mantine/core";
 import { TablerIcon } from "@tabler/icons";
+import { Link } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -51,6 +52,8 @@ export function NavbarLink({
       <UnstyledButton
         onClick={onClick}
         className={cx(classes.link, { [classes.active]: active })}
+        component={Link}
+        to={label === "Home" ? "/admin" : `/admin/${label.toLocaleLowerCase()}`}
       >
         <Icon stroke={1.5} />
       </UnstyledButton>
