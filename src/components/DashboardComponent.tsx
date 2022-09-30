@@ -6,11 +6,11 @@ import {
   IconHome2,
   IconEdit,
   IconLogout,
-  Icon3dCubeSphere,
+  IconLayoutDashboard,
 } from "@tabler/icons";
 import { NavbarLink } from "./NavbarLink";
 import EditComponent from "./EditComponent";
-import { BrowserRouter as Router, Link, Route, Routes } from "react-router-dom";
+import { HashRouter as Router, Link, Route, Routes } from "react-router-dom";
 import HomeComponent from "./HomeComponent";
 
 const navitems = [
@@ -26,7 +26,13 @@ export default function DashboardComponent() {
       {...link}
       key={link.label}
       active={link.label === active}
-      onClick={() => setActive(link.label)}
+      onClick={() => {
+        if (link.label === "Home") {
+          setActive("/");
+        } else {
+          setActive(link.label);
+        }
+      }}
     />
   ));
 
@@ -36,7 +42,7 @@ export default function DashboardComponent() {
         navbar={
           <Navbar height={"100vh"} width={{ base: 80 }} p="md">
             <Center>
-              <Icon3dCubeSphere />
+              <IconLayoutDashboard />
             </Center>
             <Navbar.Section grow mt={50}>
               <Stack justify="center" spacing={0}>
@@ -56,6 +62,7 @@ export default function DashboardComponent() {
         }
       >
         <Routes>
+          <Route path="/" element={<HomeComponent />} />
           <Route path="/admin" element={<HomeComponent />} />
           <Route path="/admin/edit" element={<EditComponent />} />
         </Routes>
