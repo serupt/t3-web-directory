@@ -10,9 +10,8 @@ import {
 } from "@tabler/icons";
 import { NavbarLink } from "./NavbarLink";
 import EditComponent from "./EditComponent";
-import { trpc } from "../utils/trpc";
 import { BrowserRouter as Router, Link, Route, Routes } from "react-router-dom";
-import DashboardHomeComponent from "./DashboardHomeComponent";
+import HomeComponent from "./HomeComponent";
 
 const navitems = [
   { icon: IconHome2, label: "Home" },
@@ -21,7 +20,6 @@ const navitems = [
 
 export default function DashboardComponent() {
   const [active, setActive] = useState("Home");
-  const hello = trpc.useQuery(["example.getAll"]);
 
   const links = navitems.map((link) => (
     <NavbarLink
@@ -58,7 +56,7 @@ export default function DashboardComponent() {
         }
       >
         <Routes>
-          <Route path="/admin" element={<DashboardHomeComponent />} />
+          <Route path="/admin" element={<HomeComponent />} />
           <Route path="/admin/edit" element={<EditComponent />} />
         </Routes>
       </AppShell>

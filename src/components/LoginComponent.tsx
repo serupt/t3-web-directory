@@ -28,26 +28,8 @@ export default function LoginComponent() {
       </Title>
 
       <Paper p={30} mt={50} radius="lg">
-        <TextInput
-          label="Email"
-          placeholder="Email"
-          variant="unstyled"
-          styles={{
-            input: {
-              color: "black",
-            },
-          }}
-        />
-        <PasswordInput
-          label="Password"
-          placeholder="Password"
-          mt="md"
-          styles={{
-            innerInput: {
-              color: "black",
-            },
-          }}
-        />
+        <TextInput label="Email" placeholder="Email" />
+        <PasswordInput label="Password" placeholder="Password" mt="md" />
         <Group position="right" mt="md">
           {/* <Checkbox label="Remember me" /> */}
           <Anchor<"a">
