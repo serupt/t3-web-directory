@@ -15,16 +15,17 @@ datasource db {
 }
 
 model Places {
-    id            String   @id @default(auto()) @map("_id") @db.ObjectId
-    name          String
+    places_id     String   @id @default(auto()) @map("_id") @db.ObjectId
+    name          String   @unique
     description   String
-    address       String
+    address       String   @unique
     phone_number  String
     opening_hours String
     website       String
     category      String   @default("Other")
     tags          String[] @default(["Other"])
-    coords        Json
+    coords_lat    String
+    coords_lng    String
     created_at    DateTime @default(now())
     updated_at    DateTime @default(now()) @updatedAt
 }

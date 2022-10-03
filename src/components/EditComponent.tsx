@@ -15,6 +15,7 @@ import {
   ActionIcon,
   Container,
   SimpleGrid,
+  Textarea,
 } from "@mantine/core";
 import { openConfirmModal } from "@mantine/modals";
 import { Places } from "@prisma/client";
@@ -38,17 +39,23 @@ export default function EditComponent() {
       title: `Editing ${element.name}`,
       children: (
         <SimpleGrid cols={1}>
-          <TextInput label="ID" value={element.id} disabled />
+          <TextInput label="ID" value={element.places_id} disabled />
           <TextInput label="Name" value={element.name} />
+          <Textarea label="Description" value={element.description} />
           <TextInput label="Address" value={element.address} />
+          <TextInput label="Phone Number" value={element.phone_number} />
+          <TextInput label="Website" value={element.website} />
           <TextInput label="Category" value={element.category} />
+          <TextInput label="Tags" value={element.tags} />
           <Group position="apart">
-            <TextInput
-              label="Latitude"
-              value={JSON.stringify(element.coords)}
-            />
-            {/* <TextInput label="Longitude" value={element.coords?.lng} /> */}
+            <TextInput label="Latitude" value={element.coords_lat} />
+            <TextInput label="Longitude" value={element.coords_lng} />
           </Group>
+          <Textarea
+            placeholder="Daily: 9am-6pm"
+            label="Opening Hours"
+            value={element.opening_hours}
+          />
         </SimpleGrid>
       ),
       labels: { confirm: "Confirm", cancel: "Cancel" },
@@ -84,11 +91,11 @@ export default function EditComponent() {
             <tbody>
               {hello.data?.map((element) => (
                 <tr
-                  key={element.id}
+                  key={element.places_id}
                   onClick={() => openModal(element)}
                   style={{ cursor: "pointer" }}
                 >
-                  <td>{element.id}</td>
+                  <td>{element.places_id}</td>
                   <td>{element.name}</td>
                   <td>{element.address}</td>
                   <td>{element.category}</td>
