@@ -6,15 +6,18 @@ import {
   IconHome2,
   IconEdit,
   IconLogout,
+  IconPlus,
   IconLayoutDashboard,
 } from "@tabler/icons";
 import { NavbarLink } from "./NavbarLink";
 import EditComponent from "./EditComponent";
-import { HashRouter as Router, Link, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Link, Route, Routes } from "react-router-dom";
 import HomeComponent from "./HomeComponent";
+import NewEntryComponent from "./NewEntryComponent";
 
 const navitems = [
   { icon: IconHome2, label: "Home" },
+  { icon: IconPlus, label: "Add" },
   { icon: IconEdit, label: "Edit" },
 ];
 
@@ -65,6 +68,7 @@ export default function DashboardComponent() {
           <Route path="/" element={<HomeComponent />} />
           <Route path="/admin" element={<HomeComponent />} />
           <Route path="/admin/edit" element={<EditComponent />} />
+          <Route path="/admin/add" element={<NewEntryComponent />} />
         </Routes>
       </AppShell>
     </Router>

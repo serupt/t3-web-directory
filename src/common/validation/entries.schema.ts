@@ -9,10 +9,10 @@ export const createEntrySchema = z.object({
     required_error: "Address is required",
   }),
   phone_number: z.string(),
-  opening_hours: z.string(),
-  website: z.string().url(),
+  website: z.string(),
   category: z.string(),
   tags: z.string().array(),
+  opening_hours: z.string(),
   coords_lat: z.string(),
   coords_lng: z.string(),
 });
