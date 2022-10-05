@@ -11,7 +11,7 @@ import {
 } from "@tabler/icons";
 import { NavbarLink } from "./NavbarLink";
 import EditComponent from "./EditComponent";
-import { BrowserRouter as Router, Link, Route, Routes } from "react-router-dom";
+import { HashRouter as Router, Link, Route, Routes } from "react-router-dom";
 import HomeComponent from "./HomeComponent";
 import NewEntryComponent from "./NewEntryComponent";
 
