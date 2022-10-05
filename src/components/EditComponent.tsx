@@ -75,12 +75,8 @@ export default function EditComponent() {
             <TextInput
               placeholder="Search entries..."
               mb="md"
-
               // value={search}
             />
-            <Link href={"/admin/newEntry"}>
-              <Button mb={"md"}>Add Entry</Button>
-            </Link>
           </Group>
           <Divider pb={10} />
           <Table highlightOnHover verticalSpacing={"md"}>
@@ -107,7 +103,7 @@ export default function EditComponent() {
                   <td>{element.category}</td>
                   <td>
                     {element.tags.map((tag, index) => {
-                      return <Badge key={index}>{tag}</Badge>;
+                      return <Badge key={index}>{tag.trim()}</Badge>;
                     })}
                   </td>
                   <td>

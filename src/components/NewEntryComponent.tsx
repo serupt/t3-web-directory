@@ -51,6 +51,7 @@ export default function NewEntryComponent() {
   });
 
   function onSubmit(values: CreateEntryInput) {
+    values.tags = values.tags[0]?.split(",").join("").split("")!;
     createEntry.mutate(values);
   }
 
@@ -80,13 +81,13 @@ export default function NewEntryComponent() {
           />
           <TextInput label="Website" {...form.getInputProps("website")} />
           <TextInput label="Category" {...form.getInputProps("category")} />
-          <TextInput label="Tags" {...form.getInputProps("tags")} />
+          <TextInput label="Tags" {...form.getInputProps("tags.0")} />
           <Textarea
             placeholder="Daily: 9am-6pm"
             label="Opening Hours"
             {...form.getInputProps("opening_hours")}
           />
-          <Text>For google map markers</Text>
+
           <Group position="apart" pb={10}>
             <TextInput
               label="Latitude"
@@ -99,7 +100,8 @@ export default function NewEntryComponent() {
               {...form.getInputProps("coords_lng")}
             />
           </Group>
-          <Group position="center">
+          <Group position="apart">
+            <Button variant="default">Autofill with Google</Button>
             <Button type="submit">Submit</Button>
           </Group>
         </form>
