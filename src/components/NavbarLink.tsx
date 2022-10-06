@@ -1,6 +1,6 @@
 import { Tooltip, UnstyledButton, createStyles } from "@mantine/core";
 import { TablerIcon } from "@tabler/icons";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -40,23 +40,22 @@ interface NavbarLinkProps {
   active?: boolean;
   onClick?(): void;
 }
-export function NavbarLink({
-  icon: Icon,
-  label,
-  active,
-  onClick,
-}: NavbarLinkProps) {
+export function NavbarLink({ icon: Icon, label, active }: NavbarLinkProps) {
   const { classes, cx } = useStyles();
   return (
     <Tooltip label={label} position="right" transitionDuration={0}>
-      <UnstyledButton
-        onClick={onClick}
-        className={cx(classes.link, { [classes.active]: active })}
-        component={Link}
-        to={label === "Home" ? "/admin" : `/admin/${label.toLocaleLowerCase()}`}
+      <Link
+        href={
+          label === "Admin" ? "/admin" : `/admin/${label.toLocaleLowerCase()}`
+        }
       >
-        <Icon stroke={1.5} />
-      </UnstyledButton>
+        <UnstyledButton
+          // onClick={onClick}
+          className={cx(classes.link, { [classes.active]: active })}
+        >
+          <Icon stroke={1.5} />
+        </UnstyledButton>
+      </Link>
     </Tooltip>
   );
 }

@@ -1,10 +1,22 @@
 import Head from "next/head";
 import { signIn, signOut, useSession } from "next-auth/react";
-import { LoadingOverlay } from "@mantine/core";
+import { Grid, LoadingOverlay } from "@mantine/core";
 import LoginComponent from "../../components/LoginComponent";
-import DashboardComponent from "../../components/DashboardComponent";
+import DashboardShellComponent from "../../components/DashboardShellComponent";
+import AdminMapComponent from "../../components/AdminMapComponent";
+
+import { useLoadScript, LoadScriptProps } from "@react-google-maps/api";
+import { env } from "../../env/client.mjs";
+import NewEntryComponent from "../../components/NewEntryComponent";
+
+const googleMapsLibraries: LoadScriptProps["libraries"] = ["places"];
 
 export default function Admin() {
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
+    libraries: googleMapsLibraries,
+  });
+
   const { data: session, status } = useSession();
 
   if (status === "loading") {
@@ -15,7 +27,20 @@ export default function Admin() {
       <Head>
         <title>Dashboard</title>
       </Head>
-      {session ? <DashboardComponent /> : <LoginComponent />}
+      {session ? (
+        <DashboardShellComponent>
+          <Grid grow gutter={0} justify="center" align="center">
+            <Grid.Col span={1}>
+              <NewEntryComponent />
+            </Grid.Col>
+            <Grid.Col span={5}>
+              {isLoaded ? <AdminMapComponent /> : <LoadingOverlay visible />}
+            </Grid.Col>
+          </Grid>
+        </DashboardShellComponent>
+      ) : (
+        <LoginComponent />
+      )}
     </div>
   );
 }

@@ -22,6 +22,8 @@ import {
 } from "@mantine/core";
 import { IconSearch, IconMenu2 } from "@tabler/icons";
 
+import { env } from "../env/client.mjs";
+
 import { CreateEntryInput } from "../common/validation/entries.schema";
 import { useForm } from "@mantine/form";
 import { useRouter } from "next/router";
@@ -58,23 +60,25 @@ export default function NewEntryComponent() {
   return (
     <Center>
       <SimpleGrid cols={1}>
-        <Text>Adding a new entry</Text>
+        <Group position="center">
+          <Text>Adding new entry</Text>
+        </Group>
+        <TextInput
+          icon={<IconSearch />}
+          placeholder={"Search and select a place for autofill."}
+        />
         <Container fluid={false} size={"xs"}>
           <Text color={"red"}>
             {createEntry.error && createEntry.error.message}
           </Text>
         </Container>
         <form onSubmit={form.onSubmit(onSubmit)}>
-          <TextInput label="Name" required {...form.getInputProps("name")} />
+          <TextInput label="Name" {...form.getInputProps("name")} />
           <Textarea
             label="Description"
             {...form.getInputProps("description")}
           />
-          <TextInput
-            label="Address"
-            required
-            {...form.getInputProps("address")}
-          />
+          <TextInput label="Address" {...form.getInputProps("address")} />
           <TextInput
             label="Phone Number"
             {...form.getInputProps("phone_number")}
@@ -89,20 +93,16 @@ export default function NewEntryComponent() {
           />
 
           <Group position="apart" pb={10}>
-            <TextInput
-              label="Latitude"
-              required
-              {...form.getInputProps("coords_lat")}
-            />
+            <TextInput label="Latitude" {...form.getInputProps("coords_lat")} />
             <TextInput
               label="Longitude"
-              required
               {...form.getInputProps("coords_lng")}
             />
           </Group>
-          <Group position="apart">
-            <Button variant="default">Autofill with Google</Button>
-            <Button type="submit">Submit</Button>
+          <Group position="center">
+            <Button type="submit" fullWidth>
+              Submit
+            </Button>
           </Group>
         </form>
       </SimpleGrid>
