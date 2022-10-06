@@ -1,6 +1,5 @@
-import { trpc } from "../utils/trpc";
-import { useState, useEffect } from "react";
 import {
+  Autocomplete,
   Button,
   Center,
   Group,
@@ -10,16 +9,20 @@ import {
   SimpleGrid,
   Textarea,
 } from "@mantine/core";
+import usePlacesAutocomplete, {
+  getGeocode,
+  getDetails,
+} from "use-places-autocomplete";
+
+import { trpc } from "../utils/trpc";
+import { useState, useEffect } from "react";
 import { IconSearch } from "@tabler/icons";
 import { CreateEntryInput } from "../common/validation/entries.schema";
 import { useForm } from "@mantine/form";
 import { useRouter } from "next/router";
 
-export default function NewEntryComponent() {
+export default function AutoComplete() {
   const router = useRouter();
-
-  const [showNotification, setShowNotification] = useState(false);
-
   const createEntry = trpc.useMutation(["entries.add-entry"], {
     onSuccess: () => router.push("/admin"),
   });
@@ -44,15 +47,64 @@ export default function NewEntryComponent() {
     createEntry.mutate(values);
   }
 
+  const {
+    ready,
+    value,
+    setValue,
+    suggestions: { status, data },
+    clearSuggestions,
+  } = usePlacesAutocomplete({
+    cache: 24 * 60 * 60,
+    requestOptions: {
+      radius: 2000,
+      componentRestrictions: { country: "us" },
+      location: new google.maps.LatLng(40.716596, -73.99712),
+    },
+    debounce: 300,
+  });
+
+  const handleSelect = async (val: string) => {
+    setValue(val, false);
+    clearSuggestions();
+
+    const results = await getGeocode({ address: val });
+    const placeID = results[0]?.place_id ?? "";
+    const resultsDetail = await getDetails({
+      placeId: placeID,
+      fields: [
+        "name",
+        "formatted_address",
+        "geometry.location",
+        "formatted_phone_number",
+        "url",
+        "website",
+      ],
+    });
+
+    console.log(resultsDetail);
+
+    form.setValues({
+      name: resultsDetail.name,
+      address: resultsDetail.formatted_address,
+      phone_number: resultsDetail.formatted_phone_number,
+      website: resultsDetail.website,
+      coords_lat: resultsDetail.geometry.location.lat(),
+      coords_lng: resultsDetail.geometry.location.lng(),
+    });
+  };
+
   return (
     <Center>
       <SimpleGrid cols={1}>
         <Group position="center">
           <Text>Adding new entry</Text>
         </Group>
-        <TextInput
-          icon={<IconSearch />}
-          placeholder={"Search and select a place for autofill."}
+        <Autocomplete
+          value={value}
+          onChange={setValue}
+          placeholder="Search and select place to autofill..."
+          data={data.map((item) => ({ ...item, value: item.description }))}
+          onItemSubmit={(e) => handleSelect(e.value)}
         />
         <Container fluid={false} size={"xs"}>
           <Text color={"red"}>

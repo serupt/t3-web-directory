@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { signIn, signOut, useSession } from "next-auth/react";
-import { Grid, LoadingOverlay } from "@mantine/core";
+import { Grid, LoadingOverlay, Skeleton } from "@mantine/core";
 import LoginComponent from "../../components/LoginComponent";
 import DashboardShellComponent from "../../components/DashboardShellComponent";
 import AdminMapComponent from "../../components/AdminMapComponent";
@@ -8,6 +8,7 @@ import AdminMapComponent from "../../components/AdminMapComponent";
 import { useLoadScript, LoadScriptProps } from "@react-google-maps/api";
 import { env } from "../../env/client.mjs";
 import NewEntryComponent from "../../components/NewEntryComponent";
+import AutoComplete from "../../components/AutoComplete";
 
 const googleMapsLibraries: LoadScriptProps["libraries"] = ["places"];
 
@@ -31,7 +32,7 @@ export default function Admin() {
         <DashboardShellComponent>
           <Grid grow gutter={0} justify="center" align="center">
             <Grid.Col span={1}>
-              <NewEntryComponent />
+              {isLoaded ? <AutoComplete /> : <Skeleton visible />}
             </Grid.Col>
             <Grid.Col span={5}>
               {isLoaded ? <AdminMapComponent /> : <LoadingOverlay visible />}
