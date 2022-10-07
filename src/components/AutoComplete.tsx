@@ -8,6 +8,7 @@ import {
   Container,
   SimpleGrid,
   Textarea,
+  MultiSelect,
 } from "@mantine/core";
 import usePlacesAutocomplete, {
   getGeocode,
@@ -20,9 +21,11 @@ import { IconSearch } from "@tabler/icons";
 import { CreateEntryInput } from "../common/validation/entries.schema";
 import { useForm } from "@mantine/form";
 import { useRouter } from "next/router";
+import { Places } from "@prisma/client";
 
 export default function AutoComplete() {
   const router = useRouter();
+  const getEntry = trpc.useQuery(["entries.get-all-entries"]);
   const createEntry = trpc.useMutation(["entries.add-entry"], {
     onSuccess: () => router.push("/admin"),
   });
@@ -42,13 +45,19 @@ export default function AutoComplete() {
     },
   });
 
+  const [dataTags, setDataTags] = useState([
+    { value: "Restaurant", label: "Restaurant" },
+    { value: "Casual", label: "Casual" },
+    { value: "Supermarket", label: "Supermarket" },
+  ]);
+
   function onSubmit(values: CreateEntryInput) {
-    values.tags = values.tags[0]?.split(",").join("").split("")!;
+    // values.tags = values.tags[0]?.split(",").join("").split("")!;
     createEntry.mutate(values);
+    form.reset();
   }
 
   const {
-    ready,
     value,
     setValue,
     suggestions: { status, data },
@@ -77,20 +86,29 @@ export default function AutoComplete() {
         "geometry.location",
         "formatted_phone_number",
         "url",
+        "opening_hours",
         "website",
       ],
     });
 
     console.log(resultsDetail);
 
-    form.setValues({
-      name: resultsDetail.name,
-      address: resultsDetail.formatted_address,
-      phone_number: resultsDetail.formatted_phone_number,
-      website: resultsDetail.website,
-      coords_lat: resultsDetail.geometry.location.lat(),
-      coords_lng: resultsDetail.geometry.location.lng(),
-    });
+    form.setFieldValue("name", resultsDetail.name);
+    form.setFieldValue("address", resultsDetail.formatted_address);
+    form.setFieldValue("phone_number", resultsDetail.formatted_phone_number);
+    form.setFieldValue("website", resultsDetail.website);
+    form.setFieldValue(
+      "opening_hours",
+      resultsDetail.opening_hours.weekday_text.join("\n")
+    );
+    form.setFieldValue(
+      "coords_lat",
+      resultsDetail.geometry.location.lat().toString()
+    );
+    form.setFieldValue(
+      "coords_lng",
+      resultsDetail.geometry.location.lng().toString()
+    );
   };
 
   return (
@@ -124,7 +142,22 @@ export default function AutoComplete() {
           />
           <TextInput label="Website" {...form.getInputProps("website")} />
           <TextInput label="Category" {...form.getInputProps("category")} />
-          <TextInput label="Tags" {...form.getInputProps("tags.0")} />
+          <MultiSelect
+            label={"Tags"}
+            data={dataTags}
+            placeholder={"Type to add new tags..."}
+            description={"Select up to 5 tags"}
+            searchable
+            creatable
+            getCreateLabel={(query) => `${query}`}
+            maxSelectedValues={5}
+            onCreate={(query) => {
+              const item = { value: query, label: query };
+              setDataTags((current) => [...current, item]);
+              return item;
+            }}
+            {...form.getInputProps("tags")}
+          />
           <Textarea
             placeholder="Daily: 9am-6pm"
             label="Opening Hours"

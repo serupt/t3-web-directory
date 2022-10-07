@@ -17,6 +17,7 @@ import {
   SimpleGrid,
   Textarea,
   MultiSelect,
+  Modal,
 } from "@mantine/core";
 import {
   openConfirmModal,
@@ -27,6 +28,8 @@ import {
 import { Places } from "@prisma/client";
 import { IconSearch, IconMenu2 } from "@tabler/icons";
 import Link from "next/link";
+import { EditEntrySchema } from "../common/validation/entries.schema";
+import { useForm } from "@mantine/form";
 
 function filterData(data: Places[], search: string) {
   const query = search.toLocaleLowerCase().trim();
@@ -39,37 +42,32 @@ function filterData(data: Places[], search: string) {
 
 export default function EditComponent() {
   const [search, setSearch] = useState("");
+  const [selected, setSelected] = useState<Places>();
+  const [modalOpened, setModalOpened] = useState(false);
 
-  // const { handleSubmit, register } = useForm<CreateEntryInput>();
+  const getEntries = trpc.useQuery(["entries.get-all-entries"]);
 
-  const hello = trpc.useQuery(["example.getAll"]);
+  const editEntry = trpc.useMutation(["entries.edit-entry"]);
 
-  const editModal = (element: Places) =>
-    openModal({
-      title: `Editing ${element.name}`,
-      children: (
-        <SimpleGrid cols={1}>
-          <TextInput label="ID" placeholder={element.places_id} disabled />
-          <TextInput label="Name" placeholder={element.name} />
-          <Textarea label="Description" placeholder={element.description} />
-          <TextInput label="Address" placeholder={element.address} />
-          <TextInput label="Phone Number" placeholder={element.phone_number} />
-          <TextInput label="Website" placeholder={element.website} />
-          <TextInput label="Category" placeholder={element.category} />
-          <TextInput label="Tags" placeholder={element.tags.join(" ")} />
-          <Textarea placeholder="Daily: 9am-6pm" label="Opening Hours" />
-          <Text>For google map markers</Text>
-          <Group position="apart">
-            <TextInput label="Latitude" placeholder={element.coords_lat} />
-            <TextInput label="Longitude" placeholder={element.coords_lng} />
-          </Group>
-        </SimpleGrid>
-      ),
-    });
+  const form = useForm<EditEntrySchema>({
+    initialValues: {
+      id: "",
+      name: "",
+      description: "",
+      address: "",
+      phone_number: "",
+      website: "",
+      category: "",
+      tags: [],
+      opening_hours: "",
+      coords_lat: "",
+      coords_lng: "",
+    },
+  });
 
   return (
     <div>
-      {hello.isFetched ? (
+      {getEntries.isFetched ? (
         <ScrollArea>
           <Group position="left">
             <TextInput
@@ -79,10 +77,12 @@ export default function EditComponent() {
             />
           </Group>
           <Divider pb={10} />
+          <Modal opened={modalOpened} onClose={() => setModalOpened(false)}>
+            {selected?.name}
+          </Modal>
           <Table highlightOnHover verticalSpacing={"md"}>
             <thead>
               <tr>
-                <th>ID</th>
                 <th>Name</th>
                 <th>Address</th>
                 <th>Category</th>
@@ -91,13 +91,15 @@ export default function EditComponent() {
               </tr>
             </thead>
             <tbody>
-              {hello.data?.map((element) => (
+              {getEntries.data?.map((element) => (
                 <tr
                   key={element.places_id}
-                  onClick={() => editModal(element)}
+                  onClick={() => {
+                    setSelected(element);
+                    setModalOpened(true);
+                  }}
                   style={{ cursor: "pointer" }}
                 >
-                  <td>{element.places_id}</td>
                   <td>{element.name}</td>
                   <td>{element.address}</td>
                   <td>{element.category}</td>

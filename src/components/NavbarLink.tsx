@@ -40,7 +40,12 @@ interface NavbarLinkProps {
   active?: boolean;
   onClick?(): void;
 }
-export function NavbarLink({ icon: Icon, label, active }: NavbarLinkProps) {
+export function NavbarLink({
+  icon: Icon,
+  label,
+  active,
+  onClick,
+}: NavbarLinkProps) {
   const { classes, cx } = useStyles();
   return (
     <Tooltip label={label} position="right" transitionDuration={0}>
@@ -50,7 +55,7 @@ export function NavbarLink({ icon: Icon, label, active }: NavbarLinkProps) {
         }
       >
         <UnstyledButton
-          // onClick={onClick}
+          onClick={onClick}
           className={cx(classes.link, { [classes.active]: active })}
         >
           <Icon stroke={1.5} />
