@@ -38,23 +38,28 @@ export default function AutoComplete() {
       phone_number: "",
       website: "",
       category: "",
-      tags: [""],
+      tags: [],
       opening_hours: "",
       coords_lat: "",
       coords_lng: "",
     },
   });
 
-  const [dataTags, setDataTags] = useState([
-    "Restaurant",
-    "Casual",
-    "Supermarket",
-    "Drinks",
-    "Office",
-  ]);
+  function getUniqueTags(data: Places[]) {
+    const uniqueTag: string[] = [];
+    data.map((value) =>
+      value.tags.map((tag) => {
+        if (!uniqueTag.includes(tag)) {
+          uniqueTag.push(tag);
+        }
+      })
+    );
+    return uniqueTag;
+  }
+
+  const [dataTags, setDataTags] = useState(getUniqueTags(getEntry.data!));
 
   function onSubmit(values: CreateEntryInput) {
-    // values.tags = values.tags[0]?.split(",").join("").split("")!;
     createEntry.mutate(values);
     form.reset();
   }
@@ -95,13 +100,16 @@ export default function AutoComplete() {
 
     console.log(resultsDetail);
 
-    form.setFieldValue("name", resultsDetail.name);
-    form.setFieldValue("address", resultsDetail.formatted_address);
-    form.setFieldValue("phone_number", resultsDetail.formatted_phone_number);
-    form.setFieldValue("website", resultsDetail.website);
+    form.setFieldValue("name", resultsDetail.name ?? "");
+    form.setFieldValue("address", resultsDetail.formatted_address ?? "");
+    form.setFieldValue(
+      "phone_number",
+      resultsDetail.formatted_phone_number ?? ""
+    );
+    form.setFieldValue("website", resultsDetail.website ?? "");
     form.setFieldValue(
       "opening_hours",
-      resultsDetail.opening_hours.weekday_text.join("\n")
+      resultsDetail.opening_hours?.weekday_text.join("\n") ?? ""
     );
     form.setFieldValue(
       "coords_lat",

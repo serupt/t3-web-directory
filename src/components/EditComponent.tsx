@@ -21,8 +21,7 @@ import {
 } from "@mantine/core";
 
 import { Places } from "@prisma/client";
-import { EditEntryInput } from "../common/validation/entries.schema";
-import { useForm } from "@mantine/form";
+import EditForm from "./EditForm";
 
 function filterData(data: Places[], search: string) {
   const query = search.toLocaleLowerCase().trim();
@@ -33,35 +32,24 @@ function filterData(data: Places[], search: string) {
   });
 }
 
+function getUniqueTags(data: Places[]) {
+  const uniqueTag: string[] = [];
+  data.map((value) =>
+    value.tags.map((tag) => {
+      if (!uniqueTag.includes(tag)) {
+        uniqueTag.push(tag);
+      }
+    })
+  );
+  return uniqueTag;
+}
+
 export default function EditComponent() {
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState<Places>();
   const [modalOpened, setModalOpened] = useState(false);
 
   const getEntries = trpc.useQuery(["entries.get-all-entries"]);
-
-  const editEntry = trpc.useMutation(["entries.edit-entry"]);
-
-  const form = useForm<EditEntryInput>({
-    initialValues: {
-      id: "",
-      name: "",
-      description: "",
-      address: "",
-      phone_number: "",
-      website: "",
-      category: "",
-      tags: [],
-      opening_hours: "",
-      coords_lat: "",
-      coords_lng: "",
-    },
-  });
-
-  function onSubmit(values: EditEntryInput) {
-    editEntry.mutate(values);
-    form.reset();
-  }
 
   return (
     <div>
@@ -79,84 +67,13 @@ export default function EditComponent() {
             opened={modalOpened}
             onClose={() => {
               setModalOpened(false);
-              form.reset();
             }}
           >
-            <Center>
-              <SimpleGrid cols={1}>
-                <Group position="center">
-                  <Text>{`Editing ${selected?.name}`}</Text>
-                </Group>
-                <Container fluid={false} size={"xs"}>
-                  <Text color={"red"}>
-                    {editEntry.error && editEntry.error.message}
-                  </Text>
-                </Container>
-                <form onSubmit={form.onSubmit(onSubmit)}>
-                  <TextInput label="ID" value={selected?.places_id} disabled />
-                  <TextInput label="Name" {...form.getInputProps("name")} />
-
-                  <Textarea
-                    label="Description"
-                    {...form.getInputProps("description")}
-                  />
-                  <TextInput
-                    label="Address"
-                    {...form.getInputProps("address")}
-                  />
-                  <TextInput
-                    label="Phone Number"
-                    {...form.getInputProps("phone_number")}
-                  />
-                  <TextInput
-                    label="Website"
-                    {...form.getInputProps("website")}
-                  />
-                  <TextInput
-                    label="Category"
-                    {...form.getInputProps("category")}
-                  />
-                  <MultiSelect
-                    label={"Tags"}
-                    data={["Test"]}
-                    defaultValue={selected?.tags}
-                    placeholder={"Type to add new tags..."}
-                    description={"Select up to 5 tags"}
-                    searchable
-                    creatable
-                    getCreateLabel={(query) => `${query}`}
-                    maxSelectedValues={5}
-                    // onCreate={(query) => {
-                    //   const item = query;
-                    //   setDataTags((current) => [...current, item]);
-                    //   return item;
-                    // }}
-                    {...form.getInputProps("tags")}
-                  />
-                  <Textarea
-                    placeholder="Daily: 9am-6pm"
-                    label="Opening Hours"
-                    {...form.getInputProps("opening_hours")}
-                  />
-
-                  <Group position="apart" pb={10}>
-                    <TextInput
-                      label="Latitude"
-                      {...form.getInputProps("coords_lat")}
-                    />
-                    <TextInput
-                      label="Longitude"
-                      {...form.getInputProps("coords_lng")}
-                    />
-                  </Group>
-                  <Group position="center">
-                    <Button type="submit" fullWidth>
-                      Submit
-                    </Button>
-                  </Group>
-                </form>
-              </SimpleGrid>
-            </Center>
+            <EditForm
+              selected={selected!}
+              setModalOpened={setModalOpened}
+              tagData={getUniqueTags(getEntries.data!)}
+            />
           </Modal>
           <Table highlightOnHover verticalSpacing={"md"}>
             <thead>
@@ -173,13 +90,14 @@ export default function EditComponent() {
                 <tr
                   key={element.places_id}
                   onClick={() => {
+                    setSelected(element);
                     setModalOpened(true);
                     // console.log(selected);
                   }}
-                  onMouseOver={() => {
-                    setSelected(element);
-                    console.log(selected);
-                  }}
+                  // onMouseOver={() => {
+                  //   setSelected(element);
+                  //   console.log(selected);
+                  // }}
                   style={{ cursor: "pointer" }}
                 >
                   <td>{element.name}</td>
@@ -187,6 +105,9 @@ export default function EditComponent() {
                   <td>{element.category}</td>
                   <td>
                     {element.tags.map((tag, index) => {
+                      if (!tag) {
+                        return;
+                      }
                       return <Badge key={index}>{tag.trim()}</Badge>;
                     })}
                   </td>

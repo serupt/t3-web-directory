@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import mapStyles from "../styles/mapStyles";
-import { GoogleMap } from "@react-google-maps/api";
+import { GoogleMap, MarkerF } from "@react-google-maps/api";
+import { trpc } from "../utils/trpc";
 
 const containerStyle = {
   height: "100vh",
@@ -8,6 +9,8 @@ const containerStyle = {
 };
 
 export default function MapComponent() {
+  const getEntry = trpc.useQuery(["entries.get-all-entries"]);
+
   const center = useMemo(() => ({ lat: 40.716596, lng: -73.99712 }), []);
   const options = useMemo(
     () => ({
@@ -25,7 +28,19 @@ export default function MapComponent() {
           center={center}
           mapContainerStyle={containerStyle}
           options={options}
-        ></GoogleMap>
+        >
+          {getEntry.isFetched
+            ? getEntry.data?.map((entry) => (
+                <MarkerF
+                  key={entry.places_id}
+                  position={{
+                    lat: parseFloat(entry.coords_lat),
+                    lng: parseFloat(entry.coords_lng),
+                  }}
+                />
+              ))
+            : null}
+        </GoogleMap>
       </div>
     </div>
   );
