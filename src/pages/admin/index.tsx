@@ -6,7 +6,6 @@ import DashboardShellComponent from "../../components/DashboardShellComponent";
 
 import { useLoadScript, LoadScriptProps } from "@react-google-maps/api";
 import { env } from "../../env/client.mjs";
-import AutoComplete from "../../components/AutoComplete";
 import MapComponent from "../../components/MapComponent";
 
 const googleMapsLibraries: LoadScriptProps["libraries"] = ["places"];

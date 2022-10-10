@@ -136,10 +136,12 @@ export default function AutoComplete() {
   };
 
   return (
-    <Center>
+    <Container size={"sm"} px="sm">
       <SimpleGrid cols={1}>
         <Group position="center">
-          <Text>Adding new entry</Text>
+          <Text weight={"bold"} align={"center"} size={48} pt={10}>
+            Adding new entry
+          </Text>
         </Group>
         <Autocomplete
           icon={<IconSearch />}
@@ -203,7 +205,7 @@ export default function AutoComplete() {
             {...form.getInputProps("opening_hours")}
           />
 
-          <Group position="apart" pb={10}>
+          <Group grow position="apart" pb={10}>
             <TextInput label="Latitude" {...form.getInputProps("coords_lat")} />
             <TextInput
               label="Longitude"
@@ -217,6 +219,6 @@ export default function AutoComplete() {
           </Group>
         </form>
       </SimpleGrid>
-    </Center>
+    </Container>
   );
 }
