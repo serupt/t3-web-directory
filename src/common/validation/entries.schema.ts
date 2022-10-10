@@ -32,4 +32,4 @@ export const editEntrySchema = z.object({
 });
 
 export type CreateEntryInput = z.TypeOf<typeof createEntrySchema>;
-export type EditEntrySchema = z.TypeOf<typeof editEntrySchema>;
+export type EditEntryInput = z.TypeOf<typeof editEntrySchema>;

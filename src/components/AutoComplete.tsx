@@ -46,9 +46,11 @@ export default function AutoComplete() {
   });
 
   const [dataTags, setDataTags] = useState([
-    { value: "Restaurant", label: "Restaurant" },
-    { value: "Casual", label: "Casual" },
-    { value: "Supermarket", label: "Supermarket" },
+    "Restaurant",
+    "Casual",
+    "Supermarket",
+    "Drinks",
+    "Office",
   ]);
 
   function onSubmit(values: CreateEntryInput) {
@@ -152,7 +154,7 @@ export default function AutoComplete() {
             getCreateLabel={(query) => `${query}`}
             maxSelectedValues={5}
             onCreate={(query) => {
-              const item = { value: query, label: query };
+              const item = query;
               setDataTags((current) => [...current, item]);
               return item;
             }}
