@@ -9,6 +9,7 @@ import {
   SimpleGrid,
   Textarea,
   MultiSelect,
+  Select,
 } from "@mantine/core";
 import usePlacesAutocomplete, {
   getGeocode,
@@ -37,8 +38,8 @@ export default function AutoComplete() {
       address: "",
       phone_number: "",
       website: "",
-      category: "",
-      tags: [],
+      category: "Others",
+      tags: ["Others"],
       opening_hours: "",
       coords_lat: "",
       coords_lng: "",
@@ -57,6 +58,19 @@ export default function AutoComplete() {
     return uniqueTag;
   }
 
+  function getUniqueCategories(data: Places[]) {
+    const uniqueCategories: string[] = [];
+    data.map((value) => {
+      if (!uniqueCategories.includes(value.category)) {
+        uniqueCategories.push(value.category);
+      }
+    });
+    return uniqueCategories;
+  }
+
+  const [dataCategory, setDataCategory] = useState(
+    getUniqueCategories(getEntry.data!)
+  );
   const [dataTags, setDataTags] = useState(getUniqueTags(getEntry.data!));
 
   function onSubmit(values: CreateEntryInput) {
@@ -128,6 +142,7 @@ export default function AutoComplete() {
           <Text>Adding new entry</Text>
         </Group>
         <Autocomplete
+          icon={<IconSearch />}
           value={value}
           onChange={setValue}
           placeholder="Search and select place to autofill..."
@@ -151,7 +166,21 @@ export default function AutoComplete() {
             {...form.getInputProps("phone_number")}
           />
           <TextInput label="Website" {...form.getInputProps("website")} />
-          <TextInput label="Category" {...form.getInputProps("category")} />
+          <Select
+            label="Category"
+            data={dataCategory}
+            placeholder="Type to add new category..."
+            description="Select a category"
+            searchable
+            creatable
+            getCreateLabel={(query) => `${query.trim()}`}
+            onCreate={(query) => {
+              const item = query;
+              setDataCategory((current) => [...current, item]);
+              return item;
+            }}
+            {...form.getInputProps("category")}
+          />
           <MultiSelect
             label={"Tags"}
             data={dataTags}
@@ -159,7 +188,7 @@ export default function AutoComplete() {
             description={"Select up to 5 tags"}
             searchable
             creatable
-            getCreateLabel={(query) => `${query}`}
+            getCreateLabel={(query) => `${query.trim()}`}
             maxSelectedValues={5}
             onCreate={(query) => {
               const item = query;

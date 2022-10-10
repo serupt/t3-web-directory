@@ -44,6 +44,16 @@ function getUniqueTags(data: Places[]) {
   return uniqueTag;
 }
 
+function getUniqueCategories(data: Places[]) {
+  const uniqueCategories: string[] = [];
+  data.map((value) => {
+    if (!uniqueCategories.includes(value.category)) {
+      uniqueCategories.push(value.category);
+    }
+  });
+  return uniqueCategories;
+}
+
 export default function EditComponent() {
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState<Places>();
@@ -73,6 +83,7 @@ export default function EditComponent() {
               selected={selected!}
               setModalOpened={setModalOpened}
               tagData={getUniqueTags(getEntries.data!)}
+              categoryData={getUniqueCategories(getEntries.data!)}
             />
           </Modal>
           <Table highlightOnHover verticalSpacing={"md"}>
@@ -92,12 +103,7 @@ export default function EditComponent() {
                   onClick={() => {
                     setSelected(element);
                     setModalOpened(true);
-                    // console.log(selected);
                   }}
-                  // onMouseOver={() => {
-                  //   setSelected(element);
-                  //   console.log(selected);
-                  // }}
                   style={{ cursor: "pointer" }}
                 >
                   <td>{element.name}</td>
@@ -116,11 +122,6 @@ export default function EditComponent() {
                       " " +
                       element.updated_at.toLocaleTimeString()}
                   </td>
-                  {/* <td>
-                    <ActionIcon variant="transparent">
-                      <IconMenu2 size={12} />
-                    </ActionIcon>
-                  </td> */}
                 </tr>
               ))}
             </tbody>

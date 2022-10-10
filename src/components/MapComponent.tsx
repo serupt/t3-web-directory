@@ -24,7 +24,7 @@ export default function MapComponent() {
     <div className="container">
       <div className="map">
         <GoogleMap
-          zoom={16}
+          zoom={15}
           center={center}
           mapContainerStyle={containerStyle}
           options={options}

@@ -31,5 +31,10 @@ export const editEntrySchema = z.object({
   coords_lng: z.string(),
 });
 
+export const deleteEntrySchema = z.object({
+  id: z.string(),
+});
+
 export type CreateEntryInput = z.TypeOf<typeof createEntrySchema>;
 export type EditEntryInput = z.TypeOf<typeof editEntrySchema>;
+export type DeleteEntryInput = z.TypeOf<typeof deleteEntrySchema>;

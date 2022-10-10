@@ -4,6 +4,7 @@ import {
   Container,
   Group,
   MultiSelect,
+  Select,
   SimpleGrid,
   Text,
   Textarea,
@@ -12,7 +13,10 @@ import {
 import { useForm, UseFormReturnType } from "@mantine/form";
 import { Places } from "@prisma/client";
 import { Dispatch, SetStateAction, useState } from "react";
-import { EditEntryInput } from "../common/validation/entries.schema";
+import {
+  EditEntryInput,
+  DeleteEntryInput,
+} from "../common/validation/entries.schema";
 import { trpc } from "../utils/trpc";
 
 interface FormValues {
@@ -33,15 +37,19 @@ interface EditFormProps {
   selected: Places;
   setModalOpened: Dispatch<SetStateAction<boolean>>;
   tagData: string[];
+  categoryData: string[];
 }
 export default function EditForm({
   selected,
   setModalOpened,
   tagData,
+  categoryData,
 }: EditFormProps) {
   const editEntry = trpc.useMutation(["entries.edit-entry"]);
+  const deleteEntry = trpc.useMutation(["entries.delete-entry"]);
 
   const [dataTags, setDataTags] = useState(tagData);
+  const [dataCategories, setDataCategories] = useState(categoryData);
 
   const form = useForm<EditEntryInput>({
     initialValues: {
@@ -60,9 +68,16 @@ export default function EditForm({
   });
 
   function onSubmit(values: EditEntryInput) {
-    editEntry.mutate(values);
+    if (form.isDirty()) {
+      editEntry.mutate(values);
+    }
 
     form.reset();
+    setModalOpened(false);
+  }
+
+  function onDelete(values: DeleteEntryInput) {
+    deleteEntry.mutate(values);
     setModalOpened(false);
   }
 
@@ -91,7 +106,21 @@ export default function EditForm({
             {...form.getInputProps("phone_number")}
           />
           <TextInput label="Website" {...form.getInputProps("website")} />
-          <TextInput label="Category" {...form.getInputProps("category")} />
+          <Select
+            label="Category"
+            data={dataCategories}
+            placeholder="Type to add new category..."
+            description="Select a category"
+            searchable
+            creatable
+            getCreateLabel={(query) => `${query.trim()}`}
+            onCreate={(query) => {
+              const item = query;
+              setDataCategories((current) => [...current, item]);
+              return item;
+            }}
+            {...form.getInputProps("category")}
+          />
           <MultiSelect
             label={"Tags"}
             data={dataTags}
@@ -100,7 +129,7 @@ export default function EditForm({
             description={"Select up to 5 tags"}
             searchable
             creatable
-            getCreateLabel={(query) => `${query}`}
+            getCreateLabel={(query) => `${query.trim()}`}
             maxSelectedValues={5}
             onCreate={(query) => {
               const item = query;
@@ -122,10 +151,19 @@ export default function EditForm({
               {...form.getInputProps("coords_lng")}
             />
           </Group>
-          <Group position="center">
-            <Button type="submit" fullWidth>
-              Submit
+          <Group position="apart">
+            <Button
+              color={"red"}
+              onClick={() => onDelete({ id: selected.places_id })}
+            >
+              Delete
             </Button>
+            <Group position="center">
+              <Button color={"dark.5"} onClick={() => setModalOpened(false)}>
+                Cancel
+              </Button>
+              <Button type="submit">Submit</Button>
+            </Group>
           </Group>
         </form>
       </SimpleGrid>

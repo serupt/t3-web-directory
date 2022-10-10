@@ -5,6 +5,7 @@ import {
 } from "../../common/validation/entries.schema";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { TRPCError } from "@trpc/server";
+import { deleteEntrySchema } from "../../common/validation/entries.schema";
 
 export const entriesRouter = createProtectedRouter()
   .query("get-all-entries", {
@@ -74,5 +75,18 @@ export const entriesRouter = createProtectedRouter()
           message: "Something went wrong",
         });
       }
+    },
+  })
+  .mutation("delete-entry", {
+    input: deleteEntrySchema,
+    async resolve({ ctx, input }) {
+      try {
+        const deleteEntry = await ctx.prisma.places.delete({
+          where: {
+            places_id: input.id,
+          },
+        });
+        return deleteEntry;
+      } catch {}
     },
   });
