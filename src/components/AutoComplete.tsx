@@ -48,7 +48,7 @@ export default function AutoComplete() {
 
   function getUniqueTags(data: Places[]) {
     const uniqueTag: string[] = [];
-    data.map((value) =>
+    data?.map((value) =>
       value.tags.map((tag) => {
         if (!uniqueTag.includes(tag)) {
           uniqueTag.push(tag);
@@ -60,7 +60,7 @@ export default function AutoComplete() {
 
   function getUniqueCategories(data: Places[]) {
     const uniqueCategories: string[] = [];
-    data.map((value) => {
+    data?.map((value) => {
       if (!uniqueCategories.includes(value.category)) {
         uniqueCategories.push(value.category);
       }

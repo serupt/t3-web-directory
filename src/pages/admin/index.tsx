@@ -6,7 +6,6 @@ import DashboardShellComponent from "../../components/DashboardShellComponent";
 
 import { useLoadScript, LoadScriptProps } from "@react-google-maps/api";
 import { env } from "../../env/client.mjs";
-import NewEntryComponent from "../../components/NewEntryComponent";
 import AutoComplete from "../../components/AutoComplete";
 import MapComponent from "../../components/MapComponent";
 
@@ -30,14 +29,7 @@ export default function Admin() {
       </Head>
       {session ? (
         <DashboardShellComponent>
-          <Grid grow gutter={0} justify="center" align="center">
-            <Grid.Col span={1}>
-              {isLoaded ? <AutoComplete /> : <Skeleton visible />}
-            </Grid.Col>
-            <Grid.Col span={5}>
-              {isLoaded ? <MapComponent /> : <LoadingOverlay visible />}
-            </Grid.Col>
-          </Grid>
+          {isLoaded ? <MapComponent /> : <LoadingOverlay visible />}
         </DashboardShellComponent>
       ) : (
         <LoginComponent />

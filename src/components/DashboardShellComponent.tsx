@@ -13,7 +13,8 @@ import { NavbarLink } from "./NavbarLink";
 import { useRouter } from "next/router";
 
 const navitems = [
-  { icon: IconPlus, label: "Admin" },
+  { icon: IconHome2, label: "Admin" },
+  { icon: IconPlus, label: "Add" },
   { icon: IconEdit, label: "Edit" },
 ];
 
