@@ -17,7 +17,7 @@ export default function DisplayMap() {
 
   return getData.isFetched ? (
     <Grid gutter={0}>
-      <Grid.Col span={4} p={18}>
+      <Grid.Col span={3} p={18}>
         <SideMapComponent
           entryData={getData.data!}
           selectedEntry={selectedEntry}
