@@ -84,7 +84,7 @@ export default function AutoComplete() {
     suggestions: { status, data },
     clearSuggestions,
   } = usePlacesAutocomplete({
-    cache: 24 * 60 * 60,
+    cache: 7 * 24 * 60 * 60,
     requestOptions: {
       radius: 2000,
       componentRestrictions: { country: "us" },
@@ -106,7 +106,6 @@ export default function AutoComplete() {
         "formatted_address",
         "geometry.location",
         "formatted_phone_number",
-        "url",
         "opening_hours",
         "website",
       ],
