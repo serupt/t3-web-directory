@@ -30,6 +30,24 @@ export default function MapComponent({
     []
   );
 
+  function markerIcon(category: string) {
+    if (category === "Food & Drinks") {
+      return {
+        url: "/food.svg",
+        scaledSize: new window.google.maps.Size(30, 30),
+        origin: new window.google.maps.Point(0, 0),
+        anchor: new window.google.maps.Point(15, 15),
+      };
+    } else {
+      return {
+        url: "/building.svg",
+        scaledSize: new window.google.maps.Size(30, 30),
+        origin: new window.google.maps.Point(0, 0),
+        anchor: new window.google.maps.Point(15, 15),
+      };
+    }
+  }
+
   return (
     <div className="container">
       <div className="map">
@@ -49,6 +67,7 @@ export default function MapComponent({
               onClick={() => {
                 setSelectedEntry(entry);
               }}
+              icon={markerIcon(entry.category)}
             />
           ))}
           {selectedEntry ? (
@@ -62,7 +81,9 @@ export default function MapComponent({
               }}
             >
               <div>
-                <Text color={"dark"}>{selectedEntry.name}</Text>
+                <Text color={"dark"} size={"lg"} weight={"bold"}>
+                  {selectedEntry.name}
+                </Text>
               </div>
             </InfoWindowF>
           ) : null}

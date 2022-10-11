@@ -27,11 +27,9 @@ function getUniqueCategories(data: Places[]) {
   return uniqueCategories;
 }
 
-function filterTaggedEntries(
-  query: string,
-  data: Places[],
-  setEntry: Dispatch<SetStateAction<Places | undefined>>
-) {}
+function filterTaggedEntries(query: string, data: Places[]) {
+  data.filter((place) => place.tags.includes(query));
+}
 
 export default function SideMapComponent({
   entryData,
@@ -44,6 +42,7 @@ export default function SideMapComponent({
     <>
       {selectedEntry ? (
         <SimpleGrid cols={1}>
+          <Button onClick={() => setSelectedEntry(undefined)}>Back</Button>
           <Text>{selectedEntry.name}</Text>
           <Text
             weight={"bold"}
@@ -51,6 +50,7 @@ export default function SideMapComponent({
             href={`https://www.google.com/maps/dir/?api=1&destination=${
               selectedEntry.coords_lat + "," + selectedEntry.coords_lng
             }`}
+            target="_blank"
           >
             {selectedEntry.address}
           </Text>
@@ -59,14 +59,16 @@ export default function SideMapComponent({
           <Text>{selectedEntry.opening_hours}</Text>
         </SimpleGrid>
       ) : (
-        <Accordion>
+        <Accordion variant="filled">
           {getUniqueCategories(currentEntries).map((category) => {
             return (
-              <Accordion.Item value={category}>
+              <Accordion.Item value={category} key={category}>
                 <Accordion.Control>{category}</Accordion.Control>
                 {getUniqueCategoryTags(currentEntries, category).map((tag) => {
                   return (
                     <Accordion.Panel
+                      key={tag}
+                      style={{ cursor: "pointer" }}
                       onClick={() => {
                         setSelectedTag(tag);
                       }}
