@@ -19,20 +19,6 @@ import {
 } from "../common/validation/entries.schema";
 import { trpc } from "../utils/trpc";
 
-interface FormValues {
-  id: string;
-  name: string;
-  description: string;
-  address: string;
-  phone_number: string;
-  website: string;
-  category: string;
-  tags: string[];
-  opening_hours: string;
-  coords_lat: string;
-  coords_lng: string;
-}
-
 interface EditFormProps {
   selected: Places;
   setModalOpened: Dispatch<SetStateAction<boolean>>;
@@ -47,13 +33,12 @@ export default function EditForm({
 }: EditFormProps) {
   const editEntry = trpc.useMutation(["entries.edit-entry"]);
   const deleteEntry = trpc.useMutation(["entries.delete-entry"]);
-
   const [dataTags, setDataTags] = useState(tagData);
   const [dataCategories, setDataCategories] = useState(categoryData);
 
   const form = useForm<EditEntryInput>({
     initialValues: {
-      id: selected.places_id,
+      places_id: selected.places_id,
       name: selected.name,
       description: selected.description,
       address: selected.address,
@@ -71,7 +56,6 @@ export default function EditForm({
     if (form.isDirty()) {
       editEntry.mutate(values);
     }
-
     form.reset();
     setModalOpened(false);
   }
@@ -154,7 +138,7 @@ export default function EditForm({
           <Group position="apart">
             <Button
               color={"red"}
-              onClick={() => onDelete({ id: selected.places_id })}
+              onClick={() => onDelete({ places_id: selected.places_id })}
             >
               Delete
             </Button>

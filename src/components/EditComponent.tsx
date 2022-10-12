@@ -63,7 +63,7 @@ export default function EditComponent() {
 
   return (
     <div>
-      {getEntries.isFetched ? (
+      {getEntries.isSuccess ? (
         <ScrollArea>
           <Group position="left">
             <TextInput
@@ -103,6 +103,7 @@ export default function EditComponent() {
                   onClick={() => {
                     setSelected(element);
                     setModalOpened(true);
+                    getEntries.refetch();
                   }}
                   style={{ cursor: "pointer" }}
                 >

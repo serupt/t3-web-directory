@@ -1,7 +1,17 @@
-import { Accordion, Button, Center, SimpleGrid, Text } from "@mantine/core";
+import {
+  Accordion,
+  Badge,
+  Button,
+  Card,
+  Center,
+  Divider,
+  SimpleGrid,
+  Stack,
+  Text,
+} from "@mantine/core";
 import { Places } from "@prisma/client";
 import { MapProps } from "./DisplayMap";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 
 function getUniqueCategoryTags(data: Places[], category: string) {
   const uniqueTag: string[] = [];
@@ -61,20 +71,35 @@ export default function SideMapComponent({
         </SimpleGrid>
       ) : selectedTag ? (
         <>
-          <Button onClick={() => setSelectedTag("")} fullWidth>
+          <Button onClick={() => setSelectedTag("")} fullWidth mb={15}>
             Back
           </Button>
+          <Divider p={10} />
           <SimpleGrid cols={1}>
             {entryData
               .filter((entry) => entry.tags.includes(selectedTag))
               .map((filteredEntry) => {
                 return (
-                  <Text
-                    key={filteredEntry.places_id}
-                    onClick={() => setSelectedEntry(filteredEntry)}
-                  >
-                    {filteredEntry.name}
-                  </Text>
+                  <>
+                    <Stack>
+                      <Card
+                        p={"md"}
+                        key={filteredEntry.places_id}
+                        onClick={() => setSelectedEntry(filteredEntry)}
+                        style={{ cursor: "pointer" }}
+                      >
+                        <Center p={5}>
+                          <Card.Section>{filteredEntry.name}</Card.Section>
+                        </Center>
+                        <Center>
+                          <Text>{filteredEntry.address}</Text>
+                        </Center>
+                        {filteredEntry.tags.map((tag) => {
+                          return <Badge>{tag}</Badge>;
+                        })}
+                      </Card>
+                    </Stack>
+                  </>
                 );
               })}
           </SimpleGrid>
