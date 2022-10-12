@@ -16,6 +16,7 @@ export default function MapComponent({
   entryData,
   selectedEntry,
   setSelectedEntry,
+  selectedTag,
 }: MapProps) {
   const center = useMemo<LatLngLiteral>(
     () => ({ lat: 40.716596, lng: -73.99712 }),
@@ -57,19 +58,35 @@ export default function MapComponent({
           mapContainerStyle={containerStyle}
           options={options}
         >
-          {entryData.map((entry) => (
-            <MarkerF
-              key={entry.places_id}
-              position={{
-                lat: parseFloat(entry.coords_lat),
-                lng: parseFloat(entry.coords_lng),
-              }}
-              onClick={() => {
-                setSelectedEntry(entry);
-              }}
-              icon={markerIcon(entry.category)}
-            />
-          ))}
+          {selectedTag !== ""
+            ? entryData
+                .filter((e) => e.tags.includes(selectedTag))
+                .map((entry) => (
+                  <MarkerF
+                    key={entry.places_id}
+                    position={{
+                      lat: parseFloat(entry.coords_lat),
+                      lng: parseFloat(entry.coords_lng),
+                    }}
+                    onClick={() => {
+                      setSelectedEntry(entry);
+                    }}
+                    icon={markerIcon(entry.category)}
+                  />
+                ))
+            : entryData.map((entry) => (
+                <MarkerF
+                  key={entry.places_id}
+                  position={{
+                    lat: parseFloat(entry.coords_lat),
+                    lng: parseFloat(entry.coords_lng),
+                  }}
+                  onClick={() => {
+                    setSelectedEntry(entry);
+                  }}
+                  icon={markerIcon(entry.category)}
+                />
+              ))}
           {selectedEntry ? (
             <InfoWindowF
               position={{

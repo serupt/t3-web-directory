@@ -35,9 +35,10 @@ export default function SideMapComponent({
   entryData,
   selectedEntry,
   setSelectedEntry,
+  selectedTag,
+  setSelectedTag,
 }: MapProps) {
   const [currentEntries, setCurrentEntries] = useState<Places[]>(entryData);
-  const [selectedTag, setSelectedTag] = useState("");
   return (
     <>
       {selectedEntry ? (
@@ -58,6 +59,26 @@ export default function SideMapComponent({
           <Text>{selectedEntry.category}</Text>
           <Text>{selectedEntry.opening_hours}</Text>
         </SimpleGrid>
+      ) : selectedTag ? (
+        <>
+          <Button onClick={() => setSelectedTag("")} fullWidth>
+            Back
+          </Button>
+          <SimpleGrid cols={1}>
+            {entryData
+              .filter((entry) => entry.tags.includes(selectedTag))
+              .map((filteredEntry) => {
+                return (
+                  <Text
+                    key={filteredEntry.places_id}
+                    onClick={() => setSelectedEntry(filteredEntry)}
+                  >
+                    {filteredEntry.name}
+                  </Text>
+                );
+              })}
+          </SimpleGrid>
+        </>
       ) : (
         <Accordion variant="filled">
           {getUniqueCategories(currentEntries).map((category) => {
