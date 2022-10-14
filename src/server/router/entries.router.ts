@@ -44,7 +44,7 @@ export const entriesRouter = createProtectedRouter()
       try {
         const entry = await ctx.prisma.places.update({
           where: {
-            places_id: input.id,
+            places_id: input.places_id,
           },
           data: {
             name: input.name,
@@ -83,7 +83,7 @@ export const entriesRouter = createProtectedRouter()
       try {
         const deleteEntry = await ctx.prisma.places.delete({
           where: {
-            places_id: input.id,
+            places_id: input.places_id,
           },
         });
         return deleteEntry;

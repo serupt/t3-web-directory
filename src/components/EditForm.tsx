@@ -24,12 +24,16 @@ interface EditFormProps {
   setModalOpened: Dispatch<SetStateAction<boolean>>;
   tagData: string[];
   categoryData: string[];
+  onEdit: (data: EditEntryInput) => void;
+  onDelete: (data: DeleteEntryInput) => void;
 }
 export default function EditForm({
   selected,
   setModalOpened,
   tagData,
   categoryData,
+  onDelete,
+  onEdit,
 }: EditFormProps) {
   const editEntry = trpc.useMutation(["entries.edit-entry"]);
   const deleteEntry = trpc.useMutation(["entries.delete-entry"]);
@@ -54,22 +58,22 @@ export default function EditForm({
 
   function onSubmit(values: EditEntryInput) {
     if (form.isDirty()) {
-      editEntry.mutate(values);
+      onEdit(values);
+    } else {
+      setModalOpened(false);
     }
-    form.reset();
-    setModalOpened(false);
   }
 
-  function onDelete(values: DeleteEntryInput) {
-    deleteEntry.mutate(values);
-    setModalOpened(false);
-  }
+  // function onDelete(values: DeleteEntryInput) {
+  //   deleteEntry.mutate(values);
+  //   setModalOpened(false);
+  // }
 
   return (
     <Center>
       <SimpleGrid cols={1}>
         <Group position="center">
-          <Text>{`Editing ${selected?.name}`}</Text>
+          <Text size={"lg"}>{`Editing ${selected?.name}`}</Text>
         </Group>
         <Container fluid={false} size={"xs"}>
           <Text color={"red"}>

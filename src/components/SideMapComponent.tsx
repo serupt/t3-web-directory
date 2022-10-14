@@ -1,10 +1,12 @@
 import {
   Accordion,
   Badge,
+  Box,
   Button,
   Card,
   Center,
   Divider,
+  ScrollArea,
   SimpleGrid,
   Stack,
   Text,
@@ -70,18 +72,18 @@ export default function SideMapComponent({
           <Text>{selectedEntry.opening_hours}</Text>
         </SimpleGrid>
       ) : selectedTag ? (
-        <>
+        <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
           <Button onClick={() => setSelectedTag("")} fullWidth mb={15}>
             Back
           </Button>
           <Divider p={10} />
-          <SimpleGrid cols={1}>
-            {entryData
-              .filter((entry) => entry.tags.includes(selectedTag))
-              .map((filteredEntry) => {
-                return (
-                  <>
-                    <Stack>
+          <ScrollArea>
+            <SimpleGrid cols={1}>
+              <Stack>
+                {entryData
+                  .filter((entry) => entry.tags.includes(selectedTag))
+                  .map((filteredEntry) => {
+                    return (
                       <Card
                         p={"md"}
                         key={filteredEntry.places_id}
@@ -98,12 +100,12 @@ export default function SideMapComponent({
                           return <Badge>{tag}</Badge>;
                         })}
                       </Card>
-                    </Stack>
-                  </>
-                );
-              })}
-          </SimpleGrid>
-        </>
+                    );
+                  })}
+              </Stack>
+            </SimpleGrid>
+          </ScrollArea>
+        </Box>
       ) : (
         <Accordion variant="filled">
           {getUniqueCategories(currentEntries).map((category) => {

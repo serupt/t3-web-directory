@@ -9,7 +9,7 @@ import type { AppRouter } from "../server/router";
 import type { Session } from "next-auth";
 import "../styles/globals.css";
 import { MantineProvider } from "@mantine/core";
-import { ModalsProvider } from "@mantine/modals";
+import { NotificationsProvider } from "@mantine/notifications";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -52,11 +52,11 @@ const MyApp: AppType<{ session: Session | null }> = ({
         primaryColor: "brand",
       }}
     >
-      <ModalsProvider>
+      <NotificationsProvider>
         <SessionProvider session={session}>
           <Component {...pageProps} />
         </SessionProvider>
-      </ModalsProvider>
+      </NotificationsProvider>
     </MantineProvider>
   );
 };
