@@ -122,7 +122,7 @@ export default function AutoComplete() {
     form.setFieldValue("website", resultsDetail.website ?? "");
     form.setFieldValue(
       "opening_hours",
-      resultsDetail.opening_hours?.weekday_text.join("\n") ?? ""
+      resultsDetail.opening_hours?.weekday_text.join(",") ?? ""
     );
     form.setFieldValue(
       "coords_lat",

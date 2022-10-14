@@ -1,39 +1,22 @@
 import { trpc } from "../utils/trpc";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Button,
-  Center,
   Badge,
   Divider,
   Group,
   LoadingOverlay,
   ScrollArea,
-  Skeleton,
   Table,
-  Text,
   TextInput,
-  ActionIcon,
-  Container,
-  SimpleGrid,
-  Textarea,
-  MultiSelect,
   Modal,
-  Box,
+  Container,
 } from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
 import { showNotification } from "@mantine/notifications";
 
 import { Places } from "@prisma/client";
 import EditForm from "./EditForm";
-
-function filterData(data: Places[], search: string) {
-  const query = search.toLocaleLowerCase().trim();
-  return data.filter((item) => {
-    item.name.includes(query) ||
-      item.category.includes(query) ||
-      item.tags.includes(query);
-  });
-}
 
 function getUniqueTags(data: Places[]) {
   const uniqueTag: string[] = [];
@@ -81,15 +64,14 @@ export default function EditComponent() {
     <div>
       {getEntries.isSuccess ? (
         <ScrollArea>
-          <Box>
+          <Container>
             <TextInput
               placeholder="Search entries by name or address"
-              mb="md"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
-          </Box>
-          <Divider pb={10} />
+          </Container>
+
           <Modal
             opened={modalOpened}
             onClose={() => {

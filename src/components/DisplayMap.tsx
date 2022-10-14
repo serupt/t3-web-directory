@@ -1,4 +1,4 @@
-import { Grid, LoadingOverlay } from "@mantine/core";
+import { Box, Grid, LoadingOverlay, ScrollArea } from "@mantine/core";
 import { Places } from "@prisma/client";
 import { trpc } from "../utils/trpc";
 import MapComponent from "./MapComponent";

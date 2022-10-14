@@ -85,6 +85,7 @@ export default function EditForm({
           <TextInput label="Name" {...form.getInputProps("name")} />
 
           <Textarea
+            autosize
             label="Description"
             {...form.getInputProps("description")}
           />
@@ -127,6 +128,7 @@ export default function EditForm({
             {...form.getInputProps("tags")}
           />
           <Textarea
+            autosize
             placeholder="Daily: 9am-6pm"
             label="Opening Hours"
             {...form.getInputProps("opening_hours")}

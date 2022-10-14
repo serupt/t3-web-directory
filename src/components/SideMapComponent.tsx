@@ -6,6 +6,7 @@ import {
   Card,
   Center,
   Divider,
+  Group,
   ScrollArea,
   SimpleGrid,
   Stack,
@@ -56,8 +57,14 @@ export default function SideMapComponent({
       {selectedEntry ? (
         <SimpleGrid cols={1}>
           <Button onClick={() => setSelectedEntry(undefined)}>Back</Button>
-          <Text>{selectedEntry.name}</Text>
+          <Divider />
+          <Text size={36} weight={"bold"}>
+            {selectedEntry.name}
+          </Text>
           <Text
+            underline
+            color={"blue"}
+            size={"lg"}
             weight={"bold"}
             component="a"
             href={`https://www.google.com/maps/dir/?api=1&destination=${
@@ -67,67 +74,93 @@ export default function SideMapComponent({
           >
             {selectedEntry.address}
           </Text>
+          <Divider />
+          <Text size={20}>{selectedEntry.category}</Text>
+          <Group>
+            {selectedEntry.tags.map((tag, index) => {
+              if (!tag) {
+                return;
+              }
+              return <Badge key={index}>{tag.trim()}</Badge>;
+            })}
+          </Group>
+          <Divider />
           <Text>{selectedEntry.description}</Text>
-          <Text>{selectedEntry.category}</Text>
-          <Text>{selectedEntry.opening_hours}</Text>
+          <Divider />
+
+          {selectedEntry.opening_hours ? (
+            <>
+              <Text size={20}>Opening Hours:</Text>
+              {selectedEntry.opening_hours.split(",").map((day) => (
+                <Text>{day.trim()}</Text>
+              ))}
+            </>
+          ) : null}
         </SimpleGrid>
       ) : selectedTag ? (
-        <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+        <>
           <Button onClick={() => setSelectedTag("")} fullWidth mb={15}>
             Back
           </Button>
           <Divider p={10} />
-          <ScrollArea>
+          <ScrollArea style={{ height: "calc(100vh - 110px)" }}>
             <SimpleGrid cols={1}>
-              <Stack>
-                {entryData
-                  .filter((entry) => entry.tags.includes(selectedTag))
-                  .map((filteredEntry) => {
-                    return (
-                      <Card
-                        p={"md"}
-                        key={filteredEntry.places_id}
-                        onClick={() => setSelectedEntry(filteredEntry)}
-                        style={{ cursor: "pointer" }}
-                      >
-                        <Center p={5}>
-                          <Card.Section>{filteredEntry.name}</Card.Section>
-                        </Center>
-                        <Center>
-                          <Text>{filteredEntry.address}</Text>
-                        </Center>
-                        {filteredEntry.tags.map((tag) => {
-                          return <Badge>{tag}</Badge>;
-                        })}
-                      </Card>
-                    );
-                  })}
-              </Stack>
-            </SimpleGrid>
-          </ScrollArea>
-        </Box>
-      ) : (
-        <Accordion variant="filled">
-          {getUniqueCategories(currentEntries).map((category) => {
-            return (
-              <Accordion.Item value={category} key={category}>
-                <Accordion.Control>{category}</Accordion.Control>
-                {getUniqueCategoryTags(currentEntries, category).map((tag) => {
+              {entryData
+                .filter((entry) => entry.tags.includes(selectedTag))
+                .sort((a, b) =>
+                  a.name.toLocaleLowerCase() < b.name.toLocaleLowerCase()
+                    ? -1
+                    : 1
+                )
+                .map((filteredEntry) => {
                   return (
-                    <Accordion.Panel
-                      key={tag}
+                    <Card
+                      p={"md"}
+                      key={filteredEntry.places_id}
+                      onClick={() => setSelectedEntry(filteredEntry)}
                       style={{ cursor: "pointer" }}
-                      onClick={() => {
-                        setSelectedTag(tag);
-                      }}
                     >
-                      {tag}
-                    </Accordion.Panel>
+                      <Center p={5}>
+                        <Card.Section>{filteredEntry.name}</Card.Section>
+                      </Center>
+                      <Center>
+                        <Text>{filteredEntry.address}</Text>
+                      </Center>
+                      {filteredEntry.tags.map((tag) => {
+                        return <Badge>{tag}</Badge>;
+                      })}
+                    </Card>
                   );
                 })}
-              </Accordion.Item>
-            );
-          })}
+            </SimpleGrid>
+          </ScrollArea>
+        </>
+      ) : (
+        <Accordion variant="filled">
+          {getUniqueCategories(currentEntries)
+            .sort()
+            .map((category) => {
+              return (
+                <Accordion.Item value={category} key={category}>
+                  <Accordion.Control>{category}</Accordion.Control>
+                  {getUniqueCategoryTags(currentEntries, category)
+                    .sort()
+                    .map((tag) => {
+                      return (
+                        <Accordion.Panel
+                          key={tag}
+                          style={{ cursor: "pointer" }}
+                          onClick={() => {
+                            setSelectedTag(tag);
+                          }}
+                        >
+                          {tag}
+                        </Accordion.Panel>
+                      );
+                    })}
+                </Accordion.Item>
+              );
+            })}
         </Accordion>
       )}
     </>
