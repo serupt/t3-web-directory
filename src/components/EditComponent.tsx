@@ -11,6 +11,7 @@ import {
   TextInput,
   Modal,
   Container,
+  Grid,
 } from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
 import { showNotification } from "@mantine/notifications";
@@ -63,14 +64,24 @@ export default function EditComponent() {
   return (
     <div>
       {getEntries.isSuccess ? (
-        <ScrollArea>
-          <Container>
-            <TextInput
-              placeholder="Search entries by name or address"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </Container>
+        <>
+          <Grid align="center" mb={5}>
+            <Grid.Col span={4}>
+              <TextInput
+                sx={{ flexBasis: "60%" }}
+                p={10}
+                placeholder="Search entries by name or address"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </Grid.Col>
+            <Grid.Col span={1}>
+              <Button fullWidth color={"green"}>
+                Add
+              </Button>
+            </Grid.Col>
+          </Grid>
+          <Divider />
 
           <Modal
             opened={modalOpened}
@@ -95,85 +106,101 @@ export default function EditComponent() {
               }}
             />
           </Modal>
-          <Table highlightOnHover verticalSpacing={"md"}>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Address</th>
-                <th>Category</th>
-                <th>Tags</th>
-                <th>Last Updated</th>
-              </tr>
-            </thead>
-            <tbody>
-              {debouncedQuery !== ""
-                ? getEntries.data
-                    .filter(
-                      (filtered) =>
-                        filtered.name
-                          .toLocaleLowerCase()
-                          .includes(debouncedQuery) ||
-                        filtered.address
-                          .toLocaleLowerCase()
-                          .includes(debouncedQuery)
-                    )
-                    .map((element) => (
-                      <tr
-                        key={element.places_id}
-                        onClick={() => {
-                          setSelected(element);
-                          setModalOpened(true);
-                        }}
-                        style={{ cursor: "pointer" }}
-                      >
-                        <td>{element.name}</td>
-                        <td>{element.address}</td>
-                        <td>{element.category}</td>
-                        <td>
-                          {element.tags.map((tag, index) => {
-                            if (!tag) {
-                              return;
-                            }
-                            return <Badge key={index}>{tag.trim()}</Badge>;
-                          })}
-                        </td>
-                        <td>
-                          {element.updated_at.toLocaleDateString() +
-                            " " +
-                            element.updated_at.toLocaleTimeString()}
-                        </td>
-                      </tr>
-                    ))
-                : getEntries.data?.map((element) => (
-                    <tr
-                      key={element.places_id}
-                      onClick={() => {
-                        setSelected(element);
-                        setModalOpened(true);
-                      }}
-                      style={{ cursor: "pointer" }}
-                    >
-                      <td>{element.name}</td>
-                      <td>{element.address}</td>
-                      <td>{element.category}</td>
-                      <td>
-                        {element.tags.map((tag, index) => {
-                          if (!tag) {
-                            return;
-                          }
-                          return <Badge key={index}>{tag.trim()}</Badge>;
-                        })}
-                      </td>
-                      <td>
-                        {element.updated_at.toLocaleDateString() +
-                          " " +
-                          element.updated_at.toLocaleTimeString()}
-                      </td>
-                    </tr>
-                  ))}
-            </tbody>
-          </Table>
-        </ScrollArea>
+          <ScrollArea style={{ height: "calc(100vh - 110px)" }}>
+            <Table highlightOnHover verticalSpacing={"md"}>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Address</th>
+                  <th>Category</th>
+                  <th>Tags</th>
+                  <th>Last Updated</th>
+                </tr>
+              </thead>
+              <tbody>
+                {debouncedQuery !== ""
+                  ? getEntries.data
+                      .filter(
+                        (filtered) =>
+                          filtered.name
+                            .toLocaleLowerCase()
+                            .includes(debouncedQuery) ||
+                          filtered.address
+                            .toLocaleLowerCase()
+                            .includes(debouncedQuery) ||
+                          filtered.category
+                            .toLocaleLowerCase()
+                            .includes(debouncedQuery)
+                      )
+                      .sort((a, b) =>
+                        a.name.toLocaleLowerCase() < b.name.toLocaleLowerCase()
+                          ? -1
+                          : 1
+                      )
+                      .map((element) => (
+                        <tr
+                          key={element.places_id}
+                          onClick={() => {
+                            setSelected(element);
+                            setModalOpened(true);
+                          }}
+                          style={{ cursor: "pointer" }}
+                        >
+                          <td>{element.name}</td>
+                          <td>{element.address}</td>
+                          <td>{element.category}</td>
+                          <td>
+                            {element.tags.map((tag, index) => {
+                              if (!tag) {
+                                return;
+                              }
+                              return <Badge key={index}>{tag.trim()}</Badge>;
+                            })}
+                          </td>
+                          <td>
+                            {element.updated_at.toLocaleDateString() +
+                              " " +
+                              element.updated_at.toLocaleTimeString()}
+                          </td>
+                        </tr>
+                      ))
+                  : getEntries.data
+                      ?.sort((a, b) =>
+                        a.name.toLocaleLowerCase() < b.name.toLocaleLowerCase()
+                          ? -1
+                          : 1
+                      )
+                      .map((element) => (
+                        <tr
+                          key={element.places_id}
+                          onClick={() => {
+                            setSelected(element);
+                            setModalOpened(true);
+                          }}
+                          style={{ cursor: "pointer" }}
+                        >
+                          <td>{element.name}</td>
+                          <td>{element.address}</td>
+                          <td>{element.category}</td>
+                          <td>
+                            {element.tags.map((tag, index) => {
+                              if (!tag) {
+                                return;
+                              }
+                              return <Badge key={index}>{tag.trim()}</Badge>;
+                            })}
+                          </td>
+                          <td>
+                            {element.updated_at.toLocaleDateString() +
+                              " " +
+                              element.updated_at.toLocaleTimeString()}
+                          </td>
+                        </tr>
+                      ))}
+              </tbody>
+            </Table>
+          </ScrollArea>
+        </>
       ) : (
         <LoadingOverlay visible />
       )}
