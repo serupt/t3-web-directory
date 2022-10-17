@@ -64,17 +64,9 @@ export default function EditForm({
     }
   }
 
-  // function onDelete(values: DeleteEntryInput) {
-  //   deleteEntry.mutate(values);
-  //   setModalOpened(false);
-  // }
-
   return (
     <Center>
       <SimpleGrid cols={1}>
-        <Group position="center">
-          <Text size={"lg"}>{`Editing ${selected?.name}`}</Text>
-        </Group>
         <Container fluid={false} size={"xs"}>
           <Text color={"red"}>
             {editEntry.error && editEntry.error.message}

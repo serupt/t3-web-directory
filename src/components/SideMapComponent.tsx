@@ -85,8 +85,12 @@ export default function SideMapComponent({
             })}
           </Group>
           <Divider />
-          <Text>{selectedEntry.description}</Text>
-          <Divider />
+          {selectedEntry.description ? (
+            <>
+              <Text>{selectedEntry.description}</Text>
+              <Divider />
+            </>
+          ) : null}
 
           {selectedEntry.opening_hours ? (
             <>

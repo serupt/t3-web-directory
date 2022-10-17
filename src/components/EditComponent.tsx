@@ -84,6 +84,7 @@ export default function EditComponent() {
           <Divider />
 
           <Modal
+            title={`Editing ${selected?.name}`}
             opened={modalOpened}
             onClose={() => {
               setModalOpened(false);
