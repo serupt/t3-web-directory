@@ -14,7 +14,6 @@ import { useRouter } from "next/router";
 
 const navitems = [
   { icon: IconHome2, label: "Admin" },
-  { icon: IconPlus, label: "Add" },
   { icon: IconEdit, label: "Edit" },
 ];
 

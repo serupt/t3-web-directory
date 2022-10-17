@@ -1,11 +1,22 @@
-import { Container } from "@mantine/core";
+import { Container, LoadingOverlay } from "@mantine/core";
 import type { NextPage } from "next";
 import Head from "next/head";
 import DashboardShellComponent from "../../components/DashboardShellComponent";
 import EditComponent from "../../components/EditComponent";
 
+import { useLoadScript, LoadScriptProps } from "@react-google-maps/api";
+import { env } from "../../env/client.mjs";
+
+import DisplayMap from "../../components/DisplayMap";
+
+const googleMapsLibraries: LoadScriptProps["libraries"] = ["places"];
+
 const AdminEdit: NextPage = () => {
-  return (
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
+    libraries: googleMapsLibraries,
+  });
+  return isLoaded ? (
     <>
       <Head>
         <title>Edit</title>
@@ -16,6 +27,8 @@ const AdminEdit: NextPage = () => {
         </Container>
       </DashboardShellComponent>
     </>
+  ) : (
+    <LoadingOverlay visible />
   );
 };
 

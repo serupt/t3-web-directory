@@ -17,20 +17,26 @@ import usePlacesAutocomplete, {
 } from "use-places-autocomplete";
 
 import { trpc } from "../utils/trpc";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { IconSearch } from "@tabler/icons";
 import { CreateEntryInput } from "../common/validation/entries.schema";
 import { useForm } from "@mantine/form";
 import { useRouter } from "next/router";
 import { Places } from "@prisma/client";
 
-export default function AutoComplete() {
-  const router = useRouter();
-  const getEntry = trpc.useQuery(["entries.get-all-entries"]);
-  const createEntry = trpc.useMutation(["entries.add-entry"], {
-    onSuccess: () => router.push("/admin"),
-  });
+interface AddFormProps {
+  setAddModalOpened: Dispatch<SetStateAction<boolean>>;
+  tagData: string[];
+  categoryData: string[];
+  onAdd: (data: CreateEntryInput) => void;
+}
 
+export default function AutoComplete({
+  setAddModalOpened,
+  tagData,
+  categoryData,
+  onAdd,
+}: AddFormProps) {
   const form = useForm<CreateEntryInput>({
     initialValues: {
       name: "",
@@ -46,35 +52,11 @@ export default function AutoComplete() {
     },
   });
 
-  function getUniqueTags(data: Places[]) {
-    const uniqueTag: string[] = [];
-    data?.map((value) =>
-      value.tags.map((tag) => {
-        if (!uniqueTag.includes(tag)) {
-          uniqueTag.push(tag);
-        }
-      })
-    );
-    return uniqueTag;
-  }
-
-  function getUniqueCategories(data: Places[]) {
-    const uniqueCategories: string[] = [];
-    data?.map((value) => {
-      if (!uniqueCategories.includes(value.category)) {
-        uniqueCategories.push(value.category);
-      }
-    });
-    return uniqueCategories;
-  }
-
-  const [dataCategory, setDataCategory] = useState(
-    getUniqueCategories(getEntry.data!)
-  );
-  const [dataTags, setDataTags] = useState(getUniqueTags(getEntry.data!));
+  const [dataCategory, setDataCategory] = useState(categoryData);
+  const [dataTags, setDataTags] = useState(tagData);
 
   function onSubmit(values: CreateEntryInput) {
-    createEntry.mutate(values);
+    onAdd(values);
     form.reset();
   }
 
@@ -122,7 +104,7 @@ export default function AutoComplete() {
     form.setFieldValue("website", resultsDetail.website ?? "");
     form.setFieldValue(
       "opening_hours",
-      resultsDetail.opening_hours?.weekday_text.join(",") ?? ""
+      resultsDetail.opening_hours?.weekday_text.join(",\n") ?? ""
     );
     form.setFieldValue(
       "coords_lat",
@@ -137,11 +119,6 @@ export default function AutoComplete() {
   return (
     <Container size={"sm"} px="sm">
       <SimpleGrid cols={1}>
-        <Group position="center">
-          <Text weight={"bold"} align={"center"} size={48} pt={10}>
-            Adding new entry
-          </Text>
-        </Group>
         <Autocomplete
           icon={<IconSearch />}
           value={value}
@@ -150,11 +127,6 @@ export default function AutoComplete() {
           data={data.map((item) => ({ ...item, value: item.description }))}
           onItemSubmit={(e) => handleSelect(e.value)}
         />
-        <Container fluid={false} size={"xs"}>
-          <Text color={"red"}>
-            {createEntry.error && createEntry.error.message}
-          </Text>
-        </Container>
         <form onSubmit={form.onSubmit(onSubmit)}>
           <TextInput label="Name" {...form.getInputProps("name")} />
           <Textarea

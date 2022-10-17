@@ -18,6 +18,7 @@ import { showNotification } from "@mantine/notifications";
 
 import { Places } from "@prisma/client";
 import EditForm from "./EditForm";
+import AutoComplete from "./AutoComplete";
 
 function getUniqueTags(data: Places[]) {
   const uniqueTag: string[] = [];
@@ -46,8 +47,18 @@ export default function EditComponent() {
   const [debouncedQuery] = useDebouncedValue(search, 200);
   const [selected, setSelected] = useState<Places>();
   const [modalOpened, setModalOpened] = useState(false);
+  const [addModalOpened, setAddModalOpened] = useState(false);
 
   const getEntries = trpc.useQuery(["entries.get-all-entries"]);
+  const createEntry = trpc.useMutation(["entries.add-entry"], {
+    onSuccess: () => getEntries.refetch(),
+    onError: (e) =>
+      showNotification({
+        color: "red",
+        title: "Error",
+        message: e.message,
+      }),
+  });
   const editEntry = trpc.useMutation(["entries.edit-entry"], {
     onSuccess: () => getEntries.refetch(),
     onError: (e) =>
@@ -76,12 +87,32 @@ export default function EditComponent() {
               />
             </Grid.Col>
             <Grid.Col span={1}>
-              <Button fullWidth color={"green"}>
+              <Button
+                fullWidth
+                color={"green"}
+                onClick={() => setAddModalOpened(true)}
+              >
                 Add
               </Button>
             </Grid.Col>
           </Grid>
           <Divider />
+
+          <Modal
+            title="Adding new entry"
+            opened={addModalOpened}
+            onClose={() => setAddModalOpened(false)}
+          >
+            <AutoComplete
+              setAddModalOpened={setAddModalOpened}
+              tagData={getUniqueTags(getEntries.data!)}
+              categoryData={getUniqueCategories(getEntries.data!)}
+              onAdd={(data) => {
+                createEntry.mutate(data);
+                setAddModalOpened(false);
+              }}
+            />
+          </Modal>
 
           <Modal
             title={`Editing ${selected?.name}`}
