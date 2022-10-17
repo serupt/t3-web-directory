@@ -55,52 +55,83 @@ export default function SideMapComponent({
   return (
     <>
       {selectedEntry ? (
-        <SimpleGrid cols={1}>
-          <Button onClick={() => setSelectedEntry(undefined)}>Back</Button>
-          <Divider />
-          <Text size={36} weight={"bold"}>
-            {selectedEntry.name}
-          </Text>
-          <Text
-            underline
-            color={"blue"}
-            size={"lg"}
-            weight={"bold"}
-            component="a"
-            href={`https://www.google.com/maps/dir/?api=1&destination=${
-              selectedEntry.coords_lat + "," + selectedEntry.coords_lng
-            }`}
-            target="_blank"
-          >
-            {selectedEntry.address}
-          </Text>
-          <Divider />
-          <Text size={20}>{selectedEntry.category}</Text>
-          <Group>
-            {selectedEntry.tags.map((tag, index) => {
-              if (!tag) {
-                return;
-              }
-              return <Badge key={index}>{tag.trim()}</Badge>;
-            })}
-          </Group>
-          <Divider />
-          {selectedEntry.description ? (
-            <>
-              <Text>{selectedEntry.description}</Text>
+        <>
+          <Button onClick={() => setSelectedEntry(undefined)} fullWidth mb={15}>
+            Back
+          </Button>
+          <Divider p={10} />
+          <ScrollArea style={{ height: "calc(100vh - 110px)" }}>
+            <SimpleGrid cols={1}>
+              <Text size={36} weight={"bold"}>
+                {selectedEntry.name}
+              </Text>
+              <Text
+                underline
+                color={"blue"}
+                size={"lg"}
+                weight={"bold"}
+                component="a"
+                href={`https://www.google.com/maps/dir/?api=1&destination=${
+                  selectedEntry.coords_lat + "," + selectedEntry.coords_lng
+                }`}
+                target="_blank"
+              >
+                {selectedEntry.address}
+              </Text>
               <Divider />
-            </>
-          ) : null}
+              <Text size={20}>{selectedEntry.category}</Text>
+              <Group>
+                {selectedEntry.tags.map((tag, index) => {
+                  if (!tag) {
+                    return;
+                  }
+                  return <Badge key={index}>{tag.trim()}</Badge>;
+                })}
+              </Group>
+              <Divider />
+              {selectedEntry.description ? (
+                <>
+                  <Text>{selectedEntry.description}</Text>
+                  <Divider />
+                </>
+              ) : null}
+              {selectedEntry.phone_number ? (
+                <>
+                  <Text size={20}>Phone Number:</Text>
+                  <Text>{selectedEntry.phone_number}</Text>
+                  <Divider />
+                </>
+              ) : null}
 
-          {selectedEntry.opening_hours ? (
-            <>
-              <Text size={20}>Opening Hours:</Text>
-              {selectedEntry.opening_hours.split(",").map((day) => (
-                <Text>{day.trim()}</Text>
-              ))}
-            </>
-          ) : null}
-        </SimpleGrid>
+              {selectedEntry.website ? (
+                <>
+                  <Text size={20}>Website:</Text>
+                  <Text
+                    underline
+                    color={"blue"}
+                    size={"lg"}
+                    weight={"bold"}
+                    component="a"
+                    href={selectedEntry.website}
+                    target="_blank"
+                  >
+                    {selectedEntry.website}
+                  </Text>
+                  <Divider />
+                </>
+              ) : null}
+
+              {selectedEntry.opening_hours ? (
+                <>
+                  <Text size={20}>Opening Hours:</Text>
+                  {selectedEntry.opening_hours.split(",").map((day) => (
+                    <Text>{day.trim()}</Text>
+                  ))}
+                </>
+              ) : null}
+            </SimpleGrid>
+          </ScrollArea>
+        </>
       ) : selectedTag ? (
         <>
           <Button onClick={() => setSelectedTag("")} fullWidth mb={15}>
