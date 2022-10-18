@@ -145,6 +145,7 @@ export default function SideMapComponent({
                 .map((filteredEntry) => {
                   return (
                     <EntryCard
+                      key={filteredEntry.places_id}
                       filteredEntry={filteredEntry}
                       setSelectedEntry={setSelectedEntry}
                     />
@@ -177,6 +178,7 @@ export default function SideMapComponent({
                 .map((filteredEntry) => {
                   return (
                     <EntryCard
+                      key={filteredEntry.places_id}
                       filteredEntry={filteredEntry}
                       setSelectedEntry={setSelectedEntry}
                     />
