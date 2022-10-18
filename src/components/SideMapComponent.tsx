@@ -2,17 +2,17 @@ import {
   Accordion,
   Badge,
   Button,
-  Card,
-  Center,
   Divider,
   Group,
   ScrollArea,
   SimpleGrid,
   Text,
+  TextInput,
 } from "@mantine/core";
 import { Places } from "@prisma/client";
 import { useState } from "react";
 import { MapProps } from "./DisplayMap";
+import EntryCard from "./EntryCard";
 
 function getUniqueCategoryTags(data: Places[], category: string) {
   const uniqueTag: string[] = [];
@@ -46,6 +46,7 @@ export default function SideMapComponent({
   setSelectedTag,
 }: MapProps) {
   const [currentEntries, setCurrentEntries] = useState<Places[]>(entryData);
+  const [query, setQuery] = useState("");
   return (
     <>
       {selectedEntry ? (
@@ -143,54 +144,84 @@ export default function SideMapComponent({
                 )
                 .map((filteredEntry) => {
                   return (
-                    <Card
-                      p={"md"}
-                      key={filteredEntry.places_id}
-                      onClick={() => setSelectedEntry(filteredEntry)}
-                      style={{ cursor: "pointer" }}
-                    >
-                      <Center p={5}>
-                        <Card.Section>{filteredEntry.name}</Card.Section>
-                      </Center>
-                      <Center>
-                        <Text>{filteredEntry.address}</Text>
-                      </Center>
-                      {filteredEntry.tags.map((tag, index) => {
-                        return <Badge key={index}>{tag}</Badge>;
-                      })}
-                    </Card>
+                    <EntryCard
+                      filteredEntry={filteredEntry}
+                      setSelectedEntry={setSelectedEntry}
+                    />
+                  );
+                })}
+            </SimpleGrid>
+          </ScrollArea>
+        </>
+      ) : query ? (
+        <>
+          <TextInput
+            placeholder="Search entries..."
+            mb={10}
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+          <ScrollArea style={{ height: "calc(100vh - 110px)" }}>
+            <SimpleGrid cols={1}>
+              {entryData
+                .filter((entry) =>
+                  entry.name
+                    .toLocaleLowerCase()
+                    .includes(query.toLocaleLowerCase().trim())
+                )
+                .sort((a, b) =>
+                  a.name.toLocaleLowerCase() < b.name.toLocaleLowerCase()
+                    ? -1
+                    : 1
+                )
+                .map((filteredEntry) => {
+                  return (
+                    <EntryCard
+                      filteredEntry={filteredEntry}
+                      setSelectedEntry={setSelectedEntry}
+                    />
                   );
                 })}
             </SimpleGrid>
           </ScrollArea>
         </>
       ) : (
-        <Accordion variant="filled">
-          {getUniqueCategories(currentEntries)
-            .sort()
-            .map((category) => {
-              return (
-                <Accordion.Item value={category} key={category}>
-                  <Accordion.Control>{category}</Accordion.Control>
-                  {getUniqueCategoryTags(currentEntries, category)
-                    .sort()
-                    .map((tag) => {
-                      return (
-                        <Accordion.Panel
-                          key={tag}
-                          style={{ cursor: "pointer" }}
-                          onClick={() => {
-                            setSelectedTag(tag);
-                          }}
-                        >
-                          {tag}
-                        </Accordion.Panel>
-                      );
-                    })}
-                </Accordion.Item>
-              );
-            })}
-        </Accordion>
+        <>
+          <TextInput
+            placeholder="Search entries..."
+            mb={10}
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+          <ScrollArea style={{ height: "calc(100vh - 110px)" }}>
+            <Accordion variant="filled">
+              {getUniqueCategories(currentEntries)
+                .sort()
+                .map((category) => {
+                  return (
+                    <Accordion.Item value={category} key={category}>
+                      <Accordion.Control>{category}</Accordion.Control>
+                      {getUniqueCategoryTags(currentEntries, category)
+                        .sort()
+                        .map((tag) => {
+                          return (
+                            <Accordion.Panel
+                              key={tag}
+                              style={{ cursor: "pointer" }}
+                              onClick={() => {
+                                setSelectedTag(tag);
+                              }}
+                            >
+                              {tag}
+                            </Accordion.Panel>
+                          );
+                        })}
+                    </Accordion.Item>
+                  );
+                })}
+            </Accordion>
+          </ScrollArea>
+        </>
       )}
     </>
   );
