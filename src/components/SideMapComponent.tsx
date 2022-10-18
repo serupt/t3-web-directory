@@ -76,7 +76,7 @@ export default function SideMapComponent({
                 }`}
                 target="_blank"
               >
-                {selectedEntry.address}
+                {"➥ " + selectedEntry.address}
               </Text>
               <Divider />
               <Text size={20}>{selectedEntry.category}</Text>

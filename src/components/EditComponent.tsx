@@ -50,7 +50,7 @@ export default function EditComponent() {
   const [addModalOpened, setAddModalOpened] = useState(false);
 
   const getEntries = trpc.useQuery(["entries.get-all-entries"]);
-  const createEntry = trpc.useMutation(["entries.add-entry"], {
+  const createEntry = trpc.useMutation(["protectedEntries.add-entry"], {
     onSuccess: () => getEntries.refetch(),
     onError: (e) =>
       showNotification({
@@ -59,7 +59,7 @@ export default function EditComponent() {
         message: e.message,
       }),
   });
-  const editEntry = trpc.useMutation(["entries.edit-entry"], {
+  const editEntry = trpc.useMutation(["protectedEntries.edit-entry"], {
     onSuccess: () => getEntries.refetch(),
     onError: (e) =>
       showNotification({
@@ -68,7 +68,7 @@ export default function EditComponent() {
         message: e.message,
       }),
   });
-  const deleteEntry = trpc.useMutation(["entries.delete-entry"], {
+  const deleteEntry = trpc.useMutation(["protectedEntries.delete-entry"], {
     onSuccess: () => getEntries.refetch(),
   });
 

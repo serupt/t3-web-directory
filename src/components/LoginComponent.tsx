@@ -11,8 +11,10 @@ import {
   Button,
 } from "@mantine/core";
 import { signIn } from "next-auth/react";
+import { useState } from "react";
 
 export default function LoginComponent() {
+  const [email, setEmail] = useState("");
   return (
     <Container size={450} my={40}>
       <Title
@@ -24,23 +26,16 @@ export default function LoginComponent() {
         })}
         color={"brand.7"}
       >
-        Login to continue
+        Sign in to continue
       </Title>
 
       <Paper p={30} mt={50} radius="lg">
-        <TextInput label="Email" placeholder="Email" />
-        <PasswordInput label="Password" placeholder="Password" mt="md" />
-        <Group position="right" mt="md">
-          {/* <Checkbox label="Remember me" /> */}
-          <Anchor<"a">
-            onClick={(event) => event.preventDefault()}
-            href="#"
-            size="sm"
-            color={"brand.7"}
-          >
-            Forgot password?
-          </Anchor>
-        </Group>
+        {/* <TextInput
+          label="Email"
+          placeholder="Email"
+          onChange={(e) => setEmail(e.target.value)}
+        /> */}
+        {/* <PasswordInput label="Password" placeholder="Password" mt="md" /> */}
         <Button
           fullWidth
           mt="xl"
