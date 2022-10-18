@@ -1,11 +1,10 @@
 import {
-  createStyles,
-  Title,
-  Text,
   Button,
   Container,
+  createStyles,
   Group,
-  useMantineTheme,
+  Text,
+  Title,
 } from "@mantine/core";
 import Link from "next/link";
 

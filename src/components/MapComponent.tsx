@@ -1,8 +1,8 @@
-import React, { useCallback, useMemo, useRef } from "react";
-import mapStyles from "../styles/mapStyles";
-import { GoogleMap, InfoWindowF, MarkerF } from "@react-google-maps/api";
-import { MapProps } from "./DisplayMap";
 import { Text } from "@mantine/core";
+import { GoogleMap, InfoWindowF, MarkerF } from "@react-google-maps/api";
+import { useMemo } from "react";
+import mapStyles from "../styles/mapStyles";
+import { MapProps } from "./DisplayMap";
 
 const containerStyle = {
   height: "100vh",

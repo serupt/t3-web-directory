@@ -1,9 +1,9 @@
-import type { NextPage } from "next";
-import DisplayMap from "../components/DisplayMap";
-import { useLoadScript, LoadScriptProps } from "@react-google-maps/api";
-import { env } from "../env/client.mjs";
 import { LoadingOverlay } from "@mantine/core";
+import { LoadScriptProps, useLoadScript } from "@react-google-maps/api";
+import type { NextPage } from "next";
 import Head from "next/head";
+import DisplayMap from "../components/DisplayMap";
+import { env } from "../env/client.mjs";
 
 const googleMapsLibraries: LoadScriptProps["libraries"] = ["places"];
 

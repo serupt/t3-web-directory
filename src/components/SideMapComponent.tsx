@@ -1,7 +1,6 @@
 import {
   Accordion,
   Badge,
-  Box,
   Button,
   Card,
   Center,
@@ -9,12 +8,11 @@ import {
   Group,
   ScrollArea,
   SimpleGrid,
-  Stack,
   Text,
 } from "@mantine/core";
 import { Places } from "@prisma/client";
-import { MapProps } from "./DisplayMap";
 import { useState } from "react";
+import { MapProps } from "./DisplayMap";
 
 function getUniqueCategoryTags(data: Places[], category: string) {
   const uniqueTag: string[] = [];
@@ -38,10 +36,6 @@ function getUniqueCategories(data: Places[]) {
     }
   });
   return uniqueCategories;
-}
-
-function filterTaggedEntries(query: string, data: Places[]) {
-  data.filter((place) => place.tags.includes(query));
 }
 
 export default function SideMapComponent({
@@ -124,8 +118,8 @@ export default function SideMapComponent({
               {selectedEntry.opening_hours ? (
                 <>
                   <Text size={20}>Opening Hours:</Text>
-                  {selectedEntry.opening_hours.split(",").map((day) => (
-                    <Text>{day.trim()}</Text>
+                  {selectedEntry.opening_hours.split(",").map((day, index) => (
+                    <Text key={index}>{day.trim()}</Text>
                   ))}
                 </>
               ) : null}
@@ -161,8 +155,8 @@ export default function SideMapComponent({
                       <Center>
                         <Text>{filteredEntry.address}</Text>
                       </Center>
-                      {filteredEntry.tags.map((tag) => {
-                        return <Badge>{tag}</Badge>;
+                      {filteredEntry.tags.map((tag, index) => {
+                        return <Badge key={index}>{tag}</Badge>;
                       })}
                     </Card>
                   );

@@ -10,12 +10,12 @@ import {
   Textarea,
   TextInput,
 } from "@mantine/core";
-import { useForm, UseFormReturnType } from "@mantine/form";
+import { useForm } from "@mantine/form";
 import { Places } from "@prisma/client";
 import { Dispatch, SetStateAction, useState } from "react";
 import {
-  EditEntryInput,
   DeleteEntryInput,
+  EditEntryInput,
 } from "../common/validation/entries.schema";
 import { trpc } from "../utils/trpc";
 
@@ -35,8 +35,7 @@ export default function EditForm({
   onDelete,
   onEdit,
 }: EditFormProps) {
-  const editEntry = trpc.useMutation(["entries.edit-entry"]);
-  const deleteEntry = trpc.useMutation(["entries.delete-entry"]);
+  const editEntry = trpc.useMutation(["protectedEntries.edit-entry"]);
   const [dataTags, setDataTags] = useState(tagData);
   const [dataCategories, setDataCategories] = useState(categoryData);
 

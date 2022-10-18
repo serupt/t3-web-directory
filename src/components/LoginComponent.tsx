@@ -1,20 +1,7 @@
-import {
-  TextInput,
-  PasswordInput,
-  Checkbox,
-  Anchor,
-  Paper,
-  Title,
-  Text,
-  Container,
-  Group,
-  Button,
-} from "@mantine/core";
+import { Button, Container, Paper, Title } from "@mantine/core";
 import { signIn } from "next-auth/react";
-import { useState } from "react";
 
 export default function LoginComponent() {
-  const [email, setEmail] = useState("");
   return (
     <Container size={450} my={40}>
       <Title

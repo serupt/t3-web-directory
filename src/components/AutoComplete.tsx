@@ -1,28 +1,23 @@
 import {
   Autocomplete,
   Button,
-  Center,
-  Group,
-  Text,
-  TextInput,
   Container,
-  SimpleGrid,
-  Textarea,
+  Group,
   MultiSelect,
   Select,
+  SimpleGrid,
+  Textarea,
+  TextInput,
 } from "@mantine/core";
 import usePlacesAutocomplete, {
-  getGeocode,
   getDetails,
+  getGeocode,
 } from "use-places-autocomplete";
 
-import { trpc } from "../utils/trpc";
-import { useState, useEffect, Dispatch, SetStateAction } from "react";
-import { IconSearch } from "@tabler/icons";
-import { CreateEntryInput } from "../common/validation/entries.schema";
 import { useForm } from "@mantine/form";
-import { useRouter } from "next/router";
-import { Places } from "@prisma/client";
+import { IconSearch } from "@tabler/icons";
+import { Dispatch, SetStateAction, useState } from "react";
+import { CreateEntryInput } from "../common/validation/entries.schema";
 
 interface AddFormProps {
   setAddModalOpened: Dispatch<SetStateAction<boolean>>;
@@ -32,7 +27,6 @@ interface AddFormProps {
 }
 
 export default function AutoComplete({
-  setAddModalOpened,
   tagData,
   categoryData,
   onAdd,
@@ -63,7 +57,7 @@ export default function AutoComplete({
   const {
     value,
     setValue,
-    suggestions: { status, data },
+    suggestions: { data },
     clearSuggestions,
   } = usePlacesAutocomplete({
     cache: 7 * 24 * 60 * 60,
@@ -92,26 +86,30 @@ export default function AutoComplete({
         "website",
       ],
     });
-
-    console.log(resultsDetail);
-
+    // @ts-ignore
     form.setFieldValue("name", resultsDetail.name ?? "");
+    // @ts-ignore
     form.setFieldValue("address", resultsDetail.formatted_address ?? "");
     form.setFieldValue(
       "phone_number",
+      // @ts-ignore
       resultsDetail.formatted_phone_number ?? ""
     );
+    // @ts-ignore
     form.setFieldValue("website", resultsDetail.website ?? "");
     form.setFieldValue(
       "opening_hours",
+      // @ts-ignore
       resultsDetail.opening_hours?.weekday_text.join(",\n") ?? ""
     );
     form.setFieldValue(
       "coords_lat",
+      // @ts-ignore
       resultsDetail.geometry.location.lat().toString()
     );
     form.setFieldValue(
       "coords_lng",
+      // @ts-ignore
       resultsDetail.geometry.location.lng().toString()
     );
   };

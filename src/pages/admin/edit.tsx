@@ -1,18 +1,17 @@
 import {
+  Button,
+  Center,
   Container,
   LoadingOverlay,
-  Center,
-  Text,
-  Button,
-  Group,
   SimpleGrid,
+  Text,
 } from "@mantine/core";
 import type { NextPage } from "next";
 import Head from "next/head";
 import DashboardShellComponent from "../../components/DashboardShellComponent";
 import EditComponent from "../../components/EditComponent";
 
-import { useLoadScript, LoadScriptProps } from "@react-google-maps/api";
+import { LoadScriptProps, useLoadScript } from "@react-google-maps/api";
 import { env } from "../../env/client.mjs";
 
 import { signIn, useSession } from "next-auth/react";
@@ -49,7 +48,7 @@ const AdminEdit: NextPage = () => {
         <title>Edit</title>
       </Head>
       <DashboardShellComponent>
-        <Container size={"100vw"} p={10}>
+        <Container p={10} fluid>
           <EditComponent />
         </Container>
       </DashboardShellComponent>

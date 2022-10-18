@@ -1,4 +1,4 @@
-import { Tooltip, UnstyledButton, createStyles } from "@mantine/core";
+import { createStyles, Tooltip, UnstyledButton } from "@mantine/core";
 import { TablerIcon } from "@tabler/icons";
 import Link from "next/link";
 

@@ -1,9 +1,9 @@
-import { Box, Grid, LoadingOverlay, ScrollArea } from "@mantine/core";
+import { Grid, LoadingOverlay } from "@mantine/core";
 import { Places } from "@prisma/client";
+import { Dispatch, SetStateAction, useState } from "react";
 import { trpc } from "../utils/trpc";
 import MapComponent from "./MapComponent";
 import SideMapComponent from "./SideMapComponent";
-import { Dispatch, SetStateAction, useState } from "react";
 
 export interface MapProps {
   entryData: Places[];
@@ -18,11 +18,11 @@ export default function DisplayMap() {
   const [selectedEntry, setSelectedEntry] = useState<Places>();
   const [selectedTag, setSelectedTag] = useState("");
 
-  return getData.isFetched ? (
+  return getData.isFetched && getData.data ? (
     <Grid gutter={0}>
       <Grid.Col span={3} p={18}>
         <SideMapComponent
-          entryData={getData.data!}
+          entryData={getData.data}
           selectedEntry={selectedEntry}
           setSelectedEntry={setSelectedEntry}
           selectedTag={selectedTag}
@@ -31,7 +31,7 @@ export default function DisplayMap() {
       </Grid.Col>
       <Grid.Col span={"auto"} p={0}>
         <MapComponent
-          entryData={getData.data!}
+          entryData={getData.data}
           selectedEntry={selectedEntry}
           setSelectedEntry={setSelectedEntry}
           selectedTag={selectedTag}

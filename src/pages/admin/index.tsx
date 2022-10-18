@@ -1,10 +1,10 @@
-import Head from "next/head";
-import { useSession } from "next-auth/react";
 import { LoadingOverlay } from "@mantine/core";
-import LoginComponent from "../../components/LoginComponent";
+import { useSession } from "next-auth/react";
+import Head from "next/head";
 import DashboardShellComponent from "../../components/DashboardShellComponent";
+import LoginComponent from "../../components/LoginComponent";
 
-import { useLoadScript, LoadScriptProps } from "@react-google-maps/api";
+import { LoadScriptProps, useLoadScript } from "@react-google-maps/api";
 import { env } from "../../env/client.mjs";
 
 import DisplayMap from "../../components/DisplayMap";

@@ -1,16 +1,13 @@
-import { signOut } from "next-auth/react";
-import type { Session } from "next-auth";
-import { useState } from "react";
-import { Navbar, Center, Stack, AppShell } from "@mantine/core";
+import { AppShell, Center, Navbar, Stack } from "@mantine/core";
 import {
-  IconHome2,
   IconEdit,
-  IconLogout,
-  IconPlus,
+  IconHome2,
   IconLayoutDashboard,
+  IconLogout,
 } from "@tabler/icons";
-import { NavbarLink } from "./NavbarLink";
+import { signOut } from "next-auth/react";
 import { useRouter } from "next/router";
+import { NavbarLink } from "./NavbarLink";
 
 const navitems = [
   { icon: IconHome2, label: "Admin" },

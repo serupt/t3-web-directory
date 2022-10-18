@@ -1,24 +1,22 @@
-import { trpc } from "../utils/trpc";
-import { useState } from "react";
 import {
-  Button,
   Badge,
+  Button,
   Divider,
-  Group,
+  Grid,
   LoadingOverlay,
+  Modal,
   ScrollArea,
   Table,
   TextInput,
-  Modal,
-  Container,
-  Grid,
 } from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
 import { showNotification } from "@mantine/notifications";
+import { useState } from "react";
+import { trpc } from "../utils/trpc";
 
 import { Places } from "@prisma/client";
-import EditForm from "./EditForm";
 import AutoComplete from "./AutoComplete";
+import EditForm from "./EditForm";
 
 function getUniqueTags(data: Places[]) {
   const uniqueTag: string[] = [];
@@ -105,8 +103,8 @@ export default function EditComponent() {
           >
             <AutoComplete
               setAddModalOpened={setAddModalOpened}
-              tagData={getUniqueTags(getEntries.data!)}
-              categoryData={getUniqueCategories(getEntries.data!)}
+              tagData={getUniqueTags(getEntries.data)}
+              categoryData={getUniqueCategories(getEntries.data)}
               onAdd={(data) => {
                 createEntry.mutate(data);
                 setAddModalOpened(false);
@@ -121,22 +119,24 @@ export default function EditComponent() {
               setModalOpened(false);
             }}
           >
-            <EditForm
-              selected={selected!}
-              setModalOpened={setModalOpened}
-              tagData={getUniqueTags(getEntries.data!)}
-              categoryData={getUniqueCategories(getEntries.data!)}
-              onEdit={(data) => {
-                if (data) {
-                  editEntry.mutate(data);
+            {selected ? (
+              <EditForm
+                selected={selected}
+                setModalOpened={setModalOpened}
+                tagData={getUniqueTags(getEntries.data)}
+                categoryData={getUniqueCategories(getEntries.data)}
+                onEdit={(data) => {
+                  if (data) {
+                    editEntry.mutate(data);
+                    setModalOpened(false);
+                  }
+                }}
+                onDelete={(data) => {
+                  deleteEntry.mutate(data);
                   setModalOpened(false);
-                }
-              }}
-              onDelete={(data) => {
-                deleteEntry.mutate(data);
-                setModalOpened(false);
-              }}
-            />
+                }}
+              />
+            ) : null}
           </Modal>
           <ScrollArea style={{ height: "calc(100vh - 110px)" }}>
             <Table highlightOnHover verticalSpacing={"md"}>
