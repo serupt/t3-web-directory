@@ -1,12 +1,10 @@
 import {
   Button,
   Center,
-  Container,
   Group,
   MultiSelect,
   Select,
   SimpleGrid,
-  Text,
   Textarea,
   TextInput,
 } from "@mantine/core";
@@ -17,7 +15,6 @@ import {
   DeleteEntryInput,
   EditEntryInput,
 } from "../common/validation/entries.schema";
-import { trpc } from "../utils/trpc";
 
 interface EditFormProps {
   selected: Places;
@@ -35,7 +32,6 @@ export default function EditForm({
   onDelete,
   onEdit,
 }: EditFormProps) {
-  const editEntry = trpc.useMutation(["protectedEntries.edit-entry"]);
   const [dataTags, setDataTags] = useState(tagData);
   const [dataCategories, setDataCategories] = useState(categoryData);
 
@@ -66,11 +62,6 @@ export default function EditForm({
   return (
     <Center>
       <SimpleGrid cols={1}>
-        <Container fluid={false} size={"xs"}>
-          <Text color={"red"}>
-            {editEntry.error && editEntry.error.message}
-          </Text>
-        </Container>
         <form onSubmit={form.onSubmit(onSubmit)}>
           <TextInput label="ID" value={selected?.places_id} disabled />
           <TextInput label="Name" {...form.getInputProps("name")} />

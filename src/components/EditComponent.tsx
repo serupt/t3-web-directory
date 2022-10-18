@@ -113,6 +113,7 @@ export default function EditComponent() {
           </Modal>
 
           <Modal
+            overlayBlur={5}
             title={`Editing ${selected?.name}`}
             opened={modalOpened}
             onClose={() => {
