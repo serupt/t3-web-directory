@@ -144,7 +144,7 @@ export default function EditComponent() {
               <thead>
                 <tr>
                   <th>Name</th>
-                  <th>Address</th>
+                  <th>Main Address</th>
                   <th>Category</th>
                   <th>Tags</th>
                   <th>Last Updated</th>
@@ -158,7 +158,7 @@ export default function EditComponent() {
                           filtered.name
                             .toLocaleLowerCase()
                             .includes(debouncedQuery) ||
-                          filtered.address
+                          filtered.main_address
                             .toLocaleLowerCase()
                             .includes(debouncedQuery) ||
                           filtered.category
@@ -180,7 +180,7 @@ export default function EditComponent() {
                           style={{ cursor: "pointer" }}
                         >
                           <td>{element.name}</td>
-                          <td>{element.address}</td>
+                          <td>{element.main_address}</td>
                           <td>{element.category}</td>
                           <td>
                             {element.tags.map((tag, index) => {
@@ -213,7 +213,7 @@ export default function EditComponent() {
                           style={{ cursor: "pointer" }}
                         >
                           <td>{element.name}</td>
-                          <td>{element.address}</td>
+                          <td>{element.main_address}</td>
                           <td>{element.category}</td>
                           <td>
                             {element.tags.map((tag, index) => {

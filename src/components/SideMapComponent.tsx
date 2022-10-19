@@ -2,6 +2,7 @@ import {
   Accordion,
   Badge,
   Button,
+  Center,
   Divider,
   Group,
   ScrollArea,
@@ -57,9 +58,11 @@ export default function SideMapComponent({
           <Divider p={10} />
           <ScrollArea style={{ height: "calc(100vh - 110px)" }}>
             <SimpleGrid cols={1}>
-              <Text size={36} weight={"bold"}>
-                {selectedEntry.name}
-              </Text>
+              <Center>
+                <Text size={36} weight={"bold"}>
+                  {selectedEntry.name}
+                </Text>
+              </Center>
               <Text
                 underline
                 color={"blue"}
@@ -71,7 +74,7 @@ export default function SideMapComponent({
                 }`}
                 target="_blank"
               >
-                {"➥ " + selectedEntry.address}
+                {"➥ " + selectedEntry.main_address}
               </Text>
               <Divider />
               <Text size={20}>{selectedEntry.category}</Text>

@@ -35,7 +35,8 @@ export default function AutoComplete({
     initialValues: {
       name: "",
       description: "",
-      address: "",
+      main_address: "",
+      other_addresses: [],
       phone_number: "",
       website: "",
       category: "",
@@ -89,7 +90,7 @@ export default function AutoComplete({
     // @ts-ignore
     form.setFieldValue("name", resultsDetail.name ?? "");
     // @ts-ignore
-    form.setFieldValue("address", resultsDetail.formatted_address ?? "");
+    form.setFieldValue("main_address", resultsDetail.formatted_address ?? "");
     form.setFieldValue(
       "phone_number",
       // @ts-ignore
@@ -131,7 +132,10 @@ export default function AutoComplete({
             label="Description"
             {...form.getInputProps("description")}
           />
-          <TextInput label="Address" {...form.getInputProps("address")} />
+          <TextInput
+            label="Main Address"
+            {...form.getInputProps("main_address")}
+          />
           <TextInput
             label="Phone Number"
             {...form.getInputProps("phone_number")}

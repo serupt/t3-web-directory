@@ -40,7 +40,8 @@ export default function EditForm({
       places_id: selected.places_id,
       name: selected.name,
       description: selected.description,
-      address: selected.address,
+      main_address: selected.main_address,
+      other_addresses: selected.other_addresses,
       phone_number: selected.phone_number,
       website: selected.website,
       category: selected.category,
@@ -71,7 +72,10 @@ export default function EditForm({
             label="Description"
             {...form.getInputProps("description")}
           />
-          <TextInput label="Address" {...form.getInputProps("address")} />
+          <TextInput
+            label="Main Address"
+            {...form.getInputProps("main_address")}
+          />
           <TextInput
             label="Phone Number"
             {...form.getInputProps("phone_number")}

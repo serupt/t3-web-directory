@@ -1,11 +1,11 @@
-import { createProtectedRouter } from "./context";
-import {
-  createEntrySchema,
-  editEntrySchema,
-} from "../../common/validation/entries.schema";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { TRPCError } from "@trpc/server";
-import { deleteEntrySchema } from "../../common/validation/entries.schema";
+import {
+  createEntrySchema,
+  deleteEntrySchema,
+  editEntrySchema,
+} from "../../common/validation/entries.schema";
+import { createProtectedRouter } from "./context";
 
 export const protectedEntriesRouter = createProtectedRouter()
   .mutation("add-entry", {
@@ -44,7 +44,8 @@ export const protectedEntriesRouter = createProtectedRouter()
           data: {
             name: input.name,
             description: input.description,
-            address: input.address,
+            main_address: input.main_address,
+            other_addresses: input.other_addresses,
             phone_number: input.phone_number,
             opening_hours: input.opening_hours,
             website: input.website,

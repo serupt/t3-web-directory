@@ -15,19 +15,20 @@ datasource db {
 }
 
 model Places {
-    places_id     String   @id @default(auto()) @map("_id") @db.ObjectId
-    name          String   @unique
-    description   String
-    address       String   @unique
-    phone_number  String
-    opening_hours String
-    website       String
-    category      String   @default("Other")
-    tags          String[] @default(["Other"])
-    coords_lat    String
-    coords_lng    String
-    created_at    DateTime @default(now())
-    updated_at    DateTime @default(now()) @updatedAt
+    places_id       String   @id @default(auto()) @map("_id") @db.ObjectId
+    name            String   @unique
+    description     String
+    main_address    String   @unique
+    other_addresses String[] @default([])
+    phone_number    String
+    opening_hours   String
+    website         String
+    category        String   @default("Other")
+    tags            String[] @default(["Other"])
+    coords_lat      String
+    coords_lng      String
+    created_at      DateTime @default(now())
+    updated_at      DateTime @default(now()) @updatedAt
 }
 
 // Necessary for Next auth

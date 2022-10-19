@@ -5,9 +5,10 @@ export const createEntrySchema = z.object({
     required_error: "Name is required",
   }),
   description: z.string(),
-  address: z.string({
+  main_address: z.string({
     required_error: "Address is required",
   }),
+  other_addresses: z.string().array(),
   phone_number: z.string(),
   website: z.string(),
   category: z.string(),
@@ -21,7 +22,8 @@ export const editEntrySchema = z.object({
   places_id: z.string(),
   name: z.string(),
   description: z.string(),
-  address: z.string(),
+  main_address: z.string(),
+  other_addresses: z.string().array(),
   phone_number: z.string(),
   website: z.string(),
   category: z.string(),

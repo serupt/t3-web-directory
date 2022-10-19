@@ -24,7 +24,7 @@ export default function EntryCard({
         </Card.Section>
       </Center>
       <Center>
-        <Text>{filteredEntry.address}</Text>
+        <Text>{filteredEntry.main_address}</Text>
       </Center>
       <Divider m={5} />
       {filteredEntry.description ? (
