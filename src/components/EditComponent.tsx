@@ -97,6 +97,7 @@ export default function EditComponent() {
           <Divider />
 
           <Modal
+            size={"xl"}
             title="Adding new entry"
             opened={addModalOpened}
             onClose={() => setAddModalOpened(false)}
@@ -113,6 +114,7 @@ export default function EditComponent() {
           </Modal>
 
           <Modal
+            size={"xl"}
             overlayBlur={5}
             title={`Editing ${selected?.name}`}
             opened={modalOpened}

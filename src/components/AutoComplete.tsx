@@ -1,11 +1,10 @@
 import {
   Autocomplete,
   Button,
-  Container,
+  Grid,
   Group,
   MultiSelect,
   Select,
-  SimpleGrid,
   Textarea,
   TextInput,
 } from "@mantine/core";
@@ -116,22 +115,28 @@ export default function AutoComplete({
   };
 
   return (
-    <Container size={"sm"} px="sm">
-      <SimpleGrid cols={1}>
-        <Autocomplete
-          icon={<IconSearch />}
-          value={value}
-          onChange={setValue}
-          placeholder="Search and select place to autofill..."
-          data={data.map((item) => ({ ...item, value: item.description }))}
-          onItemSubmit={(e) => handleSelect(e.value)}
-        />
-        <form onSubmit={form.onSubmit(onSubmit)}>
-          <TextInput label="Name" {...form.getInputProps("name")} />
-          <Textarea
-            label="Description"
-            {...form.getInputProps("description")}
+    <>
+      <Grid columns={12} p={10} grow>
+        <Grid.Col span={12}>
+          <Autocomplete
+            icon={<IconSearch />}
+            value={value}
+            onChange={setValue}
+            placeholder="Search and select place to autofill..."
+            data={data.map((item) => ({ ...item, value: item.description }))}
+            onItemSubmit={(e) => handleSelect(e.value)}
           />
+        </Grid.Col>
+        <form onSubmit={form.onSubmit(onSubmit)}>
+          <Grid.Col span={6}>
+            <TextInput label="Name" {...form.getInputProps("name")} />
+          </Grid.Col>
+          <Grid.Col span={12}>
+            <Textarea
+              label="Description"
+              {...form.getInputProps("description")}
+            />
+          </Grid.Col>
           <TextInput
             label="Main Address"
             {...form.getInputProps("main_address")}
@@ -191,7 +196,7 @@ export default function AutoComplete({
             </Button>
           </Group>
         </form>
-      </SimpleGrid>
-    </Container>
+      </Grid>
+    </>
   );
 }
