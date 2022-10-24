@@ -1,7 +1,7 @@
-import { Grid, LoadingOverlay } from "@mantine/core";
 import { Places } from "@prisma/client";
 import { Dispatch, SetStateAction, useState } from "react";
 import { trpc } from "../utils/trpc";
+import LoadingOverlay from "./LoadingOverlay";
 import MapComponent from "./MapComponent";
 import SideMapComponent from "./SideMapComponent";
 
@@ -14,32 +14,32 @@ export interface MapProps {
 }
 
 export default function DisplayMap() {
-  const getData = trpc.useQuery(["entries.get-all-entries"]);
+  const getEntries = trpc.places.getAll.useQuery();
   const [selectedEntry, setSelectedEntry] = useState<Places>();
   const [selectedTag, setSelectedTag] = useState("");
 
-  return getData.isFetched && getData.data ? (
-    <Grid gutter={0}>
-      <Grid.Col span={3} p={18}>
+  return getEntries.isFetched && getEntries.data ? (
+    <div className="min-h-screen sm:flex ">
+      <aside className="scrollbar-hide max-h-screen w-full flex-none overflow-auto sm:max-w-lg">
         <SideMapComponent
-          entryData={getData.data}
+          entryData={getEntries.data}
           selectedEntry={selectedEntry}
           setSelectedEntry={setSelectedEntry}
           selectedTag={selectedTag}
           setSelectedTag={setSelectedTag}
         />
-      </Grid.Col>
-      <Grid.Col span={"auto"} p={0}>
+      </aside>
+      <main className=" flex-1">
         <MapComponent
-          entryData={getData.data}
+          entryData={getEntries.data}
           selectedEntry={selectedEntry}
           setSelectedEntry={setSelectedEntry}
           selectedTag={selectedTag}
           setSelectedTag={setSelectedTag}
         />
-      </Grid.Col>
-    </Grid>
+      </main>
+    </div>
   ) : (
-    <LoadingOverlay visible />
+    <LoadingOverlay />
   );
 }

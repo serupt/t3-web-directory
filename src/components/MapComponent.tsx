@@ -1,4 +1,3 @@
-import { Text } from "@mantine/core";
 import { GoogleMap, InfoWindowF, MarkerF } from "@react-google-maps/api";
 import { useMemo } from "react";
 import mapStyles from "../styles/mapStyles";
@@ -50,62 +49,58 @@ export default function MapComponent({
   }
 
   return (
-    <div className="container">
-      <div className="map">
-        <GoogleMap
-          zoom={15}
-          center={center}
-          mapContainerStyle={containerStyle}
-          options={options}
-        >
-          {selectedTag !== ""
-            ? entryData
-                .filter((e) => e.tags.includes(selectedTag))
-                .map((entry) => (
-                  <MarkerF
-                    key={entry.places_id}
-                    position={{
-                      lat: parseFloat(entry.coords_lat),
-                      lng: parseFloat(entry.coords_lng),
-                    }}
-                    onClick={() => {
-                      setSelectedEntry(entry);
-                    }}
-                    icon={markerIcon(entry.category)}
-                  />
-                ))
-            : entryData.map((entry) => (
-                <MarkerF
-                  key={entry.places_id}
-                  position={{
-                    lat: parseFloat(entry.coords_lat),
-                    lng: parseFloat(entry.coords_lng),
-                  }}
-                  onClick={() => {
-                    setSelectedEntry(entry);
-                  }}
-                  icon={markerIcon(entry.category)}
-                />
-              ))}
-          {selectedEntry ? (
-            <InfoWindowF
+    <GoogleMap
+      zoom={15}
+      center={center}
+      mapContainerStyle={containerStyle}
+      options={options}
+    >
+      {selectedTag !== ""
+        ? entryData
+            .filter((e) => e.tags.includes(selectedTag))
+            .map((entry) => (
+              <MarkerF
+                key={entry.id}
+                position={{
+                  lat: parseFloat(entry.coords_lat),
+                  lng: parseFloat(entry.coords_lng),
+                }}
+                onClick={() => {
+                  setSelectedEntry(entry);
+                }}
+                icon={markerIcon(entry.category)}
+              />
+            ))
+        : entryData.map((entry) => (
+            <MarkerF
+              key={entry.id}
               position={{
-                lat: parseFloat(selectedEntry.coords_lat),
-                lng: parseFloat(selectedEntry.coords_lng),
+                lat: parseFloat(entry.coords_lat),
+                lng: parseFloat(entry.coords_lng),
               }}
-              onCloseClick={() => {
-                setSelectedEntry(undefined);
+              onClick={() => {
+                setSelectedEntry(entry);
               }}
-            >
-              <div>
-                <Text color={"dark"} size={"lg"} weight={"bold"}>
-                  {selectedEntry.name}
-                </Text>
-              </div>
-            </InfoWindowF>
-          ) : null}
-        </GoogleMap>
-      </div>
-    </div>
+              icon={markerIcon(entry.category)}
+            />
+          ))}
+      {selectedEntry ? (
+        <InfoWindowF
+          position={{
+            lat: parseFloat(selectedEntry.coords_lat),
+            lng: parseFloat(selectedEntry.coords_lng),
+          }}
+          onCloseClick={() => {
+            setSelectedEntry(undefined);
+          }}
+        >
+          <div>
+            <h1 className="text-lg font-bold text-black">
+              {selectedEntry.name}
+            </h1>
+          </div>
+        </InfoWindowF>
+      ) : null}
+    </GoogleMap>
   );
 }

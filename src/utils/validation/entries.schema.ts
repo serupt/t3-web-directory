@@ -19,7 +19,7 @@ export const createEntrySchema = z.object({
 });
 
 export const editEntrySchema = z.object({
-  places_id: z.string(),
+  id: z.string(),
   name: z.string(),
   description: z.string(),
   main_address: z.string(),
@@ -34,7 +34,7 @@ export const editEntrySchema = z.object({
 });
 
 export const deleteEntrySchema = z.object({
-  places_id: z.string(),
+  id: z.string(),
 });
 
 export type CreateEntryInput = z.TypeOf<typeof createEntrySchema>;

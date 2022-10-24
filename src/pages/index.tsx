@@ -1,8 +1,8 @@
-import { LoadingOverlay } from "@mantine/core";
 import { LoadScriptProps, useLoadScript } from "@react-google-maps/api";
 import type { NextPage } from "next";
 import Head from "next/head";
 import DisplayMap from "../components/DisplayMap";
+import LoadingOverlay from "../components/LoadingOverlay";
 import { env } from "../env/client.mjs";
 
 const googleMapsLibraries: LoadScriptProps["libraries"] = ["places"];
@@ -17,7 +17,7 @@ const Home: NextPage = () => {
       <Head>
         <title>Map Directory</title>
       </Head>
-      {isLoaded ? <DisplayMap /> : <LoadingOverlay visible />}
+      {isLoaded ? <DisplayMap /> : <LoadingOverlay />}
     </>
   );
 };
