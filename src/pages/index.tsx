@@ -12,6 +12,7 @@ const Home: NextPage = () => {
     googleMapsApiKey: env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
     libraries: googleMapsLibraries,
   });
+
   return (
     <>
       <Head>

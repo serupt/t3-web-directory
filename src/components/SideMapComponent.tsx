@@ -62,9 +62,7 @@ export default function SideMapComponent({
             className=" input-sm w-full  rounded bg-primary-800  focus:outline-none focus:ring-2 focus:ring-secondary"
           />
         )}
-        <div className="divider before:bg-secondary after:bg-secondary">
-          Logo?
-        </div>
+        <div className="divider before:bg-secondary after:bg-secondary"></div>
         <div>
           {selectedEntry ? (
             <SelectedEntryView selectedEntry={selectedEntry} />

@@ -2,21 +2,21 @@ import { LoadScriptProps, useLoadScript } from "@react-google-maps/api";
 import type { NextPage } from "next";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
-import DisplayMap from "../../components/DisplayMap";
-import LoadingOverlay from "../../components/LoadingOverlay";
 import Login from "../../components/Login";
 import { env } from "../../env/client.mjs";
 import ManageEntryLayout from "../../layout/ManageEntryLayout";
 
 const googleMapsLibraries: LoadScriptProps["libraries"] = ["places"];
 
-const AdminHome: NextPage = () => {
+const AdminEdit: NextPage = () => {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
     libraries: googleMapsLibraries,
   });
 
   const { data: session } = useSession();
+
+  console.log(session);
 
   if (!session) {
     return <Login />;
@@ -28,10 +28,10 @@ const AdminHome: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <ManageEntryLayout>
-        {isLoaded ? <DisplayMap /> : <LoadingOverlay />}
+        <div>EDIT STUFF</div>
       </ManageEntryLayout>
     </>
   );
 };
 
-export default AdminHome;
+export default AdminEdit;
