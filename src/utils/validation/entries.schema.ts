@@ -38,5 +38,5 @@ export const deleteEntrySchema = z.object({
 });
 
 export type CreateEntryInput = z.TypeOf<typeof createEntrySchema>;
-export type EditEntryInput = z.TypeOf<typeof editEntrySchema>;
+export type EditEntryInput = z.infer<typeof editEntrySchema>;
 export type DeleteEntryInput = z.TypeOf<typeof deleteEntrySchema>;

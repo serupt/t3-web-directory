@@ -52,7 +52,7 @@ export default function ManageEntryLayout({
   return (
     <div className="min-h-screen sm:flex">
       <aside className="max-h-screen w-full space-y-2 overflow-auto bg-primary-800 px-2 py-7 sm:max-w-[15rem] sm:flex-col">
-        <a href="#" className="flex flex-col items-center space-y-2 p-2">
+        <div className="flex flex-col items-center space-y-2 p-2">
           <svg
             className="h-7 w-7 text-secondary"
             xmlns="http://www.w3.org/2000/svg"
@@ -68,7 +68,7 @@ export default function ManageEntryLayout({
             />
           </svg>
           <span className="text-2xl font-bold">Some Name</span>
-        </a>
+        </div>
         <nav>
           {Menu.map((item, index) => {
             return (

@@ -2,6 +2,8 @@ import { LoadScriptProps, useLoadScript } from "@react-google-maps/api";
 import type { NextPage } from "next";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
+import EditingComponent from "../../components/EditingComponent";
+import LoadingOverlay from "../../components/LoadingOverlay";
 import Login from "../../components/Login";
 import { env } from "../../env/client.mjs";
 import ManageEntryLayout from "../../layout/ManageEntryLayout";
@@ -16,8 +18,6 @@ const AdminEdit: NextPage = () => {
 
   const { data: session } = useSession();
 
-  console.log(session);
-
   if (!session) {
     return <Login />;
   }
@@ -28,7 +28,7 @@ const AdminEdit: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <ManageEntryLayout>
-        <div>EDIT STUFF</div>
+        {isLoaded ? <EditingComponent /> : <LoadingOverlay />}
       </ManageEntryLayout>
     </>
   );

@@ -30,8 +30,8 @@ export default function SelectedEntryView({
           <div className="divider before:bg-secondary after:bg-secondary">
             Additional Locations
           </div>
-          {selectedEntry.other_addresses.map((address) => {
-            return <h2>{address}</h2>;
+          {selectedEntry.other_addresses.map((address, index) => {
+            return <h2 key={index}>{address}</h2>;
           })}
         </>
       ) : null}

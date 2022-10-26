@@ -8,8 +8,8 @@ import {
 import { protectedProcedure, publicProcedure, router } from "../trpc";
 
 export const placesRouter = router({
-  getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.places.findMany();
+  getAll: publicProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.places.findMany();
   }),
   addEntry: protectedProcedure
     .input(createEntrySchema)
@@ -41,7 +41,19 @@ export const placesRouter = router({
       try {
         const editedEntry = await ctx.prisma.places.update({
           where: { id: input.id },
-          data: { ...input },
+          data: {
+            name: input.name,
+            description: input.description,
+            main_address: input.main_address,
+            other_addresses: input.other_addresses,
+            phone_number: input.phone_number,
+            opening_hours: input.opening_hours,
+            website: input.website,
+            category: input.category,
+            tags: input.tags,
+            coords_lat: input.coords_lat,
+            coords_lng: input.coords_lng,
+          },
         });
         return editedEntry;
       } catch (e) {
@@ -65,7 +77,9 @@ export const placesRouter = router({
     .mutation(async ({ ctx, input }) => {
       try {
         const deletedEntry = await ctx.prisma.places.delete({
-          where: { id: input.id },
+          where: {
+            id: input.id,
+          },
         });
         return deletedEntry;
       } catch (e) {
