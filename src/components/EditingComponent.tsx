@@ -1,6 +1,7 @@
 import { Places } from "@prisma/client";
 import { useState } from "react";
 import { trpc } from "../utils/trpc";
+import AddEntry from "./EditingComponents/AddEntry";
 import EditEntry from "./EditingComponents/EditEntry";
 import LoadingOverlay from "./LoadingOverlay";
 import PopUpMessage from "./PopUpMessage";
@@ -81,7 +82,10 @@ export default function EditingComponent() {
           placeholder="Search by name..."
           className=" input-sm w-1/4  rounded bg-primary-800  focus:outline-none focus:ring-2 focus:ring-secondary"
         />
-        <button className="btn gap-2 bg-green-700">
+        <button
+          className="btn btn-sm gap-2 bg-secondary-700 hover:bg-secondary-600"
+          onClick={() => setAddModalOpened(true)}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -96,9 +100,9 @@ export default function EditingComponent() {
               d="M12 4.5v15m7.5-7.5h-15"
             />
           </svg>
-          Add
+          Add New Entry
         </button>
-        <button className="btn  gap-2 bg-red-700">
+        {/* <button className="btn  gap-2 bg-red-700">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -114,7 +118,7 @@ export default function EditingComponent() {
             />
           </svg>
           Delete
-        </button>
+        </button> */}
       </nav>
       <div className="divider px-2 before:bg-secondary after:bg-secondary"></div>
       <main className="overflow-x-auto px-2">
@@ -198,6 +202,18 @@ export default function EditingComponent() {
             }}
           />
         ) : null}
+        {getEntries.data && (
+          <AddEntry
+            addModalOpened={addModalOpened}
+            setAddModalOpened={setAddModalOpened}
+            tagData={getUniqueTags(getEntries.data)}
+            categoryData={getUniqueCategories(getEntries.data)}
+            onAdd={(data) => {
+              addEntry.mutate(data);
+              setAddModalOpened(false);
+            }}
+          />
+        )}
       </>
     </div>
   );

@@ -19,11 +19,11 @@ model Places {
   name            String   @unique
   main_address    String   @unique
   other_addresses String[] @default([])
-  phone_number    String?
-  email           String?
-  website         String?
-  description     String?
-  opening_hours   String?
+  phone_number    String   @default("")
+  email           String   @default("")
+  website         String   @default("")
+  description     String   @default("")
+  opening_hours   String   @default("")
   category        String   @default("Other")
   tags            String[] @default(["Other"])
   coords_lat      String

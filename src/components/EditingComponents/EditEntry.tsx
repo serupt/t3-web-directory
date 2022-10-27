@@ -39,7 +39,6 @@ export default function EditEntry({
   const onSubmit: SubmitHandler<EditEntryInput> = (data) => {
     onEdit(data);
   };
-  const [deleteModalOpened, setDeleteModalOpened] = useState(false);
   const [query, setQuery] = useState("");
   const [currentTags, setCurrentTags] = useState(selectedEntry.tags);
   const [currentCategory, setCurrentCategory] = useState(
@@ -323,25 +322,6 @@ export default function EditEntry({
                           />
                         </label>
                       </div>
-                      <label className="block">
-                        <span className="mb-2 block">Description</span>
-                        <div className="h-20">
-                          <textarea
-                            className="input-md h-full w-full resize-none rounded bg-primary-800 shadow-md focus:outline-none focus:ring-2 focus:ring-secondary"
-                            {...register("description")}
-                          />
-                        </div>
-                      </label>
-
-                      <label className="block">
-                        <span className="mb-2 block">Opening Hours</span>
-                        <div className="h-20">
-                          <textarea
-                            className="input-md h-full w-full rounded bg-primary-800 shadow-md focus:outline-none focus:ring-2 focus:ring-secondary"
-                            {...register("opening_hours")}
-                          />
-                        </div>
-                      </label>
 
                       <label className="block">
                         <Combobox
@@ -603,7 +583,29 @@ export default function EditEntry({
                           </div>
                         </Combobox>
                       </label>
+
+                      <label className="block">
+                        <span className="mb-2 block">Description</span>
+                        <div className="h-20">
+                          <textarea
+                            className="input-md h-full w-full resize-none rounded bg-primary-800 shadow-md focus:outline-none focus:ring-2 focus:ring-secondary"
+                            {...register("description")}
+                          />
+                        </div>
+                      </label>
+
+                      <label className="block">
+                        <span className="mb-2 block">Opening Hours</span>
+                        <div className="h-20">
+                          <textarea
+                            className="input-md h-full w-full resize-none rounded bg-primary-800 shadow-md focus:outline-none focus:ring-2 focus:ring-secondary"
+                            {...register("opening_hours")}
+                          />
+                        </div>
+                      </label>
                     </div>
+                    <div className="divider before:bg-secondary after:bg-secondary"></div>
+
                     <div className="mt-4">
                       <div className="flex justify-start space-x-2">
                         <div className="flex">
@@ -638,7 +640,7 @@ export default function EditEntry({
                                 setSelectedEntry(undefined);
                                 setEditModalOpened(false);
                               }}
-                              className="inline-flex w-full justify-center rounded-md border border-transparent bg-primary-800 px-4 py-2 text-sm font-medium hover:bg-primary-700 "
+                              className="inline-flex w-full justify-center rounded-md border border-transparent bg-primary-600 px-4 py-2 text-sm font-medium hover:bg-primary-600 "
                             >
                               Confirm
                             </button>
