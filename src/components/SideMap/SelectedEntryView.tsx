@@ -18,6 +18,7 @@ export default function SelectedEntryView({
               selectedEntry.coords_lat + "," + selectedEntry.coords_lng
             }`}
             target="_blank"
+            rel="noreferrer"
             className="link text-lg text-blue-500"
           >
             {"➥ " + selectedEntry.main_address}

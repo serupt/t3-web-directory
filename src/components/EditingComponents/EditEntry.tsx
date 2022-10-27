@@ -226,7 +226,7 @@ export default function EditEntry({
                                     }
                                     value={query.trim()}
                                   >
-                                    Add "{query}"
+                                    {`Add ${query}`}
                                   </Combobox.Option>
                                 )}
                                 {currentAddresses.length === 0 ? (
@@ -383,7 +383,7 @@ export default function EditEntry({
                                     }
                                     value={query}
                                   >
-                                    Create "{query}"
+                                    {`Create ${query}`}
                                   </Combobox.Option>
                                 )}
                                 {filteredCategory
@@ -517,7 +517,7 @@ export default function EditEntry({
                                     }
                                     value={query.trim()}
                                   >
-                                    Create "{query}"
+                                    {`Create ${query}`}
                                   </Combobox.Option>
                                 )}
                                 {filteredTags

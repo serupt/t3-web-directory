@@ -49,7 +49,6 @@ export default function AddEntry({
   };
 
   const {
-    ready,
     value: autoCompleteValue,
     setValue: setAutoCompleteValue,
     suggestions: { status, data },
@@ -351,7 +350,7 @@ export default function AddEntry({
                                     }
                                     value={query.trim()}
                                   >
-                                    Add "{query}"
+                                    {`Add ${query}`}
                                   </Combobox.Option>
                                 )}
                                 {currentAddresses.length === 0 ? (
@@ -503,7 +502,7 @@ export default function AddEntry({
                                     }
                                     value={query}
                                   >
-                                    Create "{query}"
+                                    {`Create ${query}`}
                                   </Combobox.Option>
                                 )}
                                 {filteredCategory
@@ -638,7 +637,7 @@ export default function AddEntry({
                                     }
                                     value={query.trim()}
                                   >
-                                    Create "{query}"
+                                    {`Create ${query}`}
                                   </Combobox.Option>
                                 )}
                                 {filteredTags

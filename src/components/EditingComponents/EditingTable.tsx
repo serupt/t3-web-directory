@@ -18,8 +18,12 @@ export default function EditingTable({
     <table className="w-full text-left ">
       <thead>
         <tr>
-          {tableThreads.map((thread) => {
-            return <th className="px-4 py-2 text-base">{thread}</th>;
+          {tableThreads.map((thread, index) => {
+            return (
+              <th key={index} className="px-4 py-2 text-base">
+                {thread}
+              </th>
+            );
           })}
         </tr>
       </thead>
@@ -31,6 +35,7 @@ export default function EditingTable({
           .map((entry) => {
             return (
               <tr
+                key={entry.id}
                 className="text-base odd:bg-primary-800 hover:cursor-pointer hover:bg-primary-700"
                 onClick={() => {
                   setSelectedEntry(entry);
