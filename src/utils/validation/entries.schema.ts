@@ -10,6 +10,7 @@ export const createEntrySchema = z.object({
   }),
   other_addresses: z.string().array(),
   phone_number: z.string(),
+  email: z.string(),
   website: z.string(),
   category: z.string(),
   tags: z.string().array(),
@@ -19,12 +20,13 @@ export const createEntrySchema = z.object({
 });
 
 export const editEntrySchema = z.object({
-  places_id: z.string(),
+  id: z.string(),
   name: z.string(),
   description: z.string(),
   main_address: z.string(),
   other_addresses: z.string().array(),
   phone_number: z.string(),
+  email: z.string(),
   website: z.string(),
   category: z.string(),
   tags: z.string().array(),
@@ -34,9 +36,9 @@ export const editEntrySchema = z.object({
 });
 
 export const deleteEntrySchema = z.object({
-  places_id: z.string(),
+  id: z.string(),
 });
 
 export type CreateEntryInput = z.TypeOf<typeof createEntrySchema>;
-export type EditEntryInput = z.TypeOf<typeof editEntrySchema>;
+export type EditEntryInput = z.infer<typeof editEntrySchema>;
 export type DeleteEntryInput = z.TypeOf<typeof deleteEntrySchema>;

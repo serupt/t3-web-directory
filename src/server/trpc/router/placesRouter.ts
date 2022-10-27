@@ -4,18 +4,21 @@ import {
   createEntrySchema,
   deleteEntrySchema,
   editEntrySchema,
-} from "../../common/validation/entries.schema";
-import { createProtectedRouter } from "./context";
+} from "../../../utils/validation/entries.schema";
+import { protectedProcedure, publicProcedure, router } from "../trpc";
 
-export const protectedEntriesRouter = createProtectedRouter()
-  .mutation("add-entry", {
-    input: createEntrySchema,
-    async resolve({ ctx, input }) {
+export const placesRouter = router({
+  getAll: publicProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.places.findMany();
+  }),
+  addEntry: protectedProcedure
+    .input(createEntrySchema)
+    .mutation(async ({ ctx, input }) => {
       try {
-        const entry = await ctx.prisma.places.create({
+        const newEntry = await ctx.prisma.places.create({
           data: { ...input },
         });
-        return entry;
+        return newEntry;
       } catch (e) {
         if (e instanceof PrismaClientKnownRequestError) {
           if (e.code === "P2002") {
@@ -31,16 +34,13 @@ export const protectedEntriesRouter = createProtectedRouter()
           message: "Something went wrong",
         });
       }
-    },
-  })
-  .mutation("edit-entry", {
-    input: editEntrySchema,
-    async resolve({ ctx, input }) {
+    }),
+  editEntry: protectedProcedure
+    .input(editEntrySchema)
+    .mutation(async ({ ctx, input }) => {
       try {
-        const entry = await ctx.prisma.places.update({
-          where: {
-            places_id: input.places_id,
-          },
+        const editedEntry = await ctx.prisma.places.update({
+          where: { id: input.id },
           data: {
             name: input.name,
             description: input.description,
@@ -48,6 +48,7 @@ export const protectedEntriesRouter = createProtectedRouter()
             other_addresses: input.other_addresses,
             phone_number: input.phone_number,
             opening_hours: input.opening_hours,
+            email: input.email,
             website: input.website,
             category: input.category,
             tags: input.tags,
@@ -55,7 +56,7 @@ export const protectedEntriesRouter = createProtectedRouter()
             coords_lng: input.coords_lng,
           },
         });
-        return entry;
+        return editedEntry;
       } catch (e) {
         if (e instanceof PrismaClientKnownRequestError) {
           if (e.code === "P2002") {
@@ -71,18 +72,22 @@ export const protectedEntriesRouter = createProtectedRouter()
           message: "Something went wrong",
         });
       }
-    },
-  })
-  .mutation("delete-entry", {
-    input: deleteEntrySchema,
-    async resolve({ ctx, input }) {
+    }),
+  deleteEntry: protectedProcedure
+    .input(deleteEntrySchema)
+    .mutation(async ({ ctx, input }) => {
       try {
-        const deleteEntry = await ctx.prisma.places.delete({
+        const deletedEntry = await ctx.prisma.places.delete({
           where: {
-            places_id: input.places_id,
+            id: input.id,
           },
         });
-        return deleteEntry;
-      } catch {}
-    },
-  });
+        return deletedEntry;
+      } catch (e) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Something went wrong",
+        });
+      }
+    }),
+});

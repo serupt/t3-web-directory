@@ -1,21 +1,12 @@
-import {
-  Button,
-  Center,
-  Container,
-  LoadingOverlay,
-  SimpleGrid,
-  Text,
-} from "@mantine/core";
-import type { NextPage } from "next";
-import Head from "next/head";
-import DashboardShellComponent from "../../components/DashboardShellComponent";
-import EditComponent from "../../components/EditComponent";
-
 import { LoadScriptProps, useLoadScript } from "@react-google-maps/api";
+import type { NextPage } from "next";
+import { useSession } from "next-auth/react";
+import Head from "next/head";
+import EditingComponent from "../../components/EditingComponent";
+import LoadingOverlay from "../../components/LoadingOverlay";
+import Login from "../../components/Login";
 import { env } from "../../env/client.mjs";
-
-import { signIn, useSession } from "next-auth/react";
-import { useRouter } from "next/router";
+import ManageEntryLayout from "../../layout/ManageEntryLayout";
 
 const googleMapsLibraries: LoadScriptProps["libraries"] = ["places"];
 
@@ -25,36 +16,21 @@ const AdminEdit: NextPage = () => {
     libraries: googleMapsLibraries,
   });
 
-  const { data: session, status } = useSession();
-  const router = useRouter();
+  const { data: session } = useSession();
 
   if (!session) {
-    return (
-      <Container>
-        <Center mt={"40%"}>
-          <SimpleGrid cols={1}>
-            <Text size={30}>Not authenticated</Text>
-            <Text size={16}>Sign in to continue</Text>
-            <Button onClick={() => signIn()}>Sign in</Button>
-          </SimpleGrid>
-        </Center>
-      </Container>
-    );
+    return <Login />;
   }
-
-  return isLoaded ? (
+  return (
     <>
       <Head>
-        <title>Edit</title>
+        <title>Manage Entries</title>
+        <link rel="icon" href="/favicon.ico" />
       </Head>
-      <DashboardShellComponent>
-        <Container p={10} fluid>
-          <EditComponent />
-        </Container>
-      </DashboardShellComponent>
+      <ManageEntryLayout>
+        {isLoaded ? <EditingComponent /> : <LoadingOverlay />}
+      </ManageEntryLayout>
     </>
-  ) : (
-    <LoadingOverlay visible />
   );
 };
 
