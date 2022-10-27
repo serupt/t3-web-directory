@@ -310,7 +310,10 @@ export default function EditEntry({
                         </label>
                         <label className="block flex-1">
                           <span className="mb-2 block">Email</span>
-                          <input className="input-md w-full truncate rounded bg-primary-800 shadow-md focus:outline-none focus:ring-2 focus:ring-secondary" />
+                          <input
+                            className="input-md w-full truncate rounded bg-primary-800 shadow-md focus:outline-none focus:ring-2 focus:ring-secondary"
+                            {...register("email")}
+                          />
                         </label>
                         <label className="block flex-1">
                           <span className="mb-2 block">Website</span>

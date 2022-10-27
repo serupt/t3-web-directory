@@ -48,6 +48,7 @@ export const placesRouter = router({
             other_addresses: input.other_addresses,
             phone_number: input.phone_number,
             opening_hours: input.opening_hours,
+            email: input.email,
             website: input.website,
             category: input.category,
             tags: input.tags,
