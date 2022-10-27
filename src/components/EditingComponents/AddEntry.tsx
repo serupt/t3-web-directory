@@ -33,8 +33,8 @@ export default function AddEntry({
         phone_number: "",
         email: "",
         website: "",
-        category: "",
-        tags: [],
+        category: undefined,
+        tags: undefined,
         opening_hours: "",
         coords_lat: "",
         coords_lng: "",
@@ -69,12 +69,6 @@ export default function AddEntry({
   };
 
   const handleSelect = async (val: string) => {
-    setAutoCompleteValue(val, false);
-    clearSuggestions();
-    // const results = await getGeocode({
-    //   address: val,
-    // });
-    // console.log(val);
     const placeID = val ?? "";
     const resultsDetail = await getDetails({
       placeId: placeID,
@@ -89,21 +83,30 @@ export default function AddEntry({
     });
 
     //@ts-ignore
-    setValue("name", resultsDetail.name ?? "");
+    setValue("name", resultsDetail.name ?? "", { shouldDirty: true });
     //@ts-ignore
-    setValue("main_address", resultsDetail.formatted_address ?? "");
+    setValue("main_address", resultsDetail.formatted_address ?? "", {
+      shouldDirty: true,
+    });
     //@ts-ignore
-    setValue("phone_number", resultsDetail.formatted_phone_number ?? "");
+    setValue("phone_number", resultsDetail.formatted_phone_number ?? "", {
+      shouldDirty: true,
+    });
     //@ts-ignore
-    setValue("coords_lat", resultsDetail.geometry.location.lat() ?? "");
+    setValue("coords_lat", resultsDetail.geometry.location.lat() ?? "", {
+      shouldDirty: true,
+    });
     //@ts-ignore
-    setValue("coords_lng", resultsDetail.geometry.location.lng() ?? "");
+    setValue("coords_lng", resultsDetail.geometry.location.lng() ?? "", {
+      shouldDirty: true,
+    });
     //@ts-ignore
-    setValue("website", resultsDetail.website ?? "");
+    setValue("website", resultsDetail.website ?? "", { shouldDirty: true });
     setValue(
       "opening_hours",
       //@ts-ignore
-      resultsDetail.opening_hours?.weekday_text.join(",\n") ?? ""
+      resultsDetail.opening_hours?.weekday_text.join(",\n") ?? "",
+      { shouldDirty: true }
     );
   };
 
@@ -138,6 +141,9 @@ export default function AddEntry({
         as="div"
         className="relative z-10"
         onClose={() => {
+          reset();
+          setCurrentCategory("");
+          setCurrentTags([]);
           setAddModalOpened(false);
         }}
       >
@@ -175,10 +181,15 @@ export default function AddEntry({
                 <div className="divider before:bg-secondary after:bg-secondary"></div>
                 <label className="block">
                   <Combobox
+                    //@ts-ignore
                     value={autoCompleteValue}
-                    onChange={(e) => {
-                      //@ts-ignore
-                      handleSelect(e.place_id);
+                    //@ts-ignore
+                    onChange={(
+                      item: google.maps.places.AutocompletePrediction
+                    ) => {
+                      setAutoCompleteValue("", false);
+                      clearSuggestions();
+                      handleSelect(item.place_id);
                     }}
                   >
                     <Combobox.Label className="mb-2 block">
@@ -233,7 +244,6 @@ export default function AddEntry({
                         <span className="mb-2 block">Name</span>
                         <input
                           className="input-md w-full rounded bg-primary-800 shadow-md  focus:outline-none focus:ring-2 focus:ring-secondary"
-                          type="text"
                           {...register("name")}
                         />
                       </label>
@@ -241,7 +251,6 @@ export default function AddEntry({
                         <span className="mb-2 block">Address</span>
                         <input
                           className="input-md w-full rounded bg-primary-800 shadow-md  focus:outline-none focus:ring-2 focus:ring-secondary"
-                          type="text"
                           {...register("main_address")}
                         />
                       </label>
@@ -455,6 +464,7 @@ export default function AddEntry({
                                   onChange(event) {
                                     setQuery(event.target.value);
                                   },
+                                  required: true,
                                 })}
                               />
                               <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2 focus:outline-none focus:ring-2 focus:ring-secondary">
@@ -589,6 +599,7 @@ export default function AddEntry({
                                   onChange(event) {
                                     setQuery(event.target.value);
                                   },
+                                  required: currentTags.length === 0,
                                 })}
                               />
                               <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2 focus:outline-none focus:ring-2 focus:ring-secondary">
@@ -722,6 +733,9 @@ export default function AddEntry({
                             type="button"
                             className="inline-flex w-full justify-center rounded-md border border-transparent bg-gray-600 px-4 py-2 text-sm font-medium  hover:bg-gray-500 "
                             onClick={() => {
+                              reset();
+                              setCurrentCategory("");
+                              setCurrentTags([]);
                               setAddModalOpened(false);
                             }}
                           >
@@ -736,9 +750,7 @@ export default function AddEntry({
                             </button>
                           ) : (
                             <button
-                              onClick={() => {
-                                setAddModalOpened(false);
-                              }}
+                              disabled
                               className="inline-flex w-full justify-center rounded-md border border-transparent bg-primary-800 px-4 py-2 text-sm font-medium hover:bg-primary-700 "
                             >
                               Confirm

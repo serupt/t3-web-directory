@@ -4,17 +4,17 @@ export const createEntrySchema = z.object({
   name: z.string({
     required_error: "Name is required",
   }),
-  description: z.string().optional(),
+  description: z.string(),
   main_address: z.string({
     required_error: "Address is required",
   }),
   other_addresses: z.string().array(),
-  phone_number: z.string().optional(),
-  email: z.string().optional(),
-  website: z.string().optional(),
+  phone_number: z.string(),
+  email: z.string(),
+  website: z.string(),
   category: z.string(),
   tags: z.string().array(),
-  opening_hours: z.string().optional(),
+  opening_hours: z.string(),
   coords_lat: z.string(),
   coords_lng: z.string(),
 });
