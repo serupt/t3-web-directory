@@ -40,13 +40,13 @@ export default function SideMapComponent({
   return (
     <>
       <div className="space-y-3 p-3">
-        {selectedTag ? (
+        {selectedEntry || selectedTag ? (
           <button
             onClick={() => {
-              if (!selectedEntry) {
-                setSelectedTag("");
-              } else {
+              if (selectedEntry) {
                 setSelectedEntry(undefined);
+              } else {
+                setSelectedTag("");
               }
             }}
             className="btn-sm w-full rounded bg-secondary hover:bg-secondary-600"
@@ -70,6 +70,7 @@ export default function SideMapComponent({
             <SelectedTagView
               entryData={entryData}
               query={query}
+              setQuery={setQuery}
               setSelectedEntry={setSelectedEntry}
               selectedTag={selectedTag}
             />

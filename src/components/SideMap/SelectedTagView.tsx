@@ -6,11 +6,13 @@ interface SelectedTagViewProps {
   selectedTag: string;
   setSelectedEntry: Dispatch<SetStateAction<Places | undefined>>;
   query: string;
+  setQuery: Dispatch<SetStateAction<string>>;
 }
 
 export default function SelectedTagView({
   entryData,
   query,
+  setQuery,
   setSelectedEntry,
   selectedTag,
 }: SelectedTagViewProps) {
@@ -31,7 +33,10 @@ export default function SelectedTagView({
                 <div
                   key={filteredEntry.id}
                   className=" w-90 card bg-primary-800 shadow-xl hover:bg-primary-700"
-                  onClick={() => setSelectedEntry(filteredEntry)}
+                  onClick={() => {
+                    setQuery("");
+                    setSelectedEntry(filteredEntry);
+                  }}
                 >
                   <div className="card-body">
                     <h3 className="card-title text-base font-bold">
