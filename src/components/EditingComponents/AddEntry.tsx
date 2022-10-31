@@ -57,7 +57,7 @@ export default function AddEntry({
     cache: 7 * 24 * 60 * 60,
     requestOptions: {
       radius: 2000,
-      componentRestrictions: { country: "us" },
+      componentRestrictions: { country: "US" },
       location: new google.maps.LatLng(40.716596, -73.99712),
     },
     debounce: 300,

@@ -35,6 +35,31 @@ export const placesRouter = router({
         });
       }
     }),
+  addManyEntries: protectedProcedure
+    .input(createEntrySchema.array())
+    .mutation(async ({ ctx, input }) => {
+      try {
+        const newEntries = await ctx.prisma.places.createMany({
+          //create a new entry if it doesn't exist, otherwise update it
+          data: [...input.map((entry) => ({ ...entry }))],
+        });
+        return newEntries;
+      } catch (e) {
+        if (e instanceof PrismaClientKnownRequestError) {
+          if (e.code === "P2002") {
+            throw new TRPCError({
+              code: "CONFLICT",
+              message: "Name or address already in database",
+            });
+          }
+        }
+
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Something went wrong",
+        });
+      }
+    }),
   editEntry: protectedProcedure
     .input(editEntrySchema)
     .mutation(async ({ ctx, input }) => {

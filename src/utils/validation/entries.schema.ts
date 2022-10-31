@@ -19,6 +19,25 @@ export const createEntrySchema = z.object({
   coords_lng: z.string(),
 });
 
+export const createImportSchema = z.object({
+  name: z.string({
+    required_error: "Name is required",
+  }),
+  description: z.string(),
+  main_address: z.string({
+    required_error: "Address is required",
+  }),
+  other_addresses: z.string(),
+  phone_number: z.string(),
+  email: z.string(),
+  website: z.string(),
+  category: z.string(),
+  tags: z.string(),
+  opening_hours: z.string(),
+  coords_lat: z.string(),
+  coords_lng: z.string(),
+});
+
 export const editEntrySchema = z.object({
   id: z.string(),
   name: z.string(),
@@ -42,3 +61,5 @@ export const deleteEntrySchema = z.object({
 export type CreateEntryInput = z.TypeOf<typeof createEntrySchema>;
 export type EditEntryInput = z.infer<typeof editEntrySchema>;
 export type DeleteEntryInput = z.TypeOf<typeof deleteEntrySchema>;
+
+export type ImportSchema = z.infer<typeof createImportSchema>;
