@@ -1,4 +1,4 @@
-import { Places } from "@prisma/client";
+import { Place } from "@prisma/client";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { trpc } from "../utils/trpc";
@@ -7,7 +7,7 @@ import EditEntry from "./EditingComponents/EditEntry";
 import ImportFromCSV from "./EditingComponents/ImportFromCSV";
 import LoadingOverlay from "./LoadingOverlay";
 
-function getUniqueTags(data: Places[]) {
+function getUniqueTags(data: Place[]) {
   const uniqueTag: string[] = [];
   data.map((value) =>
     value.tags.map((tag) => {
@@ -19,7 +19,7 @@ function getUniqueTags(data: Places[]) {
   return uniqueTag;
 }
 
-function getUniqueCategories(data: Places[]) {
+function getUniqueCategories(data: Place[]) {
   const uniqueCategories: string[] = [];
   data.map((value) => {
     if (!uniqueCategories.includes(value.category)) {
@@ -57,13 +57,14 @@ const tableThreads = ["Name", "Address", "Category", "Tags", "Last Updated"];
 
 export default function EditingComponent() {
   const [query, setQuery] = useState("");
-  const [selectedEntry, setSelectedEntry] = useState<Places>();
+  const [selectedEntry, setSelectedEntry] = useState<Place>();
   const [addModalOpened, setAddModalOpened] = useState(false);
   const [editModalOpened, setEditModalOpened] = useState(false);
 
   const [importOpen, setImportOpen] = useState(false);
 
   const getEntries = trpc.places.getAll.useQuery();
+
   const addEntry = trpc.places.addEntry.useMutation({
     onSuccess: () => {
       getEntries.refetch();
@@ -71,6 +72,7 @@ export default function EditingComponent() {
     },
     onError: (e) => getErrorNotificationMessage(e.message),
   });
+
   const editEntry = trpc.places.editEntry.useMutation({
     onSuccess: () => {
       getEntries.refetch();
@@ -78,6 +80,7 @@ export default function EditingComponent() {
     },
     onError: (e) => getErrorNotificationMessage(e.message),
   });
+
   const deleteEntry = trpc.places.deleteEntry.useMutation({
     onSuccess: () => {
       getEntries.refetch();
@@ -90,6 +93,9 @@ export default function EditingComponent() {
     onSuccess: () => {
       getEntries.refetch();
       getSuccessNotificationMessage("Entries imported successfully!");
+    },
+    onError: () => {
+      getErrorNotificationMessage("Please check your file and try again");
     },
   });
   return (

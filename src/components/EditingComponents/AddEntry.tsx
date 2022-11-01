@@ -3,16 +3,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Dispatch, Fragment, SetStateAction, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import usePlacesAutocomplete, { getDetails } from "use-places-autocomplete";
-import {
-  CreateEntryInput,
-  createEntrySchema,
-} from "../../utils/validation/entries.schema";
+import { PlaceInput, placeSchema } from "../../utils/validation/entries.schema";
 interface AddEntryProps {
   addModalOpened: boolean;
   setAddModalOpened: Dispatch<SetStateAction<boolean>>;
   tagData: string[];
   categoryData: string[];
-  onAdd: (data: CreateEntryInput) => void;
+  onAdd: (data: PlaceInput) => void;
 }
 
 export default function AddEntry({
@@ -23,8 +20,8 @@ export default function AddEntry({
   onAdd,
 }: AddEntryProps) {
   const { register, formState, handleSubmit, setValue, reset } =
-    useForm<CreateEntryInput>({
-      resolver: zodResolver(createEntrySchema),
+    useForm<PlaceInput>({
+      resolver: zodResolver(placeSchema),
       defaultValues: {
         name: "",
         description: "",
@@ -36,12 +33,12 @@ export default function AddEntry({
         category: undefined,
         tags: undefined,
         opening_hours: "",
-        coords_lat: "",
-        coords_lng: "",
+        latitude: 0,
+        longitude: 0,
       },
     });
 
-  const onSubmit: SubmitHandler<CreateEntryInput> = (data) => {
+  const onSubmit: SubmitHandler<PlaceInput> = (data) => {
     onAdd(data);
     reset();
     setCurrentCategory("");
@@ -92,11 +89,11 @@ export default function AddEntry({
       shouldDirty: true,
     });
     //@ts-ignore
-    setValue("coords_lat", resultsDetail.geometry.location.lat() ?? "", {
+    setValue("latitude", resultsDetail.geometry.location.lat() ?? "", {
       shouldDirty: true,
     });
     //@ts-ignore
-    setValue("coords_lng", resultsDetail.geometry.location.lng() ?? "", {
+    setValue("longitude", resultsDetail.geometry.location.lng() ?? "", {
       shouldDirty: true,
     });
     //@ts-ignore
@@ -262,7 +259,7 @@ export default function AddEntry({
                             <span className="mb-2 block">Latitude</span>
                             <input
                               className="input-md w-full rounded bg-primary-800 shadow-md focus:outline-none focus:ring-2 focus:ring-secondary"
-                              {...register("coords_lat")}
+                              {...register("latitude")}
                             />
                           </label>
                         </div>
@@ -271,7 +268,7 @@ export default function AddEntry({
                             <span className="mb-2 block">Longitude</span>
                             <input
                               className="input-md w-full rounded bg-primary-800 shadow-md focus:outline-none focus:ring-2 focus:ring-secondary"
-                              {...register("coords_lng")}
+                              {...register("longitude")}
                             />
                           </label>
                         </div>

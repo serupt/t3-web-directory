@@ -1,11 +1,11 @@
-import { Places } from "@prisma/client";
+import { Place } from "@prisma/client";
 import { useState } from "react";
 import { MapProps } from "./DisplayMap";
 import DefaultView from "./SideMap/DefaultView";
 import SelectedEntryView from "./SideMap/SelectedEntryView";
 import SelectedTagView from "./SideMap/SelectedTagView";
 
-export function getUniqueCategoryTags(data: Places[], category: string) {
+export function getUniqueCategoryTags(data: Place[], category: string) {
   const uniqueTag: string[] = [];
   data.map((value) => {
     if (value.category === category) {
@@ -19,7 +19,7 @@ export function getUniqueCategoryTags(data: Places[], category: string) {
   return uniqueTag;
 }
 
-export function getUniqueCategories(data: Places[]) {
+export function getUniqueCategories(data: Place[]) {
   const uniqueCategories: string[] = [];
   data.map((value) => {
     if (!uniqueCategories.includes(value.category)) {

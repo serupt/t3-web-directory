@@ -1,23 +1,39 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Papa, { ParseResult } from "papaparse";
-import { Dispatch, Fragment, SetStateAction, useState } from "react";
+import { Dispatch, Fragment, SetStateAction } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import z from "zod";
 import {
-  CreateEntryInput,
-  ImportSchema,
+  ImportPlaceInput,
+  PlaceInput,
 } from "../../utils/validation/entries.schema";
 
 interface Props {
   importOpen: boolean;
   setImportOpen: Dispatch<SetStateAction<boolean>>;
-  onImport: (data: CreateEntryInput[]) => void;
+  onImport: (data: PlaceInput[]) => void;
 }
 
 interface FormData {
   item: FileList;
 }
+
+const checkHeaders = [
+  "name",
+  "phone_number",
+  "email",
+  "website",
+  "description",
+  "opening_hours",
+  "main_address",
+  "other_addresses",
+  "latitude",
+  "longitude",
+  "category",
+  "tags",
+];
 
 const FileSchema = z.object({
   item:
@@ -51,14 +67,12 @@ export default function ImportFromCSV({
   setImportOpen,
   onImport,
 }: Props) {
-  const [highlighted, setHighlighted] = useState(false);
-
   const {
     register,
     handleSubmit,
     reset,
     clearErrors,
-    formState: { errors, isSubmitted, isSubmitSuccessful },
+    formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(FileSchema),
     defaultValues: undefined,
@@ -69,31 +83,57 @@ export default function ImportFromCSV({
       .filter((file) => file.type === "text/csv")
       .forEach(async (file) => {
         const text = await file.text();
-        const result: ParseResult<ImportSchema> = Papa.parse(text, {
+        const result: ParseResult<ImportPlaceInput> = Papa.parse(text, {
           header: true,
           skipEmptyLines: true,
+          transformHeader(header) {
+            if (checkHeaders.includes(header.toLocaleLowerCase().trim())) {
+              return header.toLocaleLowerCase().trim();
+            } else {
+              return "ERROR";
+            }
+          },
         });
-        if (result.errors.length === 0) {
+        if (
+          result.errors.length === 0 &&
+          result.meta.fields !== undefined &&
+          !result.meta.fields.includes("ERROR")
+        ) {
           const convertedArray = result.data.map((item) => {
             return {
-              ...item,
               name: item.name.trim(),
-              description: item.description.trim(),
-              main_address: item.main_address.trim(),
-              other_addresses: item.other_addresses.split(",") ?? [],
               phone_number: item.phone_number.trim(),
               email: item.email.trim(),
               website: item.website.trim(),
-              category: item.category.trim() ?? "Other",
-              tags: item.tags.split(",") ?? ["Others"],
+              description: item.description.trim(),
               opening_hours: item.opening_hours.trim(),
-              coords_lat: item.coords_lat.trim() ?? "0",
-              coords_lng: item.coords_lng.trim() ?? "0",
+
+              main_address: item.main_address.trim(),
+              other_addresses: item.other_addresses.split(","),
+              latitude: parseFloat(item.latitude),
+              longitude: parseFloat(item.longitude),
+
+              category: item.category.trim(),
+              tags: item.tags.split(","),
             };
           });
           onImport(convertedArray);
         } else {
-          console.log(result.errors);
+          toast.error(
+            `Please make sure the CSV headers are correct. Headers should only include [${checkHeaders.join(
+              ", "
+            )}]`,
+            {
+              style: {
+                borderRadius: "10px",
+                background: "#2B303A",
+                color: "#fff",
+                borderColor: "#B392AC",
+              },
+              iconTheme: { primary: "#B392AC", secondary: "#fff" },
+              duration: 6000,
+            }
+          );
         }
       });
     reset();
@@ -140,36 +180,6 @@ export default function ImportFromCSV({
                   >
                     Import from CSV
                   </Dialog.Title>
-                  {/* <div
-                    className={`my-2 mx-auto max-w-md border-2 p-6 ${
-                      highlighted
-                        ? "border-green-600 bg-green-100"
-                        : "border-gray-600"
-                    }`}
-                    onDragEnter={() => {
-                      setHighlighted(true);
-                    }}
-                    onDragLeave={() => {
-                      setHighlighted(false);
-                    }}
-                    onDragOver={(e) => {
-                      e.preventDefault();
-                    }}
-                    onDrop={(e) => {
-                      e.preventDefault();
-                      setHighlighted(false);
-
-                      Array.from(e.dataTransfer.files)
-                        .filter((file) => file.type === "text/csv")
-                        .forEach(async (file) => {
-                          const text = await file.text();
-                          const result = Papa.parse(text, { header: true });
-                          console.log(result);
-                        });
-                    }}
-                  >
-                    DROP HERE
-                  </div> */}
 
                   <form onSubmit={handleSubmit(onSubmit)}>
                     <input className="py-2" type="file" {...register("item")} />
@@ -178,12 +188,13 @@ export default function ImportFromCSV({
                         {errors.item.message}
                       </p>
                     )}
-                    {isSubmitted && isSubmitSuccessful && (
-                      <p className="py-1 text-xl text-green-600">
-                        Import success!
-                      </p>
-                    )}
-                    <p className="pt-2 text-xs">Only CSV files are accepted.</p>
+
+                    <div className="pt-2 pl-5 text-xs">
+                      <ul className="list-disc">
+                        <li>CSV files only</li>
+                        <li>File size must be less than 2MB</li>
+                      </ul>
+                    </div>
                     <div className="mt-4 flex space-x-2">
                       <button
                         type="button"

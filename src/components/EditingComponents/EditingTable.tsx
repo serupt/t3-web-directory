@@ -1,9 +1,9 @@
-import { Places } from "@prisma/client";
+import { Place } from "@prisma/client";
 import { Dispatch, SetStateAction } from "react";
 
 interface EditingTableProps {
-  entries: Places[];
-  setSelectedEntry: Dispatch<SetStateAction<Places | undefined>>;
+  entries: Place[];
+  setSelectedEntry: Dispatch<SetStateAction<Place | undefined>>;
   setEditModalOpened: Dispatch<SetStateAction<boolean>>;
 }
 

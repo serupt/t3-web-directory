@@ -1,24 +1,24 @@
 import { Combobox, Dialog, Transition } from "@headlessui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Places } from "@prisma/client";
+import { Place } from "@prisma/client";
 import { Dispatch, Fragment, SetStateAction, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { placeSchema } from "../../utils/validation/entries.schema";
 
 import {
-  DeleteEntryInput,
-  EditEntryInput,
-  editEntrySchema,
+  DeletePlaceInput,
+  PlaceInput,
 } from "../../utils/validation/entries.schema";
 
 interface EditEntryProps {
-  selectedEntry: Places;
-  setSelectedEntry: Dispatch<SetStateAction<Places | undefined>>;
+  selectedEntry: Place;
+  setSelectedEntry: Dispatch<SetStateAction<Place | undefined>>;
   editModalOpened: boolean;
   setEditModalOpened: Dispatch<SetStateAction<boolean>>;
   tagData: string[];
   categoryData: string[];
-  onEdit: (data: EditEntryInput) => void;
-  onDelete: (data: DeleteEntryInput) => void;
+  onEdit: (data: PlaceInput) => void;
+  onDelete: (data: DeletePlaceInput) => void;
 }
 export default function EditEntry({
   selectedEntry,
@@ -30,13 +30,12 @@ export default function EditEntry({
   onEdit,
   onDelete,
 }: EditEntryProps) {
-  const { register, formState, handleSubmit, setValue } =
-    useForm<EditEntryInput>({
-      resolver: zodResolver(editEntrySchema),
-      defaultValues: selectedEntry,
-    });
+  const { register, formState, handleSubmit, setValue } = useForm<PlaceInput>({
+    resolver: zodResolver(placeSchema),
+    defaultValues: selectedEntry,
+  });
 
-  const onSubmit: SubmitHandler<EditEntryInput> = (data) => {
+  const onSubmit: SubmitHandler<PlaceInput> = (data) => {
     onEdit(data);
   };
   const [query, setQuery] = useState("");
@@ -138,7 +137,7 @@ export default function EditEntry({
                             <span className="mb-2 block">Latitude</span>
                             <input
                               className="input-md w-full rounded bg-primary-800 shadow-md focus:outline-none focus:ring-2 focus:ring-secondary"
-                              {...register("coords_lat")}
+                              {...register("latitude")}
                             />
                           </label>
                         </div>
@@ -147,7 +146,7 @@ export default function EditEntry({
                             <span className="mb-2 block">Longitude</span>
                             <input
                               className="input-md w-full rounded bg-primary-800 shadow-md focus:outline-none focus:ring-2 focus:ring-secondary"
-                              {...register("coords_lng")}
+                              {...register("longitude")}
                             />
                           </label>
                         </div>
