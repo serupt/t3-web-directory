@@ -1,7 +1,7 @@
-import { Places } from "@prisma/client";
+import { Place } from "@prisma/client";
 
 interface SelectedEntryViewProps {
-  selectedEntry: Places | undefined;
+  selectedEntry: Place | undefined;
 }
 
 export default function SelectedEntryView({
@@ -15,7 +15,7 @@ export default function SelectedEntryView({
         <div>
           <a
             href={`https://www.google.com/maps/dir/?api=1&destination=${
-              selectedEntry.coords_lat + "," + selectedEntry.coords_lng
+              selectedEntry.latitude + "," + selectedEntry.longitude
             }`}
             target="_blank"
             rel="noreferrer"

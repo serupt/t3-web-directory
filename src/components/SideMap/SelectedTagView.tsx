@@ -1,10 +1,10 @@
-import { Places } from "@prisma/client";
+import { Place } from "@prisma/client";
 import { Dispatch, SetStateAction } from "react";
 
 interface SelectedTagViewProps {
-  entryData: Places[];
+  entryData: Place[];
   selectedTag: string;
-  setSelectedEntry: Dispatch<SetStateAction<Places | undefined>>;
+  setSelectedEntry: Dispatch<SetStateAction<Place | undefined>>;
   query: string;
   setQuery: Dispatch<SetStateAction<string>>;
 }
