@@ -62,8 +62,8 @@ export default function MapComponent({
               <MarkerF
                 key={entry.id}
                 position={{
-                  lat: parseFloat(entry.coords_lat),
-                  lng: parseFloat(entry.coords_lng),
+                  lat: entry.latitude,
+                  lng: entry.longitude,
                 }}
                 onClick={() => {
                   setSelectedEntry(entry);
@@ -75,8 +75,8 @@ export default function MapComponent({
             <MarkerF
               key={entry.id}
               position={{
-                lat: parseFloat(entry.coords_lat),
-                lng: parseFloat(entry.coords_lng),
+                lat: entry.latitude,
+                lng: entry.longitude,
               }}
               onClick={() => {
                 setSelectedEntry(entry);
@@ -87,8 +87,8 @@ export default function MapComponent({
       {selectedEntry ? (
         <InfoWindowF
           position={{
-            lat: parseFloat(selectedEntry.coords_lat),
-            lng: parseFloat(selectedEntry.coords_lng),
+            lat: selectedEntry.latitude,
+            lng: selectedEntry.longitude,
           }}
           onCloseClick={() => {
             setSelectedEntry(undefined);

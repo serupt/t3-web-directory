@@ -1,21 +1,20 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { TRPCError } from "@trpc/server";
 import {
-  createEntrySchema,
-  deleteEntrySchema,
-  editEntrySchema,
+  deletePlaceSchema,
+  placeSchema,
 } from "../../../utils/validation/entries.schema";
 import { protectedProcedure, publicProcedure, router } from "../trpc";
 
 export const placesRouter = router({
   getAll: publicProcedure.query(async ({ ctx }) => {
-    return await ctx.prisma.places.findMany();
+    return await ctx.prisma.place.findMany();
   }),
   addEntry: protectedProcedure
-    .input(createEntrySchema)
+    .input(placeSchema)
     .mutation(async ({ ctx, input }) => {
       try {
-        const newEntry = await ctx.prisma.places.create({
+        const newEntry = await ctx.prisma.place.create({
           data: { ...input },
         });
         return newEntry;
@@ -35,26 +34,38 @@ export const placesRouter = router({
         });
       }
     }),
-  editEntry: protectedProcedure
-    .input(editEntrySchema)
+  addManyEntries: protectedProcedure
+    .input(placeSchema.array())
     .mutation(async ({ ctx, input }) => {
       try {
-        const editedEntry = await ctx.prisma.places.update({
-          where: { id: input.id },
-          data: {
-            name: input.name,
-            description: input.description,
-            main_address: input.main_address,
-            other_addresses: input.other_addresses,
-            phone_number: input.phone_number,
-            opening_hours: input.opening_hours,
-            email: input.email,
-            website: input.website,
-            category: input.category,
-            tags: input.tags,
-            coords_lat: input.coords_lat,
-            coords_lng: input.coords_lng,
-          },
+        const newEntries = await ctx.prisma.place.createMany({
+          data: [...input],
+          skipDuplicates: true,
+        });
+        return newEntries;
+      } catch (e) {
+        if (e instanceof PrismaClientKnownRequestError) {
+          if (e.code === "P2002") {
+            throw new TRPCError({
+              code: "CONFLICT",
+              message: "Name or address already in database",
+            });
+          }
+        }
+
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Something went wrong",
+        });
+      }
+    }),
+  editEntry: protectedProcedure
+    .input(placeSchema)
+    .mutation(async ({ ctx, input }) => {
+      try {
+        const editedEntry = await ctx.prisma.place.update({
+          where: { name: input.name },
+          data: { ...input },
         });
         return editedEntry;
       } catch (e) {
@@ -74,10 +85,10 @@ export const placesRouter = router({
       }
     }),
   deleteEntry: protectedProcedure
-    .input(deleteEntrySchema)
+    .input(deletePlaceSchema)
     .mutation(async ({ ctx, input }) => {
       try {
-        const deletedEntry = await ctx.prisma.places.delete({
+        const deletedEntry = await ctx.prisma.place.delete({
           where: {
             id: input.id,
           },
