@@ -64,15 +64,12 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String    @unique
-  password      String?
-  role          Role      @default(USER)
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
+  id       String    @id @default(cuid())
+  username String    @unique
+  password String
+  role     Role      @default(USER)
+  accounts Account[]
+  sessions Session[]
 }
 
 enum Role {

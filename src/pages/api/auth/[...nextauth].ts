@@ -50,13 +50,13 @@ export const authOptions: NextAuthOptions = {
     //   id: "auth0",
     //   clientId: env.AUTH0_CLIENT_ID,
     //   clientSecret: env.AUTH0_CLIENT_SECRET,
-    //   issuer: env.AUTH0_ISSUER,
+    //   issuer: env.AUTH0_ISSUER
     // }),
     CredentialsProvider({
       id: "credentials",
       name: "Credentials",
       credentials: {
-        email: { label: "Email", type: "text", placeholder: "jsmith" },
+        username: { label: "Username", type: "text", placeholder: "" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
@@ -65,7 +65,7 @@ export const authOptions: NextAuthOptions = {
         }
         const user = await prisma.user.findFirst({
           where: {
-            email: credentials.email,
+            username: credentials.username,
           },
         });
         if (user && user.password) {
@@ -76,7 +76,7 @@ export const authOptions: NextAuthOptions = {
           if (passwordValid) {
             const userData = {
               id: user.id,
-              email: user.email,
+              username: user.username,
               role: user.role,
             };
             return userData;

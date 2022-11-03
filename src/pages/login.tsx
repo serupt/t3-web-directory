@@ -17,12 +17,12 @@ const LoginPage: NextPage = () => {
 
   const onSubmit: SubmitHandler<LoginInput> = async (data) => {
     signIn("credentials", {
-      email: data.email,
+      username: data.username,
       password: data.password,
       redirect: false,
     })
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         if (response && response.ok) {
           // Authenticate user
           router.push("/admin");
@@ -48,10 +48,10 @@ const LoginPage: NextPage = () => {
             <input
               className="input-md w-96 rounded bg-primary-800 shadow-md  focus:outline-none focus:ring-2 focus:ring-secondary"
               type="text"
-              {...register("email")}
+              {...register("username")}
             />
-            {errors.email?.message && (
-              <p className="text-red-600">{errors.email?.message}</p>
+            {errors.username?.message && (
+              <p className="text-red-600">{errors.username?.message}</p>
             )}
           </label>
           <label className="block">
