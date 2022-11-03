@@ -27,12 +27,12 @@ const LoginPage: NextPage = () => {
           // Authenticate user
           router.push("/admin");
         } else {
-          router.push("/admin");
+          router.push("/error");
         }
       })
       .catch((error) => {
         console.log(error);
-        router.push("/admin");
+        router.push("/error");
       });
   };
   return (
