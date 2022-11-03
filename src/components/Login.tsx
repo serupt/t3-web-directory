@@ -17,7 +17,8 @@ export default function Login() {
 
         <div className="flex space-x-5">
           <button className="mt-5">
-            <div onClick={() => signIn("auth0", { callbackUrl: "/admin" })}>
+            {/* "auth0", { callbackUrl: "/admin" } */}
+            <div onClick={() => signIn()}>
               <a className="group relative inline-block text-sm font-medium text-secondary focus:outline-none focus:ring active:text-orange-500">
                 <span className="absolute inset-0 translate-x-0.5 translate-y-0.5 bg-secondary transition-transform group-hover:translate-y-0 group-hover:translate-x-0"></span>
 
