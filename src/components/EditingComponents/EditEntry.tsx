@@ -3,12 +3,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Place } from "@prisma/client";
 import { Dispatch, Fragment, SetStateAction, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { placeSchema } from "../../utils/validation/entries.schema";
-
 import {
-  DeletePlaceInput,
-  PlaceInput,
+  EditPlaceInput,
+  editPlaceSchema,
 } from "../../utils/validation/entries.schema";
+
+import { DeletePlaceInput } from "../../utils/validation/entries.schema";
 
 interface EditEntryProps {
   selectedEntry: Place;
@@ -17,7 +17,7 @@ interface EditEntryProps {
   setEditModalOpened: Dispatch<SetStateAction<boolean>>;
   tagData: string[];
   categoryData: string[];
-  onEdit: (data: PlaceInput) => void;
+  onEdit: (data: EditPlaceInput) => void;
   onDelete: (data: DeletePlaceInput) => void;
 }
 export default function EditEntry({
@@ -30,12 +30,13 @@ export default function EditEntry({
   onEdit,
   onDelete,
 }: EditEntryProps) {
-  const { register, formState, handleSubmit, setValue } = useForm<PlaceInput>({
-    resolver: zodResolver(placeSchema),
-    defaultValues: selectedEntry,
-  });
+  const { register, formState, handleSubmit, setValue } =
+    useForm<EditPlaceInput>({
+      resolver: zodResolver(editPlaceSchema),
+      defaultValues: selectedEntry,
+    });
 
-  const onSubmit: SubmitHandler<PlaceInput> = (data) => {
+  const onSubmit: SubmitHandler<EditPlaceInput> = (data) => {
     onEdit(data);
   };
   const [query, setQuery] = useState("");

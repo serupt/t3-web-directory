@@ -63,7 +63,7 @@ export default function EditingComponent() {
 
   const [importOpen, setImportOpen] = useState(false);
 
-  const getEntries = trpc.places.getAll.useQuery();
+  const getEntries = trpc.places.getUserPlaces.useQuery();
 
   const addEntry = trpc.places.addEntry.useMutation({
     onSuccess: () => {

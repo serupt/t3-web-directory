@@ -2,6 +2,7 @@ import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { TRPCError } from "@trpc/server";
 import {
   deletePlaceSchema,
+  editPlaceSchema,
   placeSchema,
 } from "../../../utils/validation/entries.schema";
 import { protectedProcedure, publicProcedure, router } from "../trpc";
@@ -10,12 +11,26 @@ export const placesRouter = router({
   getAll: publicProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.place.findMany();
   }),
+  getUserPlaces: protectedProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.place.findMany({
+      where: {
+        userId: ctx.session.user.id,
+      },
+    });
+  }),
   addEntry: protectedProcedure
     .input(placeSchema)
     .mutation(async ({ ctx, input }) => {
       try {
         const newEntry = await ctx.prisma.place.create({
-          data: { ...input },
+          data: {
+            ...input,
+            user: {
+              connect: {
+                id: ctx.session.user.id,
+              },
+            },
+          },
         });
         return newEntry;
       } catch (e) {
@@ -39,7 +54,12 @@ export const placesRouter = router({
     .mutation(async ({ ctx, input }) => {
       try {
         const newEntries = await ctx.prisma.place.createMany({
-          data: [...input],
+          data: [
+            ...input.map((entry) => ({
+              ...entry,
+              userId: ctx.session.user.id,
+            })),
+          ],
           skipDuplicates: true,
         });
         return newEntries;
@@ -60,11 +80,11 @@ export const placesRouter = router({
       }
     }),
   editEntry: protectedProcedure
-    .input(placeSchema)
+    .input(editPlaceSchema)
     .mutation(async ({ ctx, input }) => {
       try {
         const editedEntry = await ctx.prisma.place.update({
-          where: { name: input.name },
+          where: { id: input.id },
           data: { ...input },
         });
         return editedEntry;
