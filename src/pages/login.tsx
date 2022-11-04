@@ -43,7 +43,7 @@ const LoginPage: NextPage = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="space-y-3">
           <label className="block">
-            <span className="mb-2 block">Email</span>
+            <span className="mb-2 block">Username</span>
 
             <input
               className="input-md w-96 rounded bg-primary-800 shadow-md  focus:outline-none focus:ring-2 focus:ring-secondary"
