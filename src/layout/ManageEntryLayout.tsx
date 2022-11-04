@@ -26,7 +26,7 @@ export default function ManageEntryLayout({
           />
         </svg>
       ),
-      href: "/admin",
+      href: "/manage",
     },
     {
       name: "Edit",
@@ -46,7 +46,7 @@ export default function ManageEntryLayout({
           />
         </svg>
       ),
-      href: "/admin/edit",
+      href: "/manage/edit",
     },
   ];
   return (
