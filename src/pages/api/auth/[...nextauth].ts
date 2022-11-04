@@ -7,14 +7,7 @@ import { env } from "../../../env/server.mjs";
 import { prisma } from "../../../server/db/client";
 
 export const authOptions: NextAuthOptions = {
-  // Include user.id on session
   callbacks: {
-    // session({ session, user }) {
-    //   if (session.user) {
-    //     session.user.id = user.id;
-    //   }
-    //   return session;
-    // },
     async signIn({ user, account, profile, email, credentials }) {
       if (account?.provider === "credentials") {
         return true;
@@ -42,16 +35,9 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
-  // Configure one or more authentication providers
   adapter: PrismaAdapter(prisma),
   secret: env.NEXTAUTH_SECRET,
   providers: [
-    // Auth0Provider({
-    //   id: "auth0",
-    //   clientId: env.AUTH0_CLIENT_ID,
-    //   clientSecret: env.AUTH0_CLIENT_SECRET,
-    //   issuer: env.AUTH0_ISSUER
-    // }),
     CredentialsProvider({
       id: "credentials",
       name: "Credentials",

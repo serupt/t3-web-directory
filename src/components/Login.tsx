@@ -11,13 +11,8 @@ export default function Login() {
         <h1 className="text-4xl font-extrabold tracking-widest text-white">
           Sign in to continue
         </h1>
-        {/* <div className="text- absolute rotate-12 rounded bg-secondary px-2 text-primary">
-          Unauthorized
-        </div> */}
-
         <div className="flex space-x-5">
           <button className="mt-5">
-            {/* "auth0", { callbackUrl: "/admin" } */}
             <div onClick={() => signIn()}>
               <a className="group relative inline-block text-sm font-medium text-secondary focus:outline-none focus:ring active:text-orange-500">
                 <span className="absolute inset-0 translate-x-0.5 translate-y-0.5 bg-secondary transition-transform group-hover:translate-y-0 group-hover:translate-x-0"></span>
