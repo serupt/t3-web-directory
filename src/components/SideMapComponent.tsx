@@ -1,4 +1,6 @@
 import { Place } from "@prisma/client";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
 import { useState } from "react";
 import { MapProps } from "./DisplayMap";
 import DefaultView from "./SideMap/DefaultView";
@@ -37,9 +39,19 @@ export default function SideMapComponent({
   setSelectedTag,
 }: MapProps) {
   const [query, setQuery] = useState("");
+  const { data: session } = useSession();
   return (
     <>
       <div className="space-y-3 p-3">
+        {session ? null : (
+          <div>
+            <Link href={"/login"}>
+              <button className="btn-sm w-full rounded bg-secondary-600 font-bold uppercase hover:bg-secondary-700">
+                Login to manage entries
+              </button>
+            </Link>
+          </div>
+        )}
         {selectedEntry || selectedTag ? (
           <button
             onClick={() => {
