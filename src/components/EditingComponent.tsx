@@ -1,4 +1,5 @@
 import { Place } from "@prisma/client";
+import { useSession } from "next-auth/react";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { trpc } from "../utils/trpc";
@@ -53,9 +54,18 @@ function getErrorNotificationMessage(message: string) {
   });
 }
 
+function checkIfAdmin(session: any) {
+  if (session?.user?.role === "ADMIN") {
+    return true;
+  }
+  return false;
+}
+
 const tableThreads = ["Name", "Address", "Category", "Tags", "Last Updated"];
 
 export default function EditingComponent() {
+  const { data: session } = useSession();
+
   const [query, setQuery] = useState("");
   const [selectedEntry, setSelectedEntry] = useState<Place>();
   const [addModalOpened, setAddModalOpened] = useState(false);
@@ -63,7 +73,11 @@ export default function EditingComponent() {
 
   const [importOpen, setImportOpen] = useState(false);
 
-  const getEntries = trpc.places.getUserPlaces.useQuery();
+  // const getAllEntries = trpc.places.getAll.useQuery();
+
+  const getEntries = checkIfAdmin(session)
+    ? trpc.places.getAll.useQuery()
+    : trpc.places.getUserPlaces.useQuery();
 
   const addEntry = trpc.places.addEntry.useMutation({
     onSuccess: () => {
@@ -146,7 +160,7 @@ export default function EditingComponent() {
               d="M12 4.5v15m7.5-7.5h-15"
             />
           </svg>
-          Import
+          Import from CSV
         </button>
 
         {/* <button className="btn  gap-2 bg-red-700">
