@@ -1,4 +1,5 @@
 import { User } from "@prisma/client";
+import { useSession } from "next-auth/react";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { trpc } from "../utils/trpc";
@@ -37,6 +38,8 @@ export default function ManageUsers() {
   const [selectedUser, setSelectedUser] = useState<User>();
   const [addUserModalOpened, setAddUserModalOpened] = useState(false);
   const [editUserModalOpened, setEditUserModalOpened] = useState(false);
+
+  const { data: session } = useSession();
 
   const getUsers = trpc.users.getAll.useQuery();
   const createUser = trpc.users.create.useMutation({
@@ -128,7 +131,7 @@ export default function ManageUsers() {
                     .includes(query.toLocaleLowerCase().trim())
                 )
                 .map((user) => {
-                  if (user.role === "ADMIN") {
+                  if (user.role === "ADMIN" && session?.user.id !== user.id) {
                     return (
                       <tr
                         key={user.id}
