@@ -1,4 +1,4 @@
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
 
@@ -7,6 +7,7 @@ export default function ManageEntryLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const { data: session } = useSession();
   const Menu = [
     {
       name: "Home",
@@ -49,6 +50,28 @@ export default function ManageEntryLayout({
       href: "/manage/edit",
     },
   ];
+  const AdminMenu = [
+    {
+      name: "Users",
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="h-6 w-6"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"
+          />
+        </svg>
+      ),
+      href: "/manage/users",
+    },
+  ];
   return (
     <div className="min-h-screen sm:flex">
       <aside className="max-h-screen w-full space-y-2 overflow-auto bg-primary-800 px-2 py-7 sm:max-w-[15rem] sm:flex-col">
@@ -82,6 +105,21 @@ export default function ManageEntryLayout({
               </Link>
             );
           })}
+
+          {session?.user.role === "ADMIN"
+            ? AdminMenu.map((item, index) => {
+                return (
+                  <Link href={`${item.href}`} key={index}>
+                    <a className="block rounded-full py-2.5 px-4 transition duration-200 hover:bg-primary-700">
+                      <div className="flex items-center space-x-5 p-1">
+                        <span>{item.icon}</span>
+                        <span>{item.name}</span>
+                      </div>
+                    </a>
+                  </Link>
+                );
+              })
+            : null}
           <div className="block rounded-full py-2.5 px-4 transition duration-200 hover:cursor-pointer hover:bg-primary-700">
             <div
               className="flex items-center space-x-5 p-1"

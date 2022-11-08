@@ -67,13 +67,15 @@ model Session {
 }
 
 model User {
-  id       String    @id @default(cuid())
-  username String    @unique
-  password String
-  role     Role      @default(USER)
-  place    Place[]
-  accounts Account[]
-  sessions Session[]
+  id         String    @id @default(cuid())
+  username   String    @unique
+  password   String
+  role       Role      @default(USER)
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now()) @updatedAt
+  place      Place[]
+  accounts   Account[]
+  sessions   Session[]
 }
 
 enum Role {

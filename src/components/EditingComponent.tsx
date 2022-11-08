@@ -184,6 +184,15 @@ export default function EditingComponent() {
                     ? -1
                     : 1
                 )
+                .filter(
+                  (entry) =>
+                    entry.name
+                      .toLocaleLowerCase()
+                      .includes(query.toLocaleLowerCase().trim()) ||
+                    entry.main_address
+                      .toLocaleLowerCase()
+                      .includes(query.toLocaleLowerCase().trim())
+                )
                 .map((entry) => {
                   return (
                     <tr
