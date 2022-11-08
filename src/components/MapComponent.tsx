@@ -31,16 +31,33 @@ export default function MapComponent({
   );
 
   function markerIcon(category: string) {
-    if (category === "Food & Drinks") {
+    if (
+      category.toLocaleLowerCase().includes("food") ||
+      category.toLocaleLowerCase().includes("drink")
+    ) {
       return {
         url: "/food.svg",
         scaledSize: new window.google.maps.Size(30, 30),
         origin: new window.google.maps.Point(0, 0),
         anchor: new window.google.maps.Point(15, 15),
       };
-    } else {
+    } else if (category.toLocaleLowerCase().includes("store")) {
+      return {
+        url: "/store.svg",
+        scaledSize: new window.google.maps.Size(30, 30),
+        origin: new window.google.maps.Point(0, 0),
+        anchor: new window.google.maps.Point(15, 15),
+      };
+    } else if (category.toLocaleLowerCase().includes("office")) {
       return {
         url: "/building.svg",
+        scaledSize: new window.google.maps.Size(30, 30),
+        origin: new window.google.maps.Point(0, 0),
+        anchor: new window.google.maps.Point(15, 15),
+      };
+    } else {
+      return {
+        url: "/default.svg",
         scaledSize: new window.google.maps.Size(30, 30),
         origin: new window.google.maps.Point(0, 0),
         anchor: new window.google.maps.Point(15, 15),
