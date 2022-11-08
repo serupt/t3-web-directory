@@ -54,6 +54,15 @@ export default [
     ],
   },
   {
+    featureType: "road",
+    elementType: "labels",
+    stylers: [
+      {
+        visibility: "simplified",
+      },
+    ],
+  },
+  {
     featureType: "road.highway",
     elementType: "geometry.fill",
     stylers: [
