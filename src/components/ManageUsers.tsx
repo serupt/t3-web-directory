@@ -128,30 +128,53 @@ export default function ManageUsers() {
                     .includes(query.toLocaleLowerCase().trim())
                 )
                 .map((user) => {
-                  return (
-                    <tr
-                      key={user.id}
-                      className="text-base odd:bg-primary-800 hover:cursor-pointer hover:bg-primary-700"
-                      onClick={() => {
-                        setSelectedUser(user);
-                        setEditUserModalOpened(true);
-                      }}
-                    >
-                      <td className="px-4 py-2">{user.id}</td>
-                      <td className="px-4 py-2">{user.username}</td>
-                      <td className="px-4 py-2">{user.role}</td>
-                      <td className="px-4 py-2">
-                        {user.created_at.toLocaleDateString() +
-                          " " +
-                          user.created_at.toLocaleTimeString()}
-                      </td>
-                      <td className="px-4 py-2">
-                        {user.updated_at.toLocaleDateString() +
-                          " " +
-                          user.updated_at.toLocaleTimeString()}
-                      </td>
-                    </tr>
-                  );
+                  if (user.role === "ADMIN") {
+                    return (
+                      <tr
+                        key={user.id}
+                        className="text-base odd:bg-primary-800 hover:cursor-pointer hover:bg-primary-700"
+                      >
+                        <td className="px-4 py-2">{user.id}</td>
+                        <td className="px-4 py-2">{user.username}</td>
+                        <td className="px-4 py-2">{user.role}</td>
+                        <td className="px-4 py-2">
+                          {user.created_at.toLocaleDateString() +
+                            " " +
+                            user.created_at.toLocaleTimeString()}
+                        </td>
+                        <td className="px-4 py-2">
+                          {user.updated_at.toLocaleDateString() +
+                            " " +
+                            user.updated_at.toLocaleTimeString()}
+                        </td>
+                      </tr>
+                    );
+                  } else {
+                    return (
+                      <tr
+                        key={user.id}
+                        className="text-base odd:bg-primary-800 hover:cursor-pointer hover:bg-primary-700"
+                        onClick={() => {
+                          setSelectedUser(user);
+                          setEditUserModalOpened(true);
+                        }}
+                      >
+                        <td className="px-4 py-2">{user.id}</td>
+                        <td className="px-4 py-2">{user.username}</td>
+                        <td className="px-4 py-2">{user.role}</td>
+                        <td className="px-4 py-2">
+                          {user.created_at.toLocaleDateString() +
+                            " " +
+                            user.created_at.toLocaleTimeString()}
+                        </td>
+                        <td className="px-4 py-2">
+                          {user.updated_at.toLocaleDateString() +
+                            " " +
+                            user.updated_at.toLocaleTimeString()}
+                        </td>
+                      </tr>
+                    );
+                  }
                 })}
             </tbody>
           </table>
