@@ -4,7 +4,7 @@ export default [
     elementType: "labels.text",
     stylers: [
       {
-        visibility: "on",
+        visibility: "off",
       },
     ],
   },
@@ -68,6 +68,33 @@ export default [
     stylers: [
       {
         color: "#b2ac83",
+      },
+    ],
+  },
+  {
+    featureType: "transit",
+    elementType: "labels.text",
+    stylers: [
+      {
+        visibility: "simplified",
+      },
+    ],
+  },
+  {
+    featureType: "transit.station.bus",
+    elementType: "labels",
+    stylers: [
+      {
+        visibility: "on",
+      },
+    ],
+  },
+  {
+    featureType: "transit.station.rail",
+    elementType: "labels",
+    stylers: [
+      {
+        visibility: "on",
       },
     ],
   },
