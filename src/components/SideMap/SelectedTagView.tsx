@@ -52,7 +52,7 @@ export default function SelectedTagView({
                         return (
                           <span
                             key={index}
-                            className="badge bg-secondary-600 px-3"
+                            className="badge bg-secondary-600 px-3 text-white"
                           >
                             {tag}
                           </span>
@@ -89,7 +89,7 @@ export default function SelectedTagView({
                         return (
                           <span
                             key={index}
-                            className="badge bg-secondary-600 px-3"
+                            className="badge bg-secondary-600 px-3 text-white"
                           >
                             {tag}
                           </span>

@@ -43,7 +43,10 @@ export default function SelectedEntryView({
         <div className="space-x-1">
           {selectedEntry.tags.sort().map((tag, index) => {
             return (
-              <span key={index} className="badge bg-secondary-600 px-3">
+              <span
+                key={index}
+                className="badge bg-secondary-600 px-3 text-white"
+              >
                 {tag}
               </span>
             );

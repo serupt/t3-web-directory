@@ -82,7 +82,7 @@ export default function ManageUsers() {
           className=" input-sm w-1/4  rounded bg-primary-800  focus:outline-none focus:ring-2 focus:ring-secondary"
         />
         <button
-          className="btn btn-sm gap-2 bg-secondary-700 hover:bg-secondary-600"
+          className="btn btn-sm gap-2 bg-secondary-700 text-white hover:bg-secondary-600"
           onClick={() => setAddUserModalOpened(true)}
         >
           <svg

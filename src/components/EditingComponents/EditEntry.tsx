@@ -171,7 +171,7 @@ export default function EditEntry({
                               {currentAddresses.map((address, index) => (
                                 <li
                                   key={index}
-                                  className="badge h-fit truncate rounded-none bg-secondary-600 px-3 text-base font-medium "
+                                  className="badge h-fit truncate rounded-none bg-secondary-600 px-3 text-base font-medium text-white "
                                 >
                                   {address}
                                 </li>
@@ -462,7 +462,7 @@ export default function EditEntry({
                               {currentTags.map((tag, index) => (
                                 <li
                                   key={index}
-                                  className="badge truncate bg-secondary-600 px-3"
+                                  className="badge truncate bg-secondary-600 px-3 text-white"
                                 >
                                   {tag}
                                 </li>

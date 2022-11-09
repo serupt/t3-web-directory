@@ -61,7 +61,7 @@ export default function SideMapComponent({
                 setSelectedTag("");
               }
             }}
-            className="btn-sm w-full rounded bg-secondary hover:bg-secondary-600"
+            className="btn-sm w-full rounded bg-secondary-700 hover:bg-secondary-600"
           >
             Back
           </button>

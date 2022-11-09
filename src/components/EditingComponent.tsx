@@ -122,7 +122,7 @@ export default function EditingComponent() {
           className=" input-sm w-1/4  rounded bg-primary-800  focus:outline-none focus:ring-2 focus:ring-secondary"
         />
         <button
-          className="btn btn-sm gap-2 bg-secondary-700 hover:bg-secondary-600"
+          className="btn btn-sm gap-2 bg-secondary-700 text-white hover:bg-secondary-600"
           onClick={() => setAddModalOpened(true)}
         >
           <svg
@@ -143,7 +143,7 @@ export default function EditingComponent() {
         </button>
         <button
           onClick={() => setImportOpen(true)}
-          className="btn btn-sm gap-2 bg-secondary-700 hover:bg-secondary-600"
+          className="btn btn-sm gap-2 bg-secondary-700 text-white hover:bg-secondary-600"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -211,7 +211,7 @@ export default function EditingComponent() {
                           return (
                             <span
                               key={index}
-                              className="badge truncate bg-secondary-600 px-3"
+                              className="badge truncate bg-secondary-600 px-3 text-white"
                             >
                               {tag}
                             </span>
