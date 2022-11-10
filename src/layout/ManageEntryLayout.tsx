@@ -76,22 +76,11 @@ export default function ManageEntryLayout({
     <div className="min-h-screen sm:flex">
       <aside className="max-h-screen w-full space-y-2 overflow-auto bg-primary-800 px-2 py-7 sm:max-w-[15rem] sm:flex-col">
         <div className="flex flex-col items-center space-y-2 p-2">
-          <svg
-            className="h-7 w-7 text-secondary"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z"
-            />
-          </svg>
-          <span className="text-2xl font-bold">Some Name</span>
+          <img src="/cccny.png" alt="Logo" className="h-16 w-16" />
+          <span className="text-2xl font-bold">CCCNY Directory</span>
         </div>
+        <div className="divider before:bg-secondary after:bg-secondary"></div>
+
         <nav>
           {Menu.map((item, index) => {
             return (

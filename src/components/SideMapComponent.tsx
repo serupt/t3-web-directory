@@ -42,14 +42,19 @@ export default function SideMapComponent({
   const { data: session } = useSession();
   return (
     <>
-      <div className="space-y-3 p-3">
+      <div className="space-y-2 p-3">
         {session ? null : (
           <div>
+            <div className="flex flex-col items-center space-y-2 p-2">
+              <img src="/cccny.png" alt="Logo" className="h-16 w-16" />
+              <span className="text-2xl font-bold">CCCNY Directory</span>
+            </div>
             <Link href={"/login"}>
               <button className="btn-sm w-full rounded bg-secondary-600 font-bold uppercase hover:bg-secondary-700">
                 Login to manage entries
               </button>
             </Link>
+            <div className="divider mb-0 before:bg-secondary after:bg-secondary"></div>
           </div>
         )}
         {selectedEntry || selectedTag ? (
