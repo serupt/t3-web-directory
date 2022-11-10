@@ -76,7 +76,7 @@ export default function ManageEntryLayout({
     <div className="min-h-screen sm:flex">
       <aside className="max-h-screen w-full space-y-2 overflow-auto bg-primary-800 px-2 py-7 sm:max-w-[15rem] sm:flex-col">
         <div className="flex flex-col items-center space-y-2 p-2">
-          <img src="/cccny.png" alt="Logo" className="h-16 w-16" />
+          {/* <img src="/cccny.png" alt="Logo" className="h-16 w-16" /> */}
           <span className="text-2xl font-bold">CCCNY Directory</span>
         </div>
         <div className="divider before:bg-secondary after:bg-secondary"></div>

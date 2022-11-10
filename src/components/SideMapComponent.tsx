@@ -42,61 +42,69 @@ export default function SideMapComponent({
   const { data: session } = useSession();
   return (
     <>
-      <div className="space-y-2 p-3">
-        {session ? null : (
-          <div>
-            <div className="flex flex-col items-center space-y-2 p-2">
-              <img src="/cccny.png" alt="Logo" className="h-16 w-16" />
-              <span className="text-2xl font-bold">CCCNY Directory</span>
+      <div className="flex h-screen flex-col space-y-2 p-3 ">
+        <div className="mb-auto space-y-2">
+          {session ? null : (
+            <div>
+              <div className="flex flex-col items-center space-y-2 p-2">
+                {/* <img src="/cccny.png" alt="Logo" className="h-16 w-16" /> */}
+                <span className="text-2xl font-bold">CCCNY Directory</span>
+              </div>
+              <Link href={"/login"}>
+                <button className="btn-sm w-full rounded bg-secondary-600 font-bold uppercase hover:bg-secondary-700">
+                  Login to manage entries
+                </button>
+              </Link>
+              <div className="divider mb-0 before:bg-secondary after:bg-secondary"></div>
             </div>
-            <Link href={"/login"}>
-              <button className="btn-sm w-full rounded bg-secondary-600 font-bold uppercase hover:bg-secondary-700">
-                Login to manage entries
-              </button>
-            </Link>
-            <div className="divider mb-0 before:bg-secondary after:bg-secondary"></div>
-          </div>
-        )}
-        {selectedEntry || selectedTag ? (
-          <button
-            onClick={() => {
-              if (selectedEntry) {
-                setSelectedEntry(undefined);
-              } else {
-                setSelectedTag("");
-              }
-            }}
-            className="btn-sm w-full rounded bg-secondary-700 hover:bg-secondary-600"
-          >
-            Back
-          </button>
-        ) : (
-          <input
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            type="text"
-            placeholder="Search by name..."
-            className=" input-sm w-full  rounded bg-primary-800  focus:outline-none focus:ring-2 focus:ring-secondary"
-          />
-        )}
-        <div className="divider before:bg-secondary after:bg-secondary"></div>
-        <div>
-          {selectedEntry ? (
-            <SelectedEntryView selectedEntry={selectedEntry} />
-          ) : selectedTag || query ? (
-            <SelectedTagView
-              entryData={entryData}
-              query={query}
-              setQuery={setQuery}
-              setSelectedEntry={setSelectedEntry}
-              selectedTag={selectedTag}
-            />
-          ) : (
-            <DefaultView
-              entryData={entryData}
-              setSelectedTag={setSelectedTag}
-            />
           )}
+          <div>
+            {selectedEntry || selectedTag ? (
+              <button
+                onClick={() => {
+                  if (selectedEntry) {
+                    setSelectedEntry(undefined);
+                  } else {
+                    setSelectedTag("");
+                  }
+                }}
+                className="btn-sm w-full rounded bg-secondary-700 hover:bg-secondary-600"
+              >
+                Back
+              </button>
+            ) : (
+              <input
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                type="text"
+                placeholder="Search by name..."
+                className=" input-sm w-full  rounded bg-primary-800  focus:outline-none focus:ring-2 focus:ring-secondary"
+              />
+            )}
+          </div>
+          <div className="divider before:bg-secondary after:bg-secondary"></div>
+          <div>
+            {selectedEntry ? (
+              <SelectedEntryView selectedEntry={selectedEntry} />
+            ) : selectedTag || query ? (
+              <SelectedTagView
+                entryData={entryData}
+                query={query}
+                setQuery={setQuery}
+                setSelectedEntry={setSelectedEntry}
+                selectedTag={selectedTag}
+              />
+            ) : (
+              <DefaultView
+                entryData={entryData}
+                setSelectedTag={setSelectedTag}
+              />
+            )}
+          </div>
+        </div>
+        <div className="flex h-10 items-center justify-center space-x-2">
+          <p className="text-xs">Sponsored by Chase</p>
+          <img src="/chase.svg" className="h-16 w-16" />
         </div>
       </div>
     </>
