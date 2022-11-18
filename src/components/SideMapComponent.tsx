@@ -103,8 +103,7 @@ export default function SideMapComponent({
           </div>
         </div>
         <div className="flex h-10 items-center justify-center space-x-2">
-          <p className="text-xs">Sponsored by Chase</p>
-          <img src="/chase.svg" className="h-16 w-16" />
+          <img src="/nyct.svg" className="h-16 w-24" />
         </div>
       </div>
     </>
