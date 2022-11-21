@@ -109,6 +109,7 @@ export default function ManageEntryLayout({
                 );
               })
             : null}
+          <div className="divider before:bg-secondary after:bg-secondary"></div>
           <div className="block rounded-full py-2.5 px-4 transition duration-200 hover:cursor-pointer hover:bg-primary-700">
             <div
               className="flex items-center space-x-5 p-1"
