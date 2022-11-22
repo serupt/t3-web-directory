@@ -8,6 +8,8 @@ import EditEntry from "./EditingComponents/EditEntry";
 import ImportFromCSV from "./EditingComponents/ImportFromCSV";
 import LoadingOverlay from "./LoadingOverlay";
 
+import { useTranslation } from "next-i18next";
+
 function getUniqueTags(data: Place[]) {
   const uniqueTag: string[] = [];
   data.map((value) =>
@@ -61,10 +63,12 @@ function checkIfAdmin(session: any) {
   return false;
 }
 
-const tableThreads = ["Name", "Address", "Category", "Tags", "Last Updated"];
+const tableThreads = ["Name", "Address", "Category", "Tags", "Updated_At"];
 
 export default function EditingComponent() {
   const { data: session } = useSession();
+
+  const { t } = useTranslation("common");
 
   const [query, setQuery] = useState("");
   const [selectedEntry, setSelectedEntry] = useState<Place>();
@@ -118,7 +122,8 @@ export default function EditingComponent() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           type="text"
-          placeholder="Search by name..."
+          //@ts-ignore
+          placeholder={t("search")}
           className=" input-sm w-1/4  rounded bg-primary-800  focus:outline-none focus:ring-2 focus:ring-secondary"
         />
         <button
@@ -139,7 +144,7 @@ export default function EditingComponent() {
               d="M12 4.5v15m7.5-7.5h-15"
             />
           </svg>
-          Add New Entry
+          {t("add_entry")}
         </button>
         <button
           onClick={() => setImportOpen(true)}
@@ -159,7 +164,7 @@ export default function EditingComponent() {
               d="M12 4.5v15m7.5-7.5h-15"
             />
           </svg>
-          Import from CSV
+          {t("import_csv")}
         </button>
       </nav>
       <div className="divider px-2 before:bg-secondary after:bg-secondary"></div>
@@ -171,7 +176,7 @@ export default function EditingComponent() {
                 {tableThreads.map((thread, index) => {
                   return (
                     <th key={index} className="px-4 py-2 text-base">
-                      {thread}
+                      {t(`${thread.toLocaleLowerCase()}`)}
                     </th>
                   );
                 })}

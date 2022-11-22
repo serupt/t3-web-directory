@@ -10,6 +10,8 @@ import {
 
 import { DeletePlaceInput } from "../../utils/validation/entries.schema";
 
+import { useTranslation } from "next-i18next";
+
 interface EditEntryProps {
   selectedEntry: Place;
   setSelectedEntry: Dispatch<SetStateAction<Place | undefined>>;
@@ -30,6 +32,8 @@ export default function EditEntry({
   onEdit,
   onDelete,
 }: EditEntryProps) {
+  const { t } = useTranslation("common");
+
   const { register, formState, handleSubmit, setValue } =
     useForm<EditPlaceInput>({
       resolver: zodResolver(editPlaceSchema),
@@ -114,7 +118,7 @@ export default function EditEntry({
                   <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="flex flex-col space-y-3">
                       <label className="block">
-                        <span className="mb-2 block">Name</span>
+                        <span className="mb-2 block">{t("name")}</span>
                         <input
                           className="input-md w-full rounded bg-primary-800 shadow-md  focus:outline-none focus:ring-2 focus:ring-secondary"
                           type="text"
@@ -122,20 +126,18 @@ export default function EditEntry({
                         />
                       </label>
                       <label className="block">
-                        <span className="mb-2 block">Address</span>
+                        <span className="mb-2 block">{t("address")}</span>
                         <input
                           className="input-md w-full rounded bg-primary-800 shadow-md  focus:outline-none focus:ring-2 focus:ring-secondary"
                           type="text"
                           {...register("main_address")}
                         />
                       </label>
-                      <p className="text-xs">
-                        Coordinates for main address to display marker on map
-                      </p>
+                      <p className="text-xs">{t("coordinates_text")}</p>
                       <div className="flex space-x-2">
                         <div className="flex-1">
                           <label className="block">
-                            <span className="mb-2 block">Latitude</span>
+                            <span className="mb-2 block">{t("latitude")}</span>
                             <input
                               className="input-md w-full rounded bg-primary-800 shadow-md focus:outline-none focus:ring-2 focus:ring-secondary"
                               {...register("latitude")}
@@ -144,7 +146,7 @@ export default function EditEntry({
                         </div>
                         <div className="flex-1">
                           <label className="block">
-                            <span className="mb-2 block">Longitude</span>
+                            <span className="mb-2 block">{t("longitude")}</span>
                             <input
                               className="input-md w-full rounded bg-primary-800 shadow-md focus:outline-none focus:ring-2 focus:ring-secondary"
                               {...register("longitude")}
@@ -164,7 +166,7 @@ export default function EditEntry({
                           multiple
                         >
                           <Combobox.Label className="mb-2 block">
-                            Other Addresses
+                            {t("other_address")}
                           </Combobox.Label>
                           {currentAddresses.length > 0 && (
                             <ul className="flex flex-col space-y-2 pb-1">
@@ -182,7 +184,7 @@ export default function EditEntry({
                             <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-primary text-left shadow-md sm:text-sm">
                               <Combobox.Input
                                 className="input-md w-full rounded bg-primary-800 focus:outline-none focus:ring-0 focus:ring-offset-0"
-                                placeholder="Type to add new address. Select address again to remove."
+                                placeholder={t("other_address_placeholder")}
                                 {...(register("other_addresses"),
                                 {
                                   onChange(event) {
@@ -231,8 +233,7 @@ export default function EditEntry({
                                 )}
                                 {currentAddresses.length === 0 ? (
                                   <div className="relative cursor-default select-none py-2 px-4 text-white">
-                                    No addtional addresses. Type to add an
-                                    address.
+                                    {t("other_address_empty")}
                                   </div>
                                 ) : (
                                   currentAddresses
@@ -301,21 +302,21 @@ export default function EditEntry({
                       </label>
                       <div className="flex space-x-2">
                         <label className="block flex-1">
-                          <span className="mb-2 block">Phone Number</span>
+                          <span className="mb-2 block">{t("phone")}</span>
                           <input
                             className="input-md w-full rounded bg-primary-800 shadow-md focus:outline-none focus:ring-2 focus:ring-secondary"
                             {...register("phone_number")}
                           />
                         </label>
                         <label className="block flex-1">
-                          <span className="mb-2 block">Email</span>
+                          <span className="mb-2 block">{t("email")}</span>
                           <input
                             className="input-md w-full truncate rounded bg-primary-800 shadow-md focus:outline-none focus:ring-2 focus:ring-secondary"
                             {...register("email")}
                           />
                         </label>
                         <label className="block flex-1">
-                          <span className="mb-2 block">Website</span>
+                          <span className="mb-2 block">{t("website")}</span>
                           <input
                             className="input-md w-full truncate rounded bg-primary-800 shadow-md focus:outline-none focus:ring-2 focus:ring-secondary"
                             {...register("website")}
@@ -334,7 +335,7 @@ export default function EditEntry({
                           }}
                         >
                           <Combobox.Label className="mb-2 block">
-                            Category
+                            {t("category")}
                           </Combobox.Label>
                           <div className="relative mt-1">
                             <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-primary text-left shadow-md sm:text-sm">
@@ -455,7 +456,7 @@ export default function EditEntry({
                           multiple
                         >
                           <Combobox.Label className="mb-2 block">
-                            Tags
+                            {t("tags")}
                           </Combobox.Label>
                           {currentTags.length > 0 && (
                             <ul className="flex space-x-2 py-1">
@@ -473,7 +474,7 @@ export default function EditEntry({
                             <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-primary text-left shadow-md sm:text-sm">
                               <Combobox.Input
                                 className="input-md w-full rounded bg-primary-800 focus:outline-none focus:ring-0 focus:ring-offset-0"
-                                placeholder="Select or add new tags. Select tag again to remove it."
+                                placeholder={t("tags_placeholder")}
                                 {...(register("tags"),
                                 {
                                   onChange(event) {
@@ -585,7 +586,7 @@ export default function EditEntry({
                       </label>
 
                       <label className="block">
-                        <span className="mb-2 block">Description</span>
+                        <span className="mb-2 block">{t("description")}</span>
                         <div className="h-20">
                           <textarea
                             className="input-md h-full w-full resize-none rounded bg-primary-800 shadow-md focus:outline-none focus:ring-2 focus:ring-secondary"
@@ -595,7 +596,7 @@ export default function EditEntry({
                       </label>
 
                       <label className="block">
-                        <span className="mb-2 block">Opening Hours</span>
+                        <span className="mb-2 block">{t("opening_hours")}</span>
                         <div className="h-20">
                           <textarea
                             className="input-md h-full w-full resize-none rounded bg-primary-800 shadow-md focus:outline-none focus:ring-2 focus:ring-secondary"
@@ -613,7 +614,7 @@ export default function EditEntry({
                             onClick={() => onDelete({ id: selectedEntry.id })}
                             className="inline-flex w-full justify-center rounded-md border border-transparent bg-red-700 px-4 py-2 text-sm font-medium  hover:bg-red-600 "
                           >
-                            Delete
+                            {t("delete")}
                           </button>
                         </div>
                         <div className="flex flex-1 justify-around space-x-2">
@@ -625,14 +626,14 @@ export default function EditEntry({
                               setSelectedEntry(undefined);
                             }}
                           >
-                            Cancel
+                            {t("cancel")}
                           </button>
                           {formState.isDirty ? (
                             <button
                               type="submit"
                               className="inline-flex w-full justify-center rounded-md border border-transparent bg-secondary-700 px-4 py-2 text-sm font-medium hover:bg-secondary-600 "
                             >
-                              Confirm
+                              {t("confirm")}
                             </button>
                           ) : (
                             <button
@@ -642,7 +643,7 @@ export default function EditEntry({
                               }}
                               className="inline-flex w-full justify-center rounded-md border border-transparent bg-primary-600 px-4 py-2 text-sm font-medium hover:bg-primary-600 "
                             >
-                              Confirm
+                              {t("confirm")}
                             </button>
                           )}
                         </div>

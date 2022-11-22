@@ -10,6 +10,8 @@ import ChangePassword from "./ChangePassword";
 import ChangeUsername from "./ChangeUsername";
 import DeleteConfirmation from "./DeleteConfirmation";
 
+import { useTranslation } from "next-i18next";
+
 interface EditUsersProps {
   selectedUser: User;
   setSelectedUser: Dispatch<SetStateAction<User | undefined>>;
@@ -29,6 +31,8 @@ export default function EditUsers({
   onEditPassword,
   onDelete,
 }: EditUsersProps) {
+  const { t } = useTranslation("common");
+
   const [showChangeUsername, setShowChangeUsername] = useState(false);
   const [showChangePassword, setShowChangePassword] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
@@ -73,7 +77,7 @@ export default function EditUsers({
                     as="h3"
                     className="text-center text-lg font-medium leading-6"
                   >
-                    Editing {selectedUser.username}
+                    {t("edit_editing")} {selectedUser.username}
                   </Dialog.Title>
                   <div className="divider before:bg-secondary after:bg-secondary"></div>
 
@@ -86,7 +90,7 @@ export default function EditUsers({
                           className="inline-flex w-full justify-center rounded-md border border-transparent bg-secondary-700 px-4 py-2 text-sm font-medium hover:bg-secondary-600"
                           onClick={() => setShowChangeUsername(true)}
                         >
-                          Change Username
+                          {t("username_change")}
                         </button>
                       </label>
                       <label className="block">
@@ -95,7 +99,7 @@ export default function EditUsers({
                           className="inline-flex w-full justify-center rounded-md border border-transparent bg-secondary-700 px-4 py-2 text-sm font-medium hover:bg-secondary-600"
                           onClick={() => setShowChangePassword(true)}
                         >
-                          Change Password
+                          {t("password_change")}
                         </button>
                       </label>
                       <label className="block">
@@ -104,7 +108,7 @@ export default function EditUsers({
                           className="inline-flex w-full justify-center rounded-md border border-transparent bg-secondary-700 px-4 py-2 text-sm font-medium hover:bg-secondary-600"
                           onClick={() => setShowDeleteConfirmation(true)}
                         >
-                          Delete User
+                          {t("users_delete")}
                         </button>
                       </label>
                     </div>
@@ -120,7 +124,7 @@ export default function EditUsers({
                               setEditUserModalOpened(false);
                             }}
                           >
-                            Cancel
+                            {t("cancel")}
                           </button>
                         </div>
                       </div>

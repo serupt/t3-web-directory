@@ -8,6 +8,8 @@ import {
   CreateUserInput,
 } from "../../utils/validation/users.schema";
 
+import { useTranslation } from "next-i18next";
+
 interface AddUserProps {
   addUserModalOpened: boolean;
   setAddUserModalOpened: Dispatch<SetStateAction<boolean>>;
@@ -21,6 +23,8 @@ export default function AddUser({
   setAddUserModalOpened,
   onAdd,
 }: AddUserProps) {
+  const { t } = useTranslation("common");
+
   const {
     register,
     formState,
@@ -88,7 +92,7 @@ export default function AddUser({
                   as="h3"
                   className="text-center text-lg font-medium leading-6"
                 >
-                  Add new user
+                  {t("add_user")}
                 </Dialog.Title>
                 <div className="divider before:bg-secondary after:bg-secondary"></div>
 
@@ -96,7 +100,7 @@ export default function AddUser({
                   <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="flex flex-col space-y-3">
                       <label className="block">
-                        <span className="mb-2 block">Username</span>
+                        <span className="mb-2 block">{t("username")}</span>
                         {formState.errors.username && (
                           <p className="p-1 text-xl text-red-600">
                             {formState.errors.username.message}
@@ -108,7 +112,7 @@ export default function AddUser({
                         />
                       </label>
                       <label className="block">
-                        <span className="mb-2 block">Password</span>
+                        <span className="mb-2 block">{t("password")}</span>
                         {formState.errors.password && (
                           <p className="p-1 text-xl text-red-600">
                             {formState.errors.password.message}
@@ -121,7 +125,9 @@ export default function AddUser({
                         />
                       </label>
                       <label className="block">
-                        <span className="mb-2 block">Confirm Password</span>
+                        <span className="mb-2 block">
+                          {t("password_confirm")}
+                        </span>
                         {watch("confirmpassword") !== watch("password") &&
                         getValues("confirmpassword") ? (
                           <p className="p-1 text-xl text-red-600">
@@ -137,7 +143,7 @@ export default function AddUser({
                       <label className="block">
                         <Listbox value={role} onChange={setRole}>
                           <Listbox.Label className="mb-2 block">
-                            Role
+                            {t("role")}
                           </Listbox.Label>
                           <div className="relative mt-1">
                             <Listbox.Button className="relative w-full cursor-default rounded-lg bg-primary-800 py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus:ring-2 focus:ring-secondary">
@@ -235,7 +241,7 @@ export default function AddUser({
                               setAddUserModalOpened(false);
                             }}
                           >
-                            Cancel
+                            {t("cancel")}
                           </button>
                           {watch("confirmpassword") === watch("password") &&
                           getValues("confirmpassword") ? (
@@ -243,7 +249,7 @@ export default function AddUser({
                               type="submit"
                               className="inline-flex w-full justify-center rounded-md border border-transparent bg-secondary-700 px-4 py-2 text-sm font-medium hover:bg-secondary-600"
                             >
-                              Confirm
+                              {t("confirm")}
                             </button>
                           ) : (
                             <button
@@ -253,7 +259,7 @@ export default function AddUser({
                               disabled
                               className="inline-flex w-full justify-center rounded-md border border-transparent bg-primary-600 px-4 py-2 text-sm font-medium hover:bg-primary-600 "
                             >
-                              Confirm
+                              {t("confirm")}
                             </button>
                           )}
                         </div>

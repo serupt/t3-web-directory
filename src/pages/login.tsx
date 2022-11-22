@@ -6,7 +6,21 @@ import { useRouter } from "next/router";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { LoginInput, loginSchema } from "../utils/validation/login.schema";
 
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import nextI18nConfig from "../../next-i18next.config.mjs";
+
+export const getServerSideProps = async ({ locale }: { locale: string }) => ({
+  props: {
+    ...(await serverSideTranslations(locale, ["common"], nextI18nConfig, [
+      "en",
+      "zh",
+    ])),
+  },
+});
+
 const LoginPage: NextPage = () => {
+  const { t } = useTranslation("common");
   const router = useRouter();
   const {
     register,
@@ -39,16 +53,16 @@ const LoginPage: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Login</title>
+        <title>{t("login")}</title>
       </Head>
       <main className="flex h-screen w-full flex-col items-center justify-center bg-primary">
         <h1 className="pb-5 text-3xl font-bold text-secondary">
-          Login to continue
+          {t("login_to_continue")}
         </h1>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-3">
             <label className="block">
-              <span className="mb-2 block">Username</span>
+              <span className="mb-2 block">{t("username")}</span>
 
               <input
                 className="input-md w-96 rounded bg-primary-800 shadow-md  focus:outline-none focus:ring-2 focus:ring-secondary"
@@ -60,7 +74,7 @@ const LoginPage: NextPage = () => {
               )}
             </label>
             <label className="block">
-              <span className="mb-2 block">Password</span>
+              <span className="mb-2 block">{t("password")}</span>
               <input
                 className="input-md w-96 rounded bg-primary-800 shadow-md  focus:outline-none focus:ring-2 focus:ring-secondary"
                 type="password"
@@ -71,7 +85,7 @@ const LoginPage: NextPage = () => {
               type="submit"
               className="inline-flex w-full justify-center rounded-md border border-transparent bg-secondary-700 px-4 py-2 text-sm font-medium hover:bg-secondary-600 "
             >
-              Login
+              {t("login")}
             </button>
           </div>
         </form>

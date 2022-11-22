@@ -2,12 +2,16 @@ import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
 
+import { useTranslation } from "next-i18next";
+
 export default function ManageEntryLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const { data: session } = useSession();
+  const { t } = useTranslation("common");
+
   const Menu = [
     {
       name: "Home",
@@ -88,7 +92,7 @@ export default function ManageEntryLayout({
                 <a className="block rounded-full py-2.5 px-4 transition duration-200 hover:bg-primary-700">
                   <div className="flex items-center space-x-5 p-1">
                     <span>{item.icon}</span>
-                    <span>{item.name}</span>
+                    <span>{t(`${item.name.toLocaleLowerCase()}`)}</span>
                   </div>
                 </a>
               </Link>
@@ -102,7 +106,7 @@ export default function ManageEntryLayout({
                     <a className="block rounded-full py-2.5 px-4 transition duration-200 hover:bg-primary-700">
                       <div className="flex items-center space-x-5 p-1">
                         <span>{item.icon}</span>
-                        <span>{item.name}</span>
+                        <span>{t(`${item.name.toLocaleLowerCase()}`)}</span>
                       </div>
                     </a>
                   </Link>
@@ -129,7 +133,7 @@ export default function ManageEntryLayout({
                   d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
                 />
               </svg>
-              <span>Logout</span>
+              <span>{t("logout")}</span>
             </div>
           </div>
         </nav>

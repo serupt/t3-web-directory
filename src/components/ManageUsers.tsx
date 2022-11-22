@@ -7,7 +7,9 @@ import LoadingOverlay from "./LoadingOverlay";
 import AddUser from "./ManageUsers/AddUser";
 import EditUsers from "./ManageUsers/EditUsers";
 
-const tableThreads = ["ID", "Username", "Role", "Created At", "Updated At"];
+import { useTranslation } from "next-i18next";
+
+const tableThreads = ["ID", "Username", "Role", "Created_At", "Updated_At"];
 
 function getSuccessNotificationMessage(message: string) {
   toast.success(message, {
@@ -38,6 +40,8 @@ export default function ManageUsers() {
   const [selectedUser, setSelectedUser] = useState<User>();
   const [addUserModalOpened, setAddUserModalOpened] = useState(false);
   const [editUserModalOpened, setEditUserModalOpened] = useState(false);
+
+  const { t } = useTranslation("common");
 
   const { data: session } = useSession();
 
@@ -99,7 +103,7 @@ export default function ManageUsers() {
               d="M12 4.5v15m7.5-7.5h-15"
             />
           </svg>
-          Add New User
+          {t("add_user")}
         </button>
       </nav>
       <div className="divider px-2 before:bg-secondary after:bg-secondary"></div>
@@ -111,7 +115,7 @@ export default function ManageUsers() {
                 {tableThreads.map((thread, index) => {
                   return (
                     <th key={index} className="px-4 py-2 text-base">
-                      {thread}
+                      {t(`${thread.toLocaleLowerCase()}`)}
                     </th>
                   );
                 })}
@@ -131,11 +135,11 @@ export default function ManageUsers() {
                     .includes(query.toLocaleLowerCase().trim())
                 )
                 .map((user) => {
-                  if (user.role === "ADMIN" && session?.user.id !== user.id) {
+                  if (user.role === "ADMIN") {
                     return (
                       <tr
                         key={user.id}
-                        className="text-base odd:bg-primary-800 hover:cursor-pointer hover:bg-primary-700"
+                        className="text-base odd:bg-primary-800 hover:bg-primary-700"
                       >
                         <td className="px-4 py-2">{user.id}</td>
                         <td className="px-4 py-2">{user.username}</td>

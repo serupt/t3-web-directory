@@ -10,6 +10,19 @@ import ManageEntryLayout from "../../layout/ManageEntryLayout";
 
 const googleMapsLibraries: LoadScriptProps["libraries"] = ["places"];
 
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import nextI18nConfig from "../../../next-i18next.config.mjs";
+
+export const getServerSideProps = async ({ locale }: { locale: string }) => ({
+  props: {
+    ...(await serverSideTranslations(locale, ["common"], nextI18nConfig, [
+      "en",
+      "zh",
+    ])),
+  },
+});
+
 const AdminHome: NextPage = () => {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,

@@ -6,6 +6,19 @@ import { useRouter } from "next/router";
 import ManageUsers from "../../components/ManageUsers";
 import ManageEntryLayout from "../../layout/ManageEntryLayout";
 
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import nextI18nConfig from "../../../next-i18next.config.mjs";
+
+export const getServerSideProps = async ({ locale }: { locale: string }) => ({
+  props: {
+    ...(await serverSideTranslations(locale, ["common"], nextI18nConfig, [
+      "en",
+      "zh",
+    ])),
+  },
+});
+
 const Users: NextPage = () => {
   const router = useRouter();
   const { data: session } = useSession();

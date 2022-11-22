@@ -10,6 +10,8 @@ import {
   PlaceInput,
 } from "../../utils/validation/entries.schema";
 
+import { useTranslation } from "next-i18next";
+
 interface Props {
   importOpen: boolean;
   setImportOpen: Dispatch<SetStateAction<boolean>>;
@@ -67,6 +69,8 @@ export default function ImportFromCSV({
   setImportOpen,
   onImport,
 }: Props) {
+  const { t } = useTranslation("common");
+
   const {
     register,
     handleSubmit,
@@ -178,7 +182,7 @@ export default function ImportFromCSV({
                     as="h3"
                     className="text-lg font-medium leading-6 text-white"
                   >
-                    Import from CSV
+                    {t("import_csv")}
                   </Dialog.Title>
 
                   <form onSubmit={handleSubmit(onSubmit)}>
@@ -191,8 +195,8 @@ export default function ImportFromCSV({
 
                     <div className="pt-2 pl-5 text-xs">
                       <ul className="list-disc">
-                        <li>CSV files only</li>
-                        <li>File size must be less than 2MB</li>
+                        <li>{t("import_csv_file")}</li>
+                        <li>{t("import_csv_size")}</li>
                       </ul>
                     </div>
                     <div className="mt-4 flex space-x-2">
@@ -205,13 +209,13 @@ export default function ImportFromCSV({
                           clearErrors();
                         }}
                       >
-                        Cancel
+                        {t("cancel")}
                       </button>
                       <button
                         type="submit"
                         className="inline-flex w-full justify-center rounded-md border border-transparent bg-secondary-700 px-4 py-2 text-sm font-medium hover:bg-secondary-600 "
                       >
-                        Submit
+                        {t("submit")}
                       </button>
                     </div>
                   </form>

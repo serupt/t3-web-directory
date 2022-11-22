@@ -1,15 +1,20 @@
 import { signIn } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
+
+import { useTranslation } from "next-i18next";
+
 export default function Login() {
+  const { t } = useTranslation("common");
+
   return (
     <>
       <Head>
-        <title>Login</title>
+        <title>{t("login")}</title>
       </Head>
       <main className="flex h-screen w-full flex-col items-center justify-center bg-primary">
         <h1 className="text-4xl font-extrabold tracking-widest text-white">
-          Sign in to continue
+          {t("login_to_continue")}
         </h1>
         <div className="flex space-x-5">
           <button className="mt-5">
@@ -18,7 +23,7 @@ export default function Login() {
                 <span className="absolute inset-0 translate-x-0.5 translate-y-0.5 bg-secondary transition-transform group-hover:translate-y-0 group-hover:translate-x-0"></span>
 
                 <span className="relative block border border-current bg-primary px-8 py-3">
-                  Sign in
+                  {t("login")}
                 </span>
               </a>
             </div>
@@ -29,7 +34,7 @@ export default function Login() {
                 <span className="absolute inset-0 translate-x-0.5 translate-y-0.5 bg-secondary transition-transform group-hover:translate-y-0 group-hover:translate-x-0"></span>
 
                 <span className="relative block border border-current bg-primary px-8 py-3">
-                  Go Back
+                  {t("back")}
                 </span>
               </a>
             </Link>

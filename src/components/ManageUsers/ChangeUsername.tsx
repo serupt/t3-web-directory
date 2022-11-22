@@ -8,6 +8,8 @@ import {
   EditUsernameForm,
 } from "../../utils/validation/users.schema";
 
+import { useTranslation } from "next-i18next";
+
 interface ChangeUsernameProps {
   selectedUser: User;
   showChangeUsername: boolean;
@@ -21,6 +23,8 @@ export default function ChangeUsername({
   setShowChangeUsername,
   onEditUsername,
 }: ChangeUsernameProps) {
+  const { t } = useTranslation("common");
+
   const {
     register,
     formState,
@@ -77,7 +81,7 @@ export default function ChangeUsername({
                   as="h3"
                   className="text-center text-lg font-medium leading-6"
                 >
-                  Type in new username
+                  {t("username_text")}
                 </Dialog.Title>
                 <div className="divider before:bg-secondary after:bg-secondary"></div>
 
@@ -85,7 +89,7 @@ export default function ChangeUsername({
                   <form onSubmit={handleSubmit(onSubmit)}>
                     <div>
                       <label className="block">
-                        <span className="mb-2 block">New Username</span>
+                        <span className="mb-2 block">{t("username_new")}</span>
                         {formState.errors.username && (
                           <p className="p-1 text-xl text-red-600">
                             {formState.errors.username.message}
@@ -107,13 +111,13 @@ export default function ChangeUsername({
                           setShowChangeUsername(false);
                         }}
                       >
-                        Cancel
+                        {t("cancel")}
                       </button>
                       <button
                         type="submit"
                         className="inline-flex w-full justify-center rounded-md border border-transparent bg-secondary-700 px-4 py-2 text-sm font-medium hover:bg-secondary-600"
                       >
-                        Confirm
+                        {t("confirm")}
                       </button>
                     </div>
                   </form>

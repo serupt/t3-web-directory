@@ -7,6 +7,8 @@ import DefaultView from "./SideMap/DefaultView";
 import SelectedEntryView from "./SideMap/SelectedEntryView";
 import SelectedTagView from "./SideMap/SelectedTagView";
 
+import { useTranslation } from "next-i18next";
+
 export function getUniqueCategoryTags(data: Place[], category: string) {
   const uniqueTag: string[] = [];
   data.map((value) => {
@@ -40,6 +42,8 @@ export default function SideMapComponent({
 }: MapProps) {
   const [query, setQuery] = useState("");
   const { data: session } = useSession();
+  const { t } = useTranslation("common");
+
   return (
     <>
       <div className="flex h-screen flex-col space-y-2 p-3 ">
@@ -52,7 +56,7 @@ export default function SideMapComponent({
               </div>
               <Link href={"/login"}>
                 <button className="btn-sm w-full rounded bg-secondary-600 font-bold uppercase hover:bg-secondary-700">
-                  Login to manage entries
+                  {t("login")}
                 </button>
               </Link>
               <div className="divider mb-0 before:bg-secondary after:bg-secondary"></div>
@@ -70,14 +74,15 @@ export default function SideMapComponent({
                 }}
                 className="btn-sm w-full rounded bg-secondary-700 hover:bg-secondary-600"
               >
-                Back
+                {t("back")}
               </button>
             ) : (
               <input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 type="text"
-                placeholder="Search by name..."
+                //@ts-ignore
+                placeholder={t("search")}
                 className=" input-sm w-full  rounded bg-primary-800  focus:outline-none focus:ring-2 focus:ring-secondary"
               />
             )}

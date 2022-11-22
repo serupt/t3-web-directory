@@ -3,6 +3,8 @@ import { User } from "@prisma/client";
 import { Dispatch, Fragment, SetStateAction } from "react";
 import { DeleteUserInput } from "../../utils/validation/users.schema";
 
+import { useTranslation } from "next-i18next";
+
 interface DeleteConfirmationProps {
   selectedUser: User;
   showDeleteConfirmation: boolean;
@@ -16,6 +18,7 @@ export default function DeleteConfirmation({
   showDeleteConfirmation,
   onDelete,
 }: DeleteConfirmationProps) {
+  const { t } = useTranslation("common");
   return (
     <Transition appear show={showDeleteConfirmation} as={Fragment}>
       <Dialog
@@ -54,14 +57,14 @@ export default function DeleteConfirmation({
                   as="h3"
                   className="text-center text-lg font-medium leading-6"
                 >
-                  Editing {selectedUser.username}
+                  {t("delete")} {selectedUser.username}
                 </Dialog.Title>
                 <div className="divider before:bg-secondary after:bg-secondary"></div>
 
                 <div>
                   <div>
                     <p className="pb-5 text-center text-base text-white">
-                      Are you sure you want to delete {selectedUser.username}?
+                      {t("delete_user_confirm")}
                     </p>
                   </div>
                   <div className="flex justify-around space-x-3">
@@ -72,7 +75,7 @@ export default function DeleteConfirmation({
                         setShowDeleteConfirmation(false);
                       }}
                     >
-                      Cancel
+                      {t("cancel")}
                     </button>
                     <button
                       type="button"
@@ -81,7 +84,7 @@ export default function DeleteConfirmation({
                         onDelete({ id: selectedUser.id });
                       }}
                     >
-                      Confirm
+                      {t("confirm")}
                     </button>
                   </div>
                 </div>

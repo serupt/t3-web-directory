@@ -5,6 +5,9 @@ import type { AppType } from "next/app";
 import "../styles/globals.css";
 import { trpc } from "../utils/trpc";
 
+import nextI18nConfig from "../../next-i18next.config.mjs";
+import { appWithTranslation } from "next-i18next";
+
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
@@ -16,4 +19,8 @@ const MyApp: AppType<{ session: Session | null }> = ({
   );
 };
 
-export default trpc.withTRPC(MyApp);
+const I18nApp = appWithTranslation(MyApp, nextI18nConfig);
+const TRPCApp = trpc.withTRPC(I18nApp);
+
+export default TRPCApp;
+// export default trpc.withTRPC(MyApp);

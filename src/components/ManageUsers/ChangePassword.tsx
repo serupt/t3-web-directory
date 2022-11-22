@@ -8,6 +8,8 @@ import {
   EditPasswordForm,
 } from "../../utils/validation/users.schema";
 
+import { useTranslation } from "next-i18next";
+
 interface ChangePasswordProps {
   selectedUser: User;
   showChangePassword: boolean;
@@ -21,6 +23,8 @@ export default function ChangePassword({
   setShowChangePassword,
   onEditPassword,
 }: ChangePasswordProps) {
+  const { t } = useTranslation("common");
+
   const {
     register,
     formState,
@@ -75,7 +79,7 @@ export default function ChangePassword({
                   as="h3"
                   className="text-center text-lg font-medium leading-6"
                 >
-                  Type in new password
+                  {t("password_new_text")}
                 </Dialog.Title>
                 <div className="divider before:bg-secondary after:bg-secondary"></div>
 
@@ -83,7 +87,7 @@ export default function ChangePassword({
                   <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="flex flex-col space-y-3">
                       <label className="block">
-                        <span className="mb-2 block">New Password</span>
+                        <span className="mb-2 block">{t("password_new")}</span>
                         {formState.errors.password && (
                           <p className="p-1 text-xl text-red-600">
                             {formState.errors.password.message}
@@ -96,7 +100,9 @@ export default function ChangePassword({
                         />
                       </label>
                       <label className="block">
-                        <span className="mb-2 block">Confirm New Password</span>
+                        <span className="mb-2 block">
+                          {t("password_new_confirm")}
+                        </span>
                         <input
                           type="password"
                           className="input-md w-full rounded bg-primary-800 shadow-md focus:outline-none focus:ring-2 focus:ring-secondary"
@@ -114,7 +120,7 @@ export default function ChangePassword({
                           setShowChangePassword(false);
                         }}
                       >
-                        Cancel
+                        {t("cancel")}
                       </button>
                       {watch("confirmpassword") === watch("password") &&
                       getValues("confirmpassword") ? (
@@ -122,7 +128,7 @@ export default function ChangePassword({
                           type="submit"
                           className="inline-flex w-full justify-center rounded-md border border-transparent bg-secondary-700 px-4 py-2 text-sm font-medium hover:bg-secondary-600"
                         >
-                          Confirm
+                          {t("confirm")}
                         </button>
                       ) : (
                         <button
@@ -130,7 +136,7 @@ export default function ChangePassword({
                           className="inline-flex w-full justify-center rounded-md border border-transparent bg-primary-600 px-4 py-2 text-sm font-medium hover:bg-primary-600 "
                           disabled
                         >
-                          Confirm
+                          {t("confirm")}
                         </button>
                       )}
                     </div>
