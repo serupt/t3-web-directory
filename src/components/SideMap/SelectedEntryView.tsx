@@ -1,4 +1,5 @@
 import { Place } from "@prisma/client";
+import { useTranslation } from "next-i18next";
 
 interface SelectedEntryViewProps {
   selectedEntry: Place | undefined;
@@ -7,6 +8,7 @@ interface SelectedEntryViewProps {
 export default function SelectedEntryView({
   selectedEntry,
 }: SelectedEntryViewProps) {
+  const { t } = useTranslation("common");
   return selectedEntry ? (
     <div className="space-y-2 p-1">
       {/* ------- name and addresses ------- */}
@@ -57,7 +59,7 @@ export default function SelectedEntryView({
       {selectedEntry.description ? (
         <>
           <div className="divider before:bg-secondary after:bg-secondary">
-            Description
+            {t("description")}
           </div>
           <p className="text-lg">{selectedEntry.description}</p>
         </>
@@ -65,14 +67,21 @@ export default function SelectedEntryView({
       {selectedEntry.phone_number || selectedEntry.website ? (
         <>
           <div className="divider before:bg-secondary after:bg-secondary">
-            Contact Information
+            {t("contact")}
           </div>
           {selectedEntry.phone_number ? (
-            <p>Phone: {selectedEntry.phone_number}</p>
+            <p>
+              {t("phone")}: {selectedEntry.phone_number}
+            </p>
+          ) : null}
+          {selectedEntry.email ? (
+            <p>
+              {t("email")}: {selectedEntry.email}
+            </p>
           ) : null}
           {selectedEntry.website ? (
             <p>
-              Website:{" "}
+              {t("website")}:{" "}
               <a
                 href={selectedEntry.website}
                 className="link text-center text-lg text-blue-500"
@@ -86,7 +95,7 @@ export default function SelectedEntryView({
       {selectedEntry.opening_hours ? (
         <>
           <div className="divider before:bg-secondary after:bg-secondary">
-            Opening Hours
+            {t("opening_hours")}
           </div>
           {selectedEntry.opening_hours.split(",").map((day, index) => (
             <p key={index}>{day.trim()}</p>
