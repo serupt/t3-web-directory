@@ -10,6 +10,7 @@ import LoadingOverlay from "./LoadingOverlay";
 
 import { useTranslation } from "next-i18next";
 import { Menu, Transition } from "@headlessui/react";
+import Gallery from "./Gallery";
 
 function getUniqueTags(data: Place[]) {
   const uniqueTag: string[] = [];
@@ -75,6 +76,7 @@ export default function EditingComponent() {
   const [selectedEntry, setSelectedEntry] = useState<Place>();
   const [addModalOpened, setAddModalOpened] = useState(false);
   const [editModalOpened, setEditModalOpened] = useState(false);
+  const [galleryModalOpened, setGalleryModalOpened] = useState(false);
 
   const [importOpen, setImportOpen] = useState(false);
 
@@ -306,6 +308,10 @@ export default function EditingComponent() {
                                             ? "bg-secondary text-white"
                                             : "text-white"
                                         } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                                        onClick={() => {
+                                          setSelectedEntry(entry);
+                                          setGalleryModalOpened(true);
+                                        }}
                                       >
                                         <svg
                                           xmlns="http://www.w3.org/2000/svg"
@@ -400,6 +406,14 @@ export default function EditingComponent() {
             }}
           />
         )}
+        {getEntries.data && selectedEntry ? (
+          <Gallery
+            selectedEntry={selectedEntry}
+            setSelectedEntry={setSelectedEntry}
+            galleryModalOpened={galleryModalOpened}
+            setGalleryModalOpened={setGalleryModalOpened}
+          />
+        ) : null}
         <ImportFromCSV
           importOpen={importOpen}
           setImportOpen={setImportOpen}

@@ -8,8 +8,6 @@ import {
   editPlaceSchema,
 } from "../../utils/validation/entries.schema";
 
-import { DeletePlaceInput } from "../../utils/validation/entries.schema";
-
 import { useTranslation } from "next-i18next";
 
 interface EditEntryProps {
