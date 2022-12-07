@@ -11,6 +11,7 @@ import LoadingOverlay from "./LoadingOverlay";
 import { useTranslation } from "next-i18next";
 import { Menu, Transition } from "@headlessui/react";
 import Gallery from "./Gallery";
+import DeleteEntryConfirmation from "./EditingComponents/DeleteEntryConfirmation";
 
 function getUniqueTags(data: Place[]) {
   const uniqueTag: string[] = [];
@@ -77,6 +78,7 @@ export default function EditingComponent() {
   const [addModalOpened, setAddModalOpened] = useState(false);
   const [editModalOpened, setEditModalOpened] = useState(false);
   const [galleryModalOpened, setGalleryModalOpened] = useState(false);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 
   const [importOpen, setImportOpen] = useState(false);
 
@@ -342,7 +344,8 @@ export default function EditingComponent() {
                                             : "text-white"
                                         } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                                         onClick={() => {
-                                          deleteEntry.mutate({ id: entry.id });
+                                          setSelectedEntry(entry);
+                                          setShowDeleteConfirmation(true);
                                         }}
                                       >
                                         <svg
@@ -412,6 +415,18 @@ export default function EditingComponent() {
             setSelectedEntry={setSelectedEntry}
             galleryModalOpened={galleryModalOpened}
             setGalleryModalOpened={setGalleryModalOpened}
+          />
+        ) : null}
+        {getEntries.data && selectedEntry ? (
+          <DeleteEntryConfirmation
+            selectedEntry={selectedEntry}
+            showDeleteConfirmation={showDeleteConfirmation}
+            setShowDeleteConfirmation={setShowDeleteConfirmation}
+            onDelete={(data) => {
+              deleteEntry.mutate(data);
+              setShowDeleteConfirmation(false);
+              setSelectedEntry(undefined);
+            }}
           />
         ) : null}
         <ImportFromCSV
