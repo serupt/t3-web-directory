@@ -20,7 +20,6 @@ interface EditEntryProps {
   tagData: string[];
   categoryData: string[];
   onEdit: (data: EditPlaceInput) => void;
-  onDelete: (data: DeletePlaceInput) => void;
 }
 export default function EditEntry({
   selectedEntry,
@@ -30,7 +29,6 @@ export default function EditEntry({
   categoryData,
   tagData,
   onEdit,
-  onDelete,
 }: EditEntryProps) {
   const { t } = useTranslation("common");
 
@@ -609,14 +607,6 @@ export default function EditEntry({
 
                     <div className="mt-4">
                       <div className="flex justify-start space-x-2">
-                        <div className="flex">
-                          <button
-                            onClick={() => onDelete({ id: selectedEntry.id })}
-                            className="inline-flex w-full justify-center rounded-md border border-transparent bg-red-700 px-4 py-2 text-sm font-medium  hover:bg-red-600 "
-                          >
-                            {t("delete")}
-                          </button>
-                        </div>
                         <div className="flex flex-1 justify-around space-x-2">
                           <button
                             type="button"
