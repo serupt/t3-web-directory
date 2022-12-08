@@ -185,40 +185,46 @@ export default function ImportFromCSV({
                     {t("import_csv")}
                   </Dialog.Title>
 
-                  <form onSubmit={handleSubmit(onSubmit)}>
-                    <input className="py-2" type="file" {...register("item")} />
-                    {errors.item && (
-                      <p className="p-1 text-xl text-red-600">
-                        {errors.item.message}
-                      </p>
-                    )}
+                  <div className="mt-2 p-2">
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                      <input
+                        className="file-input file-input-bordered w-full"
+                        type="file"
+                        {...register("item")}
+                      />
+                      {errors.item && (
+                        <p className="p-1 text-xl text-red-600">
+                          {errors.item.message}
+                        </p>
+                      )}
 
-                    <div className="pt-2 pl-5 text-xs">
-                      <ul className="list-disc">
-                        <li>{t("import_csv_file")}</li>
-                        <li>{t("import_csv_size")}</li>
-                      </ul>
-                    </div>
-                    <div className="mt-4 flex space-x-2">
-                      <button
-                        type="button"
-                        className="inline-flex w-full justify-center rounded-md border border-transparent bg-gray-600 px-4 py-2 text-sm font-medium  hover:bg-gray-500"
-                        onClick={() => {
-                          setImportOpen(false);
-                          reset();
-                          clearErrors();
-                        }}
-                      >
-                        {t("cancel")}
-                      </button>
-                      <button
-                        type="submit"
-                        className="inline-flex w-full justify-center rounded-md border border-transparent bg-secondary-700 px-4 py-2 text-sm font-medium hover:bg-secondary-600 "
-                      >
-                        {t("submit")}
-                      </button>
-                    </div>
-                  </form>
+                      <div className="pt-2 pl-5 text-xs">
+                        <ul className="list-disc">
+                          <li>{t("import_csv_file")}</li>
+                          <li>{t("import_csv_size")}</li>
+                        </ul>
+                      </div>
+                      <div className="mt-4 flex space-x-2">
+                        <button
+                          type="button"
+                          className="inline-flex w-full justify-center rounded-md border border-transparent bg-gray-600 px-4 py-2 text-sm font-medium  hover:bg-gray-500"
+                          onClick={() => {
+                            setImportOpen(false);
+                            reset();
+                            clearErrors();
+                          }}
+                        >
+                          {t("cancel")}
+                        </button>
+                        <button
+                          type="submit"
+                          className="inline-flex w-full justify-center rounded-md border border-transparent bg-secondary-700 px-4 py-2 text-sm font-medium hover:bg-secondary-600 "
+                        >
+                          {t("submit")}
+                        </button>
+                      </div>
+                    </form>
+                  </div>
                 </Dialog.Panel>
               </Transition.Child>
             </div>

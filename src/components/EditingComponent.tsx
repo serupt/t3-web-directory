@@ -208,10 +208,6 @@ export default function EditingComponent() {
                     <tr
                       key={entry.id}
                       className="text-base odd:bg-primary-800  hover:bg-primary-700"
-                      // onClick={() => {
-                      //   setSelectedEntry(entry);
-                      //   setEditModalOpened(true);
-                      // }}
                     >
                       <td className="px-4 py-2">{entry.name}</td>
                       <td className="px-4 py-2">{entry.main_address}</td>
