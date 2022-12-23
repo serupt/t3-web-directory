@@ -120,6 +120,7 @@ export default function EditingComponent() {
       getErrorNotificationMessage("Please check your file and try again");
     },
   });
+
   return (
     <div>
       <nav className="flex items-center space-x-5 px-5 pt-3">

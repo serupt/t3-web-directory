@@ -1,6 +1,9 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { TRPCError } from "@trpc/server";
-import { imageSchema } from "../../../utils/validation/image.schema";
+import {
+  imageSchema,
+  uploadImageSchema,
+} from "../../../utils/validation/image.schema";
 import { protectedProcedure, router } from "../trpc";
 
 export const imageRouter = router({
@@ -14,12 +17,13 @@ export const imageRouter = router({
       });
     }),
   addImage: protectedProcedure
-    .input(imageSchema)
+    .input(uploadImageSchema)
     .mutation(async ({ ctx, input }) => {
       try {
         const newEntry = await ctx.prisma.placeImages.create({
           data: {
-            image_data: input.image_data,
+            image_url: input.image_url,
+            image_public_id: input.image_public_id,
             place: {
               connect: {
                 id: input.placeId,

@@ -5,8 +5,10 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
+import { trpc } from "../utils/trpc";
 
 import { useTranslation } from "next-i18next";
+import Image from "next/image";
 
 interface GalleryProps {
   selectedEntry: Place;
@@ -52,6 +54,16 @@ export default function Gallery({
   galleryModalOpened,
   setGalleryModalOpened,
 }: GalleryProps) {
+  const getImages = trpc.images.getPlaceImages.useQuery({
+    placeId: selectedEntry.id,
+  });
+
+  const addImage = trpc.images.addImage.useMutation({
+    onSuccess: () => {
+      getImages.refetch();
+    },
+  });
+
   const { t } = useTranslation("common");
 
   const [image, setImage] = useState<File | undefined>(undefined);
@@ -104,7 +116,11 @@ export default function Gallery({
       }
     ).then((r) => r.json());
 
-    console.log(cloudinary.secure_url);
+    addImage.mutate({
+      placeId: selectedEntry.id,
+      image_public_id: cloudinary.public_id,
+      image_url: cloudinary.secure_url,
+    });
 
     setImage(undefined);
     reset();
@@ -153,7 +169,35 @@ export default function Gallery({
                   {selectedEntry.name}'s Gallery
                 </Dialog.Title>
                 <div className="divider before:bg-secondary after:bg-secondary"></div>
-                <div>Gallery</div>
+                {getImages.data && getImages.data.length > 0 ? (
+                  <div>
+                    <div className="relative h-32 w-32">
+                      <Image
+                        src={getImages.data.at(0)?.image_url!}
+                        layout="fill"
+                        objectFit="cover"
+                      />
+                      <button className="absolute top-1 right-1">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="#FFF"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="#2B303A"
+                          className="h-6 w-6"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M6 18L18 6M6 6l12 12"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div>No images found. Please upload an image.</div>
+                )}
                 <div className="divider before:bg-secondary after:bg-secondary"></div>
                 <div className="mt-2 p-2">
                   <form

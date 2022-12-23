@@ -41,10 +41,11 @@ model Place {
 }
 
 model PlaceImages {
-  id         Int    @id @default(autoincrement())
-  place      Place? @relation(fields: [placeId], references: [id])
-  placeId    Int    @unique
-  image_data String
+  id              Int    @id @default(autoincrement())
+  place           Place? @relation(fields: [placeId], references: [id])
+  placeId         Int    @unique
+  image_public_id String
+  image_url       String
 }
 
 // Necessary for Next auth
