@@ -16,6 +16,7 @@ export const serverSchema = z.object({
     // VERCEL_URL doesnt include `https` so it cant be validated as a URL
     process.env.VERCEL ? z.string() : z.string().url()
   ),
+  CLOUDINARY_API_SECRET: z.string(),
 });
 
 /**
@@ -26,6 +27,8 @@ export const serverSchema = z.object({
 export const clientSchema = z.object({
   // NEXT_PUBLIC_BAR: z.string(),
   NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: z.string(),
+  NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: z.string(),
+  NEXT_PUBLIC_CLOUDINARY_API_KEY: z.string(),
 });
 
 /**
@@ -37,4 +40,7 @@ export const clientSchema = z.object({
 export const clientEnv = {
   // NEXT_PUBLIC_BAR: process.env.NEXT_PUBLIC_BAR,
   NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
+  NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME:
+    process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+  NEXT_PUBLIC_CLOUDINARY_API_KEY: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
 };

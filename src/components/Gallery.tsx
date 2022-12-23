@@ -15,9 +15,9 @@ interface GalleryProps {
   setGalleryModalOpened: Dispatch<SetStateAction<boolean>>;
 }
 
-interface FormData {
+type FormValues = {
   item: FileList;
-}
+};
 
 const ImageSchema = z.object({
   item:
@@ -62,13 +62,13 @@ export default function Gallery({
     reset,
     clearErrors,
     formState: { errors },
-  } = useForm<FormData>({
+  } = useForm<FormValues>({
     resolver: zodResolver(ImageSchema),
     defaultValues: undefined,
   });
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
-    // console.log(data.item[0]);
+  const onDrop: SubmitHandler<FormValues> = (data) => {
+    // console.log(data);
     if (
       data.item[0]?.type === "image/jpeg" ||
       data.item[0]?.type === "image/png"
@@ -86,6 +86,28 @@ export default function Gallery({
         duration: 6000,
       });
     }
+  };
+
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    const formData = new FormData();
+    const fileArray = Array.from(data.item);
+    fileArray.forEach((file) => {
+      formData.append("file", file);
+    });
+    formData.append("upload_preset", "na38a6hp");
+
+    const cloudinary = await fetch(
+      "https://api.cloudinary.com/v1_1/cccnydirectory/image/upload",
+      {
+        method: "POST",
+        body: formData,
+      }
+    ).then((r) => r.json());
+
+    console.log(cloudinary.secure_url);
+
+    setImage(undefined);
+    reset();
   };
 
   return (
@@ -134,89 +156,71 @@ export default function Gallery({
                 <div>Gallery</div>
                 <div className="divider before:bg-secondary after:bg-secondary"></div>
                 <div className="mt-2 p-2">
-                  <form onChange={handleSubmit(onSubmit)}>
-                    <div className="flex w-full items-center justify-center">
-                      <label
-                        htmlFor="dropzone-file"
-                        className="dark:hover:bg-bray-800 flex h-40 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                  <form
+                    onChange={handleSubmit(onDrop)}
+                    onSubmit={handleSubmit(onSubmit)}
+                  >
+                    <input
+                      className="file-input file-input-bordered w-full"
+                      type="file"
+                      accept="image/png, image/jpeg"
+                      {...register("item")}
+                    />
+
+                    {errors.item && (
+                      <p className="p-1 text-xl text-red-600">
+                        {errors.item.message}
+                      </p>
+                    )}
+                    <div className="mt-4 flex justify-between">
+                      <p
+                        className="mt-2 p-1 text-sm text-gray-500 dark:text-gray-300"
+                        id="file_input_help"
                       >
-                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                          <svg
-                            aria-hidden="true"
-                            className="mb-3 h-10 w-10 text-gray-400"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                              d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                            ></path>
-                          </svg>
-                          <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                            <span className="font-semibold">
-                              Click to upload
-                            </span>{" "}
-                            or drag and drop
-                          </p>
-                          <p className="text-xs text-gray-500 dark:text-gray-400">
-                            SVG, PNG, JPG or GIF (MAX. 800x400px)
-                          </p>
-                        </div>
-                        <input
-                          id="dropzone-file"
-                          type="file"
-                          className="hidden"
-                          {...register("item")}
+                        PNG or JPG (Max 5MB).
+                      </p>
+                      <div className="flex space-x-2">
+                        <button
+                          className="inline-flex w-32 justify-center rounded-md border border-transparent bg-red-700 px-4 py-2 text-sm font-medium hover:bg-red-600"
+                          onClick={() => {
+                            setImage(undefined);
+                            reset();
+                          }}
+                        >
+                          {t("clear")}
+                        </button>
+                        <button
+                          type="submit"
+                          className="inline-flex w-32 justify-center rounded-md border border-transparent bg-secondary-700 px-4 py-2 text-sm font-medium hover:bg-secondary-600"
+                        >
+                          {t("submit")}
+                        </button>
+                      </div>
+                    </div>
+                    <div className="items-center justify-center">
+                      {image && (
+                        <img
+                          className="center h-auto max-w-xs items-center justify-center p-3"
+                          src={URL.createObjectURL(image)}
                         />
-                      </label>
+                      )}
+                    </div>
+
+                    <div className="mt-4 flex space-x-2">
+                      <button
+                        type="button"
+                        className="inline-flex w-full justify-center rounded-md border border-transparent bg-gray-600 px-4 py-2 text-sm font-medium  hover:bg-gray-500"
+                        onClick={() => {
+                          setGalleryModalOpened(false);
+                          reset();
+                          setImage(undefined);
+                          clearErrors();
+                        }}
+                      >
+                        {t("Back")}
+                      </button>
                     </div>
                   </form>
-                  {errors.item && (
-                    <p className="p-1 text-xl text-red-600">
-                      {errors.item.message}
-                    </p>
-                  )}
-                  <div className="mt-4 flex justify-between">
-                    <p
-                      className="mt-2 p-1 text-sm text-gray-500 dark:text-gray-300"
-                      id="file_input_help"
-                    >
-                      PNG or JPG (Max 5MB).
-                    </p>
-                    <button
-                      type="submit"
-                      className="inline-flex w-32 justify-center rounded-md border border-transparent bg-secondary-700 px-4 py-2 text-sm font-medium hover:bg-secondary-600 "
-                    >
-                      {t("submit")}
-                    </button>
-                  </div>
-                  <div>
-                    {image && (
-                      <img
-                        className="h-auto max-w-full"
-                        src={URL.createObjectURL(image)}
-                      />
-                    )}
-                  </div>
-
-                  <div className="mt-4 flex space-x-2">
-                    <button
-                      type="button"
-                      className="inline-flex w-full justify-center rounded-md border border-transparent bg-gray-600 px-4 py-2 text-sm font-medium  hover:bg-gray-500"
-                      onClick={() => {
-                        setGalleryModalOpened(false);
-                        reset();
-                        setImage(undefined);
-                        clearErrors();
-                      }}
-                    >
-                      {t("Back")}
-                    </button>
-                  </div>
                 </div>
               </Dialog.Panel>
             </Transition.Child>

@@ -21,6 +21,7 @@
     "@trpc/react": "10.0.0-proxy-beta.17",
     "@trpc/server": "10.0.0-proxy-beta.17",
     "argon2": "^0.30.1",
+    "cloudinary": "^1.33.0",
     "daisyui": "^2.36.1",
     "i18next": "^22.0.6",
     "next": "12.3.1",

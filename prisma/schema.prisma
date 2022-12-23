@@ -43,8 +43,8 @@ model Place {
 model PlaceImages {
   id         Int    @id @default(autoincrement())
   place      Place? @relation(fields: [placeId], references: [id])
-  placeId    Int?
-  image_data Bytes  @db.ByteA
+  placeId    Int    @unique
+  image_data String
 }
 
 // Necessary for Next auth
