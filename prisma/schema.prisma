@@ -43,7 +43,7 @@ model Place {
 model PlaceImages {
   id              Int    @id @default(autoincrement())
   place           Place? @relation(fields: [placeId], references: [id])
-  placeId         Int    @unique
+  placeId         Int
   image_public_id String
   image_url       String
 }

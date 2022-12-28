@@ -170,30 +170,35 @@ export default function Gallery({
                 </Dialog.Title>
                 <div className="divider before:bg-secondary after:bg-secondary"></div>
                 {getImages.data && getImages.data.length > 0 ? (
-                  <div>
-                    <div className="relative h-32 w-32">
-                      <Image
-                        src={getImages.data.at(0)?.image_url!}
-                        layout="fill"
-                        objectFit="cover"
-                      />
-                      <button className="absolute top-1 right-1">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="#FFF"
-                          viewBox="0 0 24 24"
-                          strokeWidth={1.5}
-                          stroke="#2B303A"
-                          className="h-6 w-6"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M6 18L18 6M6 6l12 12"
+                  <div className="flex space-x-2">
+                    {getImages.data.map((placeImages) => {
+                      return (
+                        <div className="relative h-32 w-32 rounded-lg border-2 border-solid border-secondary">
+                          <Image
+                            src={placeImages.image_url}
+                            layout="fill"
+                            objectFit="cover"
+                            className="rounded-md"
                           />
-                        </svg>
-                      </button>
-                    </div>
+                          <button className="absolute top-1 right-1">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="#E32B2B"
+                              viewBox="0 0 24 24"
+                              strokeWidth={1.5}
+                              stroke="currentColor"
+                              className="h-6 w-6"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      );
+                    })}
                   </div>
                 ) : (
                   <div>No images found. Please upload an image.</div>
