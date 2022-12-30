@@ -183,7 +183,7 @@ export default function Gallery({
                   as="h3"
                   className="text-center text-lg font-medium leading-6"
                 >
-                  {selectedEntry.name}'s Gallery
+                  {selectedEntry.name} {t("gallery")}
                 </Dialog.Title>
                 <div>
                   <div className="divider before:bg-secondary after:bg-secondary"></div>
@@ -256,15 +256,17 @@ export default function Gallery({
                           PNG or JPG (Max 5MB).
                         </p>
                         <div className="flex space-x-2">
-                          <button
-                            className="inline-flex w-32 justify-center rounded-md border border-transparent bg-red-700 px-4 py-2 text-sm font-medium hover:bg-red-600"
-                            onClick={() => {
-                              setImage(undefined);
-                              reset();
-                            }}
-                          >
-                            {t("clear")}
-                          </button>
+                          {image ? (
+                            <button
+                              className="inline-flex w-32 justify-center rounded-md border border-transparent bg-red-700 px-4 py-2 text-sm font-medium hover:bg-red-600"
+                              onClick={() => {
+                                setImage(undefined);
+                                reset();
+                              }}
+                            >
+                              {t("clear")}
+                            </button>
+                          ) : null}
                           <button
                             type="submit"
                             className="inline-flex w-32 justify-center rounded-md border border-transparent bg-secondary-700 px-4 py-2 text-sm font-medium hover:bg-secondary-600"
@@ -293,7 +295,7 @@ export default function Gallery({
                             clearErrors();
                           }}
                         >
-                          {t("Back")}
+                          {t("back")}
                         </button>
                       </div>
                     </form>

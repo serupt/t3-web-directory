@@ -1,5 +1,6 @@
 import { Place } from "@prisma/client";
 import { useTranslation } from "next-i18next";
+import { trpc } from "../../utils/trpc";
 
 interface SelectedEntryViewProps {
   selectedEntry: Place | undefined;
@@ -9,6 +10,10 @@ export default function SelectedEntryView({
   selectedEntry,
 }: SelectedEntryViewProps) {
   const { t } = useTranslation("common");
+
+  const getImage = trpc.images.getPlaceImages.useQuery({
+    placeId: selectedEntry?.id!,
+  });
   return selectedEntry ? (
     <div className="space-y-2 p-1">
       {/* ------- name and addresses ------- */}
@@ -27,6 +32,22 @@ export default function SelectedEntryView({
           </a>
         </div>
       </h1>
+
+      {getImage.data && getImage.data.length > 0 ? (
+        <div className="carousel w-full">
+          <div id="slide1" className="carousel-item relative w-full">
+            <img src="https://placeimg.com/800/200/arch" className="w-full" />
+            <div className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
+              <a href="#slide4" className="btn btn-circle">
+                ❮
+              </a>
+              <a href="#slide2" className="btn btn-circle">
+                ❯
+              </a>
+            </div>
+          </div>
+        </div>
+      ) : null}
 
       {selectedEntry.other_addresses[0] ? (
         <>
