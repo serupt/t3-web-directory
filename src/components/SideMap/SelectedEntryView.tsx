@@ -2,6 +2,7 @@ import { Place } from "@prisma/client";
 import { useTranslation } from "next-i18next";
 import { trpc } from "../../utils/trpc";
 import { useState } from "react";
+import Image from "next/image";
 
 interface SelectedEntryViewProps {
   selectedEntry: Place | undefined;
@@ -51,17 +52,45 @@ export default function SelectedEntryView({
       {getImage.data && getImage.data.length > 0 ? (
         <div className="space-y-2">
           <div className="carousel w-full ">
-            <div className="carousel-item relative w-full">
-              <img
-                src={getImage.data.at(carouselIndex)?.image_url}
-                className="w-full"
+            <div className="carousel-item relative h-48 w-full">
+              <Image
+                src={getImage.data.at(carouselIndex)?.image_url!}
+                layout="fill"
+                objectFit="cover"
+                className="rounded-md"
               />
               <div className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
-                <button className="btn btn-circle" onClick={prevSlide}>
-                  ❮
+                <button onClick={prevSlide}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={2}
+                    stroke="currentColor"
+                    className="h-6 w-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M15.75 19.5L8.25 12l7.5-7.5"
+                    />
+                  </svg>
                 </button>
-                <button className="btn btn-circle" onClick={nextSlide}>
-                  ❯
+                <button onClick={nextSlide}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={2}
+                    stroke="currentColor"
+                    className="h-6 w-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M8.25 4.5l7.5 7.5-7.5 7.5"
+                    />
+                  </svg>
                 </button>
               </div>
             </div>
