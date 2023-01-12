@@ -50,7 +50,7 @@ export default function SelectedEntryView({
       </h1>
 
       {getImage.data && getImage.data.length > 0 ? (
-        <div className="space-y-2">
+        <div className="flex flex-col space-y-2">
           <div className="carousel w-full ">
             <div className="carousel-item relative h-48 w-full">
               <Image
