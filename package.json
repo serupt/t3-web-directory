@@ -16,6 +16,7 @@
     "@prisma/client": "^4.4.0",
     "@react-google-maps/api": "^2.13.1",
     "@tanstack/react-query": "^4.10.0",
+    "@tanstack/react-table": "^8.7.6",
     "@trpc/client": "10.0.0-proxy-beta.17",
     "@trpc/next": "10.0.0-proxy-beta.17",
     "@trpc/react": "10.0.0-proxy-beta.17",
