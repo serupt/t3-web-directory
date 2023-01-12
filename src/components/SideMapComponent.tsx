@@ -52,7 +52,7 @@ export default function SideMapComponent({
             <div>
               <div className="flex flex-col items-center space-y-2 p-2">
                 {/* <img src="/cccny.png" alt="Logo" className="h-16 w-16" /> */}
-                <span className="text-2xl font-bold">CCCNY Directory</span>
+                <span className="text-2xl font-bold">NYCT Directory</span>
               </div>
               <Link href={"/login"}>
                 <button className="btn-sm w-full rounded bg-secondary-600 font-bold uppercase hover:bg-secondary-700">

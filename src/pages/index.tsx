@@ -38,7 +38,7 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>CCCNY Directory</title>
+        <title>NYCT Directory</title>
       </Head>
       {isLoaded ? <DisplayMap /> : <LoadingOverlay />}
     </>

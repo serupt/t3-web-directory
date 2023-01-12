@@ -6,7 +6,6 @@ import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
 import { trpc } from "../utils/trpc";
-
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import DeleteConfirmation from "./DeleteConfirmation";

@@ -1,6 +1,7 @@
 import { Place } from "@prisma/client";
 import { useTranslation } from "next-i18next";
 import { trpc } from "../../utils/trpc";
+import { useState } from "react";
 
 interface SelectedEntryViewProps {
   selectedEntry: Place | undefined;
@@ -14,6 +15,20 @@ export default function SelectedEntryView({
   const getImage = trpc.images.getPlaceImages.useQuery({
     placeId: selectedEntry?.id!,
   });
+
+  const [carouselIndex, setCarouselIndex] = useState(0);
+
+  const prevSlide = () => {
+    const newIndex =
+      carouselIndex === 0 ? getImage.data?.length! - 1 : carouselIndex - 1;
+    setCarouselIndex(newIndex);
+  };
+
+  const nextSlide = () => {
+    const newIndex =
+      carouselIndex === getImage.data?.length! - 1 ? 0 : carouselIndex + 1;
+    setCarouselIndex(newIndex);
+  };
   return selectedEntry ? (
     <div className="space-y-2 p-1">
       {/* ------- name and addresses ------- */}
@@ -34,18 +49,26 @@ export default function SelectedEntryView({
       </h1>
 
       {getImage.data && getImage.data.length > 0 ? (
-        <div className="carousel w-full">
-          <div id="slide1" className="carousel-item relative w-full">
-            <img src="https://placeimg.com/800/200/arch" className="w-full" />
-            <div className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
-              <a href="#slide4" className="btn btn-circle">
-                ❮
-              </a>
-              <a href="#slide2" className="btn btn-circle">
-                ❯
-              </a>
+        <div className="space-y-2">
+          <div className="carousel w-full ">
+            <div className="carousel-item relative w-full">
+              <img
+                src={getImage.data.at(carouselIndex)?.image_url}
+                className="w-full"
+              />
+              <div className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
+                <button className="btn btn-circle" onClick={prevSlide}>
+                  ❮
+                </button>
+                <button className="btn btn-circle" onClick={nextSlide}>
+                  ❯
+                </button>
+              </div>
             </div>
           </div>
+          <button className="btn-sm rounded bg-secondary-700 hover:bg-secondary-600">
+            View All Images
+          </button>
         </div>
       ) : null}
 
