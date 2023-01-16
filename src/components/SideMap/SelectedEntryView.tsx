@@ -157,6 +157,8 @@ export default function SelectedEntryView({
               {t("website")}:{" "}
               <a
                 href={selectedEntry.website}
+                target="_blank"
+                rel="noreferrer"
                 className="link text-center text-lg text-blue-500"
               >
                 {selectedEntry.website}
