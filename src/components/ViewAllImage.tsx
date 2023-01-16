@@ -59,19 +59,25 @@ export default function ViewAllImage({
                 >
                   {entryName} {t("gallery")}
                 </Dialog.Title>
-                <div>
+                <div className="space-y-4">
                   <div className="divider before:bg-secondary after:bg-secondary"></div>
                   {entryImages.length > 0 ? (
                     <div className="grid grid-cols-3 gap-4">
                       {entryImages.map((placeImages) => {
                         return (
-                          <div className="relative h-48 w-48 rounded-lg border-2 border-solid border-secondary">
-                            <Image
-                              src={placeImages.image_url}
-                              layout="fill"
-                              objectFit="cover"
-                              className="rounded-md"
-                            />
+                          <div className="relative h-48 w-full rounded-lg border-2 border-solid border-secondary">
+                            <a
+                              href={placeImages.image_url}
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              <Image
+                                src={placeImages.image_url}
+                                layout="fill"
+                                objectFit="cover"
+                                className="rounded-md"
+                              />
+                            </a>
                           </div>
                         );
                       })}
@@ -79,6 +85,14 @@ export default function ViewAllImage({
                   ) : (
                     <div>No images found. Please upload an image.</div>
                   )}
+                  <button
+                    className="inline-flex w-32 justify-center rounded-md border border-transparent bg-gray-600 px-4 py-2 text-sm font-medium hover:bg-gray-500"
+                    onClick={() => {
+                      setViewAllImage(false);
+                    }}
+                  >
+                    {t("back")}
+                  </button>
                 </div>
               </Dialog.Panel>
             </Transition.Child>
