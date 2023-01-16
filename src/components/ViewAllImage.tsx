@@ -63,9 +63,12 @@ export default function ViewAllImage({
                   <div className="divider before:bg-secondary after:bg-secondary"></div>
                   {entryImages.length > 0 ? (
                     <div className="grid grid-cols-3 gap-4">
-                      {entryImages.map((placeImages) => {
+                      {entryImages.map((placeImages, idx) => {
                         return (
-                          <div className="relative h-48 w-full rounded-lg border-2 border-solid border-secondary">
+                          <div
+                            key={idx}
+                            className="relative h-48 w-full rounded-lg border-2 border-solid border-secondary"
+                          >
                             <a
                               href={placeImages.image_url}
                               target="_blank"

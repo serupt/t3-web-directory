@@ -1,4 +1,4 @@
-import { Place } from "@prisma/client";
+import { Place, PlaceImages } from "@prisma/client";
 import { useTranslation } from "next-i18next";
 import { trpc } from "../../utils/trpc";
 import { useState } from "react";
@@ -6,7 +6,7 @@ import Image from "next/image";
 import ViewAllImage from "../ViewAllImage";
 
 interface SelectedEntryViewProps {
-  selectedEntry: Place | undefined;
+  selectedEntry: Place;
 }
 
 export default function SelectedEntryView({
@@ -15,20 +15,20 @@ export default function SelectedEntryView({
   const { t } = useTranslation("common");
 
   const getImage = trpc.images.getPlaceImages.useQuery({
-    placeId: selectedEntry?.id!,
+    placeId: selectedEntry.id,
   });
 
   const [carouselIndex, setCarouselIndex] = useState(0);
 
-  const prevSlide = () => {
+  const prevSlide = (placeImage: PlaceImages[]) => {
     const newIndex =
-      carouselIndex === 0 ? getImage.data?.length! - 1 : carouselIndex - 1;
+      carouselIndex === 0 ? placeImage.length! - 1 : carouselIndex - 1;
     setCarouselIndex(newIndex);
   };
 
-  const nextSlide = () => {
+  const nextSlide = (placeImage: PlaceImages[]) => {
     const newIndex =
-      carouselIndex === getImage.data?.length! - 1 ? 0 : carouselIndex + 1;
+      carouselIndex === placeImage.length! - 1 ? 0 : carouselIndex + 1;
     setCarouselIndex(newIndex);
   };
 
@@ -59,13 +59,16 @@ export default function SelectedEntryView({
             <div className="carousel w-full ">
               <div className="carousel-item relative h-48 w-full">
                 <Image
-                  src={getImage.data.at(carouselIndex)?.image_url!}
+                  src={
+                    getImage.data.at(carouselIndex)?.image_url ||
+                    "https://picsum.photos/200/300"
+                  }
                   layout="fill"
                   objectFit="cover"
                   className="rounded-md"
                 />
                 <div className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
-                  <button onClick={prevSlide}>
+                  <button onClick={() => prevSlide(getImage.data)}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -81,7 +84,7 @@ export default function SelectedEntryView({
                       />
                     </svg>
                   </button>
-                  <button onClick={nextSlide}>
+                  <button onClick={() => nextSlide(getImage.data)}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"

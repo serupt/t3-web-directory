@@ -188,9 +188,12 @@ export default function Gallery({
                   <div className="divider before:bg-secondary after:bg-secondary"></div>
                   {getImages.data && getImages.data.length > 0 ? (
                     <div className="grid grid-cols-3 gap-4">
-                      {getImages.data.map((placeImages) => {
+                      {getImages.data.map((placeImages, idx) => {
                         return (
-                          <div className="relative h-48 w-48 rounded-lg border-2 border-solid border-secondary">
+                          <div
+                            key={idx}
+                            className="relative h-48 w-48 rounded-lg border-2 border-solid border-secondary"
+                          >
                             <Image
                               src={placeImages.image_url}
                               layout="fill"

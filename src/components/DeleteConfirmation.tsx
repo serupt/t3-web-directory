@@ -1,5 +1,4 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Place } from "@prisma/client";
 import { Dispatch, Fragment, SetStateAction } from "react";
 
 import { useTranslation } from "next-i18next";
