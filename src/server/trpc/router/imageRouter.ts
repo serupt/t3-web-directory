@@ -1,10 +1,9 @@
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { TRPCError } from "@trpc/server";
 import {
   imageSchema,
   uploadImageSchema,
 } from "../../../utils/validation/image.schema";
-import { protectedProcedure, router } from "../trpc";
+import { publicProcedure, protectedProcedure, router } from "../trpc";
 import { deleteImageSchema } from "../../../utils/validation/image.schema";
 import { v2 as cloudinary } from "cloudinary";
 import { env } from "../../../env/server.mjs";
@@ -17,7 +16,7 @@ cloudinary.config({
 });
 
 export const imageRouter = router({
-  getPlaceImages: protectedProcedure
+  getPlaceImages: publicProcedure
     .input(imageSchema)
     .query(async ({ ctx, input }) => {
       return await ctx.prisma.placeImages.findMany({
