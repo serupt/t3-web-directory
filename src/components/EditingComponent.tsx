@@ -12,6 +12,7 @@ import { useTranslation } from "next-i18next";
 import { Menu, Transition } from "@headlessui/react";
 import Gallery from "./Gallery";
 import DeleteEntryConfirmation from "./EditingComponents/DeleteEntryConfirmation";
+import EditTable from "./EditingComponents/EditTable";
 
 function getUniqueTags(data: Place[]) {
   const uniqueTag: string[] = [];
@@ -124,14 +125,14 @@ export default function EditingComponent() {
   return (
     <div>
       <nav className="flex items-center space-x-5 px-5 pt-3">
-        <input
+        {/* <input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           type="text"
           //@ts-ignore
           placeholder={t("search")}
           className=" input-sm w-1/4  rounded bg-primary-800  focus:outline-none focus:ring-2 focus:ring-secondary"
-        />
+        /> */}
         <button
           className="btn btn-sm gap-2 bg-secondary-700 text-white hover:bg-secondary-600"
           onClick={() => setAddModalOpened(true)}
@@ -175,7 +176,7 @@ export default function EditingComponent() {
       </nav>
       <div className="divider px-2 before:bg-secondary after:bg-secondary"></div>
       <main className="overflow-x-visible px-2">
-        {getEntries.isFetched && getEntries.data ? (
+        {/* {getEntries.isFetched && getEntries.data ? (
           <table className="w-full text-left">
             <thead>
               <tr>
@@ -374,6 +375,17 @@ export default function EditingComponent() {
                 })}
             </tbody>
           </table>
+        ) : (
+          <LoadingOverlay />
+        )} */}
+        {getEntries.isFetched && getEntries.data ? (
+          <EditTable
+            entries={getEntries.data}
+            setSelectedEntry={setSelectedEntry}
+            setEditModalOpened={setEditModalOpened}
+            setGalleryModalOpened={setGalleryModalOpened}
+            setShowDeleteConfirmation={setShowDeleteConfirmation}
+          />
         ) : (
           <LoadingOverlay />
         )}
