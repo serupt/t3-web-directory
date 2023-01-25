@@ -230,7 +230,7 @@ export default function Gallery({
                       })}
                     </div>
                   ) : (
-                    <div>No images found. Please upload an image.</div>
+                    <div>{t("noimage")}</div>
                   )}
                   <div className="divider before:bg-secondary after:bg-secondary"></div>
                   <div className="mt-2 p-2">

@@ -86,7 +86,7 @@ export default function ViewAllImage({
                       })}
                     </div>
                   ) : (
-                    <div>No images found. Please upload an image.</div>
+                    <div>{t("noimage")}</div>
                   )}
                   <button
                     className="inline-flex w-32 justify-center rounded-md border border-transparent bg-gray-600 px-4 py-2 text-sm font-medium hover:bg-gray-500"
