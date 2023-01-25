@@ -24,8 +24,6 @@ export default function Filter({
     [column.getFacetedUniqueValues()]
   );
 
-  //   console.log(firstValue);
-
   return typeof firstValue === "number" ? (
     <div>
       <div className="flex space-x-2">

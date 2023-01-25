@@ -126,6 +126,7 @@ export default function EditTable({
         id: "category",
         cell: (info) => info.getValue(),
         header: () => <span>Category</span>,
+        accessorFn: (x) => x.category,
         meta: {
           align: "center",
         },
@@ -196,7 +197,7 @@ export default function EditTable({
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <Menu.Items className="absolute right-0 z-50  w-32 origin-top-right divide-y divide-secondary rounded-md bg-primary-800 shadow-lg ring-1 ring-secondary  focus:outline-none">
+              <Menu.Items className="absolute right-0 top-0 z-50  w-32 origin-top-right -translate-y-full divide-y divide-secondary rounded-md bg-primary-800 shadow-lg ring-1 ring-secondary  focus:outline-none">
                 <div className="px-1 py-1">
                   <Menu.Item>
                     {({ active }) => (
@@ -309,15 +310,20 @@ export default function EditTable({
       fuzzy: fuzzyFilter,
     },
     state: {
+      columnFilters,
       globalFilter,
     },
+    onColumnFiltersChange: setColumnFilters,
     onGlobalFilterChange: setGlobalFilter,
     globalFilterFn: fuzzyFilter,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    initialState: { pagination: { pageSize: 10, pageIndex: 0 } },
+    initialState: { pagination: { pageSize: 12, pageIndex: 0 } },
+    getFacetedRowModel: getFacetedRowModel(),
+    getFacetedUniqueValues: getFacetedUniqueValues(),
+    getFacetedMinMaxValues: getFacetedMinMaxValues(),
   });
 
   useEffect(() => {

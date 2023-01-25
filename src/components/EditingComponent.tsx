@@ -124,7 +124,7 @@ export default function EditingComponent() {
 
   return (
     <div>
-      <nav className="flex items-center space-x-5 px-5 pt-3">
+      <nav className="mb-[-10px] flex items-center space-x-5 px-5 pt-3">
         <button
           className="btn btn-sm gap-2 bg-secondary-700 text-white hover:bg-secondary-600"
           onClick={() => setAddModalOpened(true)}
@@ -167,7 +167,7 @@ export default function EditingComponent() {
         </button>
       </nav>
       <div className="divider px-2 before:bg-secondary after:bg-secondary"></div>
-      <main className="overflow-x-visible px-2">
+      <main className="overflow-x-visible px-2 ">
         {getEntries.isFetched && getEntries.data ? (
           <EditTable
             entries={getEntries.data}
