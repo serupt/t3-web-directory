@@ -320,7 +320,10 @@ export default function EditTable({
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    initialState: { pagination: { pageSize: 12, pageIndex: 0 } },
+    initialState: {
+      pagination: { pageSize: 12, pageIndex: 0 },
+      sorting: [{ id: "updated_at", desc: true }],
+    },
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
     getFacetedMinMaxValues: getFacetedMinMaxValues(),
