@@ -78,19 +78,19 @@ export default function ManageEntryLayout({
   ];
   return (
     <div className="min-h-screen sm:flex">
-      <aside className="max-h-screen w-full space-y-2 overflow-auto bg-primary-800 px-2 py-7 sm:max-w-[15rem] sm:flex-col">
-        <div className="flex flex-col items-center space-y-2 p-2">
+      <aside className="h-screen w-full space-y-2 overflow-auto bg-primary-800 px-2 py-7 sm:max-w-[12rem] sm:flex-col">
+        <div className="items-center space-y-2 p-2 pb-10 text-center">
           {/* <img src="/cccny.png" alt="Logo" className="h-16 w-16" /> */}
           <span className="text-2xl font-bold">NYCT Directory</span>
         </div>
-        <div className="divider before:bg-secondary after:bg-secondary"></div>
+        {/* <div className="divider before:bg-secondary after:bg-secondary"></div> */}
 
         <nav>
           {Menu.map((item, index) => {
             return (
               <Link href={`${item.href}`} key={index}>
                 <a className="block rounded-full py-2.5 px-4 transition duration-200 hover:bg-primary-700">
-                  <div className="flex items-center space-x-5 p-1">
+                  <div className=" flex items-center space-x-5 p-1">
                     <span>{item.icon}</span>
                     <span>{t(`${item.name.toLocaleLowerCase()}`)}</span>
                   </div>
@@ -113,30 +113,30 @@ export default function ManageEntryLayout({
                 );
               })
             : null}
-          <div className="divider before:bg-secondary after:bg-secondary"></div>
-          <div className="block rounded-full py-2.5 px-4 transition duration-200 hover:cursor-pointer hover:bg-primary-700">
-            <div
-              className="flex items-center space-x-5 p-1"
-              onClick={() => signOut({ callbackUrl: "/" })}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="h-6 w-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
-                />
-              </svg>
-              <span>{t("logout")}</span>
-            </div>
-          </div>
+          {/* <div className="divider before:bg-secondary after:bg-secondary"></div> */}
         </nav>
+        <div className="block rounded-full py-2.5 px-4 transition duration-200 hover:cursor-pointer hover:bg-primary-700">
+          <div
+            className="flex items-center space-x-5 p-1 "
+            onClick={() => signOut({ callbackUrl: "/" })}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="h-6 w-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
+              />
+            </svg>
+            <span>{t("logout")}</span>
+          </div>
+        </div>
       </aside>
       <main className="flex-1">{children}</main>
     </div>
