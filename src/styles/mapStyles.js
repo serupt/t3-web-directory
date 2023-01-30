@@ -1,118 +1,223 @@
 export default [
   {
     featureType: "all",
-    elementType: "labels.text",
+    elementType: "labels",
     stylers: [
       {
         visibility: "off",
       },
-    ],
-  },
-  {
-    featureType: "all",
-    elementType: "labels.icon",
-    stylers: [
       {
-        visibility: "off",
+        color: "#f49f53",
       },
     ],
   },
   {
     featureType: "landscape",
-    elementType: "geometry.fill",
+    elementType: "all",
     stylers: [
       {
-        color: "#f1efe8",
+        color: "#f9ddc5",
+      },
+      {
+        lightness: -7,
       },
     ],
   },
   {
-    featureType: "landscape.man_made",
-    elementType: "geometry.fill",
+    featureType: "poi.business",
+    elementType: "all",
     stylers: [
       {
-        visibility: "on",
+        color: "#645c20",
       },
       {
-        gamma: "1.19",
+        lightness: 38,
       },
     ],
   },
   {
-    featureType: "landscape.man_made",
-    elementType: "geometry.stroke",
+    featureType: "poi.government",
+    elementType: "all",
     stylers: [
       {
-        visibility: "on",
+        color: "#9e5916",
       },
       {
-        gamma: "0.00",
+        lightness: 46,
+      },
+    ],
+  },
+  {
+    featureType: "poi.medical",
+    elementType: "geometry.fill",
+    stylers: [
+      {
+        color: "#813033",
       },
       {
-        weight: "2.07",
+        lightness: 38,
+      },
+      {
+        visibility: "off",
+      },
+    ],
+  },
+  {
+    featureType: "poi.park",
+    elementType: "all",
+    stylers: [
+      {
+        color: "#645c20",
+      },
+      {
+        lightness: 39,
+      },
+    ],
+  },
+  {
+    featureType: "poi.school",
+    elementType: "all",
+    stylers: [
+      {
+        color: "#a95521",
+      },
+      {
+        lightness: 35,
+      },
+    ],
+  },
+  {
+    featureType: "poi.sports_complex",
+    elementType: "all",
+    stylers: [
+      {
+        color: "#9e5916",
+      },
+      {
+        lightness: 32,
       },
     ],
   },
   {
     featureType: "road",
+    elementType: "all",
+    stylers: [
+      {
+        color: "#813033",
+      },
+      {
+        lightness: 43,
+      },
+    ],
+  },
+  {
+    featureType: "road.local",
+    elementType: "geometry.fill",
+    stylers: [
+      {
+        color: "#ebd4be",
+      },
+      {
+        weight: 1.3,
+      },
+      {
+        visibility: "on",
+      },
+      {
+        lightness: 16,
+      },
+    ],
+  },
+  {
+    featureType: "road.local",
+    elementType: "geometry.stroke",
+    stylers: [
+      {
+        lightness: -10,
+      },
+      {
+        color: "#f19f53",
+      },
+    ],
+  },
+  {
+    featureType: "road.local",
     elementType: "labels",
     stylers: [
       {
         visibility: "simplified",
       },
-    ],
-  },
-  {
-    featureType: "road.highway",
-    elementType: "geometry.fill",
-    stylers: [
       {
-        color: "#b2ac83",
-      },
-    ],
-  },
-  {
-    featureType: "road.highway",
-    elementType: "geometry.stroke",
-    stylers: [
-      {
-        color: "#b2ac83",
+        color: "#372525",
       },
     ],
   },
   {
     featureType: "transit",
-    elementType: "labels.text",
+    elementType: "all",
+    stylers: [
+      {
+        lightness: 38,
+      },
+      {
+        visibility: "on",
+      },
+    ],
+  },
+  {
+    featureType: "transit.line",
+    elementType: "all",
+    stylers: [
+      {
+        color: "#813033",
+      },
+      {
+        lightness: 22,
+      },
+    ],
+  },
+  {
+    featureType: "transit.station",
+    elementType: "all",
+    stylers: [
+      {
+        visibility: "on",
+      },
+      {
+        weight: "1",
+      },
+      {
+        color: "#372525",
+      },
+    ],
+  },
+  {
+    featureType: "transit.station",
+    elementType: "labels.icon",
     stylers: [
       {
         visibility: "simplified",
       },
-    ],
-  },
-  {
-    featureType: "transit.station.bus",
-    elementType: "labels",
-    stylers: [
       {
-        visibility: "on",
-      },
-    ],
-  },
-  {
-    featureType: "transit.station.rail",
-    elementType: "labels",
-    stylers: [
-      {
-        visibility: "on",
+        hue: "#0047ff",
       },
     ],
   },
   {
     featureType: "water",
-    elementType: "geometry.fill",
+    elementType: "all",
     stylers: [
       {
-        color: "#8ac0c4",
+        color: "#1994bf",
+      },
+      {
+        saturation: -69,
+      },
+      {
+        gamma: 0.99,
+      },
+      {
+        lightness: 43,
       },
     ],
   },
