@@ -262,7 +262,9 @@ export default function AddEntry({
                             <span className="mb-2 block">{t("latitude")}</span>
                             <input
                               className="input-md w-full rounded bg-primary-800 shadow-md focus:outline-none focus:ring-2 focus:ring-secondary"
-                              {...register("latitude")}
+                              {...register("latitude", {
+                                setValueAs: (v) => parseFloat(v),
+                              })}
                             />
                           </label>
                         </div>
@@ -271,7 +273,9 @@ export default function AddEntry({
                             <span className="mb-2 block">{t("longitude")}</span>
                             <input
                               className="input-md w-full rounded bg-primary-800 shadow-md focus:outline-none focus:ring-2 focus:ring-secondary"
-                              {...register("longitude")}
+                              {...register("longitude", {
+                                setValueAs: (v) => parseFloat(v),
+                              })}
                             />
                           </label>
                         </div>
