@@ -9,6 +9,7 @@ import {
 } from "../../utils/validation/users.schema";
 
 import { useTranslation } from "next-i18next";
+import { useSession } from "next-auth/react";
 
 interface AddUserProps {
   addUserModalOpened: boolean;
@@ -16,15 +17,15 @@ interface AddUserProps {
   onAdd: (data: CreateUserInput) => void;
 }
 
-const roles = ["ADMIN", "USER"];
-
 export default function AddUser({
   addUserModalOpened,
   setAddUserModalOpened,
   onAdd,
 }: AddUserProps) {
   const { t } = useTranslation("common");
-
+  const { data: session } = useSession();
+  const roles =
+    session?.user.role === "SUPERADMIN" ? ["USER", "ADMIN"] : ["USER"];
   const {
     register,
     formState,

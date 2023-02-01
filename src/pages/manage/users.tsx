@@ -2,11 +2,9 @@ import type { NextPage } from "next";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import ManageUsers from "../../components/ManageUsers";
 import ManageEntryLayout from "../../layout/ManageEntryLayout";
 
-import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nConfig from "../../../next-i18next.config.mjs";
 
@@ -20,9 +18,8 @@ export const getServerSideProps = async ({ locale }: { locale: string }) => ({
 });
 
 const Users: NextPage = () => {
-  const router = useRouter();
   const { data: session } = useSession();
-  if (session?.user.role !== "ADMIN") {
+  if (session?.user.role === "USER") {
     return (
       <main className="flex h-screen w-full flex-col items-center justify-center bg-primary">
         <h1 className="text-4xl font-extrabold tracking-widest text-white">

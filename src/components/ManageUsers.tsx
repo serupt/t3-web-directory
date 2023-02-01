@@ -5,11 +5,12 @@ import toast, { Toaster } from "react-hot-toast";
 import { trpc } from "../utils/trpc";
 import LoadingOverlay from "./LoadingOverlay";
 import AddUser from "./ManageUsers/AddUser";
-import EditUsers from "./ManageUsers/EditUsers";
+import ChangeUsername from "./ManageUsers/ChangeUsername";
 
 import { useTranslation } from "next-i18next";
-
-const tableThreads = ["ID", "Username", "Role", "Created_At", "Updated_At"];
+import UserTable from "./ManageUsers/UserTable";
+import ChangePassword from "./ManageUsers/ChangePassword";
+import DeleteConfirmation from "./ManageUsers/DeleteConfirmation";
 
 function getSuccessNotificationMessage(message: string) {
   toast.success(message, {
@@ -40,12 +41,16 @@ export default function ManageUsers() {
   const [selectedUser, setSelectedUser] = useState<User>();
   const [addUserModalOpened, setAddUserModalOpened] = useState(false);
   const [editUserModalOpened, setEditUserModalOpened] = useState(false);
+  const [showChangeUsername, setShowChangeUsername] = useState(false);
+  const [showChangePassword, setShowChangePassword] = useState(false);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 
   const { t } = useTranslation("common");
 
   const { data: session } = useSession();
 
   const getUsers = trpc.users.getAll.useQuery();
+
   const createUser = trpc.users.create.useMutation({
     onSuccess: () => {
       getUsers.refetch();
@@ -77,16 +82,9 @@ export default function ManageUsers() {
 
   return (
     <div>
-      <nav className="flex items-center space-x-5 px-5 pt-3">
-        <input
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          type="text"
-          placeholder="Search users..."
-          className=" input-sm w-1/4  rounded bg-primary-800  focus:outline-none focus:ring-2 focus:ring-secondary"
-        />
+      <nav className="mb-[-10px] flex items-center space-x-5 px-5 pt-3">
         <button
-          className="btn btn-sm gap-2 bg-secondary-700 text-white hover:bg-secondary-600"
+          className="btn-sm btn gap-2 bg-secondary-700 text-white hover:bg-secondary-600"
           onClick={() => setAddUserModalOpened(true)}
         >
           <svg
@@ -108,99 +106,48 @@ export default function ManageUsers() {
       </nav>
       <div className="divider px-2 before:bg-secondary after:bg-secondary"></div>
       <main className="overflow-x-auto px-2">
-        {getUsers.isFetched && getUsers.data ? (
-          <table className="w-full text-left ">
-            <thead>
-              <tr>
-                {tableThreads.map((thread, index) => {
-                  return (
-                    <th key={index} className="px-4 py-2 text-base">
-                      {t(`${thread.toLocaleLowerCase()}`)}
-                    </th>
-                  );
-                })}
-              </tr>
-            </thead>
-            <tbody>
-              {getUsers.data
-                .sort((a, b) =>
-                  a.username.toLocaleLowerCase() <
-                  b.username.toLocaleLowerCase()
-                    ? -1
-                    : 1
-                )
-                .filter((user) =>
-                  user.username
-                    .toLocaleLowerCase()
-                    .includes(query.toLocaleLowerCase().trim())
-                )
-                .map((user) => {
-                  if (user.role === "ADMIN") {
-                    return (
-                      <tr
-                        key={user.id}
-                        className="text-base odd:bg-primary-800 hover:bg-primary-700"
-                      >
-                        <td className="px-4 py-2">{user.id}</td>
-                        <td className="px-4 py-2">{user.username}</td>
-                        <td className="px-4 py-2">{user.role}</td>
-                        <td className="px-4 py-2">
-                          {user.created_at.toLocaleDateString() +
-                            " " +
-                            user.created_at.toLocaleTimeString()}
-                        </td>
-                        <td className="px-4 py-2">
-                          {user.updated_at.toLocaleDateString() +
-                            " " +
-                            user.updated_at.toLocaleTimeString()}
-                        </td>
-                      </tr>
-                    );
-                  } else {
-                    return (
-                      <tr
-                        key={user.id}
-                        className="text-base odd:bg-primary-800 hover:cursor-pointer hover:bg-primary-700"
-                        onClick={() => {
-                          setSelectedUser(user);
-                          setEditUserModalOpened(true);
-                        }}
-                      >
-                        <td className="px-4 py-2">{user.id}</td>
-                        <td className="px-4 py-2">{user.username}</td>
-                        <td className="px-4 py-2">{user.role}</td>
-                        <td className="px-4 py-2">
-                          {user.created_at.toLocaleDateString() +
-                            " " +
-                            user.created_at.toLocaleTimeString()}
-                        </td>
-                        <td className="px-4 py-2">
-                          {user.updated_at.toLocaleDateString() +
-                            " " +
-                            user.updated_at.toLocaleTimeString()}
-                        </td>
-                      </tr>
-                    );
-                  }
-                })}
-            </tbody>
-          </table>
+        {getUsers.isFetched &&
+        getUsers.data &&
+        session?.user.role === "SUPERADMIN" ? (
+          <UserTable
+            users={getUsers.data}
+            setSelectedUser={setSelectedUser}
+            setShowChangeUsername={setShowChangeUsername}
+            setShowChangePassword={setShowChangePassword}
+            setShowDeleteConfirmation={setShowDeleteConfirmation}
+          />
+        ) : getUsers.isFetched &&
+          getUsers.data &&
+          session?.user.role === "ADMIN" ? (
+          <UserTable
+            users={getUsers.data.filter((user) => user.role === "USER")}
+            setSelectedUser={setSelectedUser}
+            setShowChangeUsername={setShowChangeUsername}
+            setShowChangePassword={setShowChangePassword}
+            setShowDeleteConfirmation={setShowDeleteConfirmation}
+          />
         ) : (
           <LoadingOverlay />
         )}
       </main>
       <>
         {getUsers.data && selectedUser ? (
-          <EditUsers
+          <ChangeUsername
             selectedUser={selectedUser}
-            setSelectedUser={setSelectedUser}
-            editUserModalOpened={editUserModalOpened}
-            setEditUserModalOpened={setEditUserModalOpened}
+            showChangeUsername={showChangeUsername}
+            setShowChangeUsername={setShowChangeUsername}
             onEditUsername={(data) => {
               editUsername.mutate({ id: selectedUser.id, ...data });
               setEditUserModalOpened(false);
               setSelectedUser(undefined);
             }}
+          />
+        ) : null}
+        {getUsers.data && selectedUser ? (
+          <ChangePassword
+            selectedUser={selectedUser}
+            showChangePassword={showChangePassword}
+            setShowChangePassword={setShowChangePassword}
             onEditPassword={(data) => {
               editPassword.mutate({
                 id: selectedUser.id,
@@ -209,6 +156,13 @@ export default function ManageUsers() {
               setEditUserModalOpened(false);
               setSelectedUser(undefined);
             }}
+          />
+        ) : null}
+        {getUsers.data && selectedUser ? (
+          <DeleteConfirmation
+            selectedUser={selectedUser}
+            showDeleteConfirmation={showDeleteConfirmation}
+            setShowDeleteConfirmation={setShowDeleteConfirmation}
             onDelete={(data) => {
               deleteUser.mutate(data);
               setEditUserModalOpened(false);

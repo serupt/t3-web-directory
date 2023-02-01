@@ -99,7 +99,7 @@ export default function ManageEntryLayout({
             );
           })}
 
-          {session?.user.role === "ADMIN"
+          {session?.user.role === "ADMIN" || session?.user.role === "SUPERADMIN"
             ? AdminMenu.map((item, index) => {
                 return (
                   <Link href={`${item.href}`} key={index}>
