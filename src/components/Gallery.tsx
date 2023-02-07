@@ -1,18 +1,15 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Place } from "@prisma/client";
-import { Dispatch, Fragment, SetStateAction, useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
-import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import toast from "react-hot-toast";
-import { trpc } from "../utils/trpc";
+import { Place } from "@prisma/client";
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
+import { Dispatch, Fragment, SetStateAction, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import z from "zod";
+import { api } from "../utils/api";
+import { ImageDeleteInput } from "../utils/validation/image.schema";
 import DeleteConfirmation from "./DeleteConfirmation";
-import {
-  deleteImageSchema,
-  ImageDeleteInput,
-} from "../utils/validation/image.schema";
 
 interface GalleryProps {
   selectedEntry: Place;
@@ -58,17 +55,17 @@ export default function Gallery({
   galleryModalOpened,
   setGalleryModalOpened,
 }: GalleryProps) {
-  const getImages = trpc.images.getPlaceImages.useQuery({
+  const getImages = api.images.getPlaceImages.useQuery({
     placeId: selectedEntry.id,
   });
 
-  const addImage = trpc.images.addImage.useMutation({
+  const addImage = api.images.addImage.useMutation({
     onSuccess: () => {
       getImages.refetch();
     },
   });
 
-  const deleteImage = trpc.images.deleteImage.useMutation({
+  const deleteImage = api.images.deleteImage.useMutation({
     onSuccess: () => {
       getImages.refetch();
     },
@@ -195,9 +192,10 @@ export default function Gallery({
                             className="relative h-48 w-48 rounded-lg border-2 border-solid border-secondary"
                           >
                             <Image
+                              alt="pictures of business"
                               src={placeImages.image_url}
-                              layout="fill"
-                              objectFit="cover"
+                              fill
+                              style={{ objectFit: "cover" }}
                               className="rounded-md"
                             />
                             <button
@@ -239,7 +237,7 @@ export default function Gallery({
                       onSubmit={handleSubmit(onSubmit)}
                     >
                       <input
-                        className="file-input file-input-bordered w-full"
+                        className="file-input-bordered file-input w-full"
                         type="file"
                         accept="image/png, image/jpeg"
                         {...register("item")}

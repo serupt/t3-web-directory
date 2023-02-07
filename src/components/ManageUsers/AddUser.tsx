@@ -25,7 +25,7 @@ export default function AddUser({
   const { t } = useTranslation("common");
   const { data: session } = useSession();
   const roles =
-    session?.user.role === "SUPERADMIN" ? ["USER", "ADMIN"] : ["USER"];
+    session?.user?.role === "SUPERADMIN" ? ["USER", "ADMIN"] : ["USER"];
   const {
     register,
     formState,
@@ -88,7 +88,7 @@ export default function AddUser({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full transform overflow-hidden rounded-2xl bg-primary p-6 text-left align-middle shadow-xl transition-all sm:max-w-2xl">
+              <Dialog.Panel className="bg-primary w-full transform overflow-hidden rounded-2xl p-6 text-left align-middle shadow-xl transition-all sm:max-w-2xl">
                 <Dialog.Title
                   as="h3"
                   className="text-center text-lg font-medium leading-6"
@@ -108,7 +108,7 @@ export default function AddUser({
                           </p>
                         )}
                         <input
-                          className="input-md w-full rounded bg-primary-800 shadow-md  focus:outline-none focus:ring-2 focus:ring-secondary"
+                          className="input-md bg-primary-800 focus:ring-secondary w-full rounded  shadow-md focus:outline-none focus:ring-2"
                           {...register("username", { required: true })}
                         />
                       </label>
@@ -121,7 +121,7 @@ export default function AddUser({
                         )}
                         <input
                           type={"password"}
-                          className="input-md w-full rounded bg-primary-800 shadow-md  focus:outline-none focus:ring-2 focus:ring-secondary"
+                          className="input-md bg-primary-800 focus:ring-secondary w-full rounded  shadow-md focus:outline-none focus:ring-2"
                           {...register("password", { required: true })}
                         />
                       </label>
@@ -137,7 +137,7 @@ export default function AddUser({
                         ) : null}
                         <input
                           type={"password"}
-                          className="input-md w-full rounded bg-primary-800 shadow-md  focus:outline-none focus:ring-2 focus:ring-secondary"
+                          className="input-md bg-primary-800 focus:ring-secondary w-full rounded  shadow-md focus:outline-none focus:ring-2"
                           {...register("confirmpassword", { required: true })}
                         />
                       </label>
@@ -147,7 +147,7 @@ export default function AddUser({
                             {t("role")}
                           </Listbox.Label>
                           <div className="relative mt-1">
-                            <Listbox.Button className="relative w-full cursor-default rounded-lg bg-primary-800 py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus:ring-2 focus:ring-secondary">
+                            <Listbox.Button className="bg-primary-800 focus:ring-secondary relative w-full cursor-default rounded-lg py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus:ring-2">
                               <span className="block truncate">{role}</span>
                               <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                                 <svg
@@ -172,7 +172,7 @@ export default function AddUser({
                               leaveFrom="opacity-100"
                               leaveTo="opacity-0"
                             >
-                              <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-primary-700 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                              <Listbox.Options className="bg-primary-700 absolute mt-1 max-h-60 w-full overflow-auto rounded-md py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                 {roles.map((role, roleIdx) => (
                                   <Listbox.Option
                                     key={roleIdx}
@@ -203,7 +203,7 @@ export default function AddUser({
                                           {role}
                                         </span>
                                         {selected ? (
-                                          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-secondary">
+                                          <span className="text-secondary absolute inset-y-0 left-0 flex items-center pl-3">
                                             <svg
                                               xmlns="http://www.w3.org/2000/svg"
                                               fill="none"
@@ -248,7 +248,7 @@ export default function AddUser({
                           getValues("confirmpassword") ? (
                             <button
                               type="submit"
-                              className="inline-flex w-full justify-center rounded-md border border-transparent bg-secondary-700 px-4 py-2 text-sm font-medium hover:bg-secondary-600"
+                              className="bg-secondary-700 hover:bg-secondary-600 inline-flex w-full justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium"
                             >
                               {t("confirm")}
                             </button>
@@ -258,7 +258,7 @@ export default function AddUser({
                                 setAddUserModalOpened(false);
                               }}
                               disabled
-                              className="inline-flex w-full justify-center rounded-md border border-transparent bg-primary-600 px-4 py-2 text-sm font-medium hover:bg-primary-600 "
+                              className="bg-primary-600 hover:bg-primary-600 inline-flex w-full justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium "
                             >
                               {t("confirm")}
                             </button>

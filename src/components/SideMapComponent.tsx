@@ -1,13 +1,14 @@
-import { Place } from "@prisma/client";
+import type { Place } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
-import { MapProps } from "./DisplayMap";
+import type { MapProps } from "./DisplayMap";
 import DefaultView from "./SideMap/DefaultView";
 import SelectedEntryView from "./SideMap/SelectedEntryView";
 import SelectedTagView from "./SideMap/SelectedTagView";
 
 import { useTranslation } from "next-i18next";
+import Image from "next/image";
 
 export function getUniqueCategoryTags(data: Place[], category: string) {
   const uniqueTag: string[] = [];
@@ -138,7 +139,7 @@ export default function SideMapComponent({
           </div>
         </div>
         <div className="bottom sticky flex h-16 items-center justify-center space-x-2">
-          <img src="/nyct.svg" className="h-16 w-56" />
+          <Image src="/nyct.svg" height={64} width={224} alt="NYCT Logo" />
         </div>
       </div>
     </>

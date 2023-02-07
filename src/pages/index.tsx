@@ -1,4 +1,5 @@
-import { LoadScriptProps, useLoadScript } from "@react-google-maps/api";
+import type { LoadScriptProps } from "@react-google-maps/api";
+import { useLoadScript } from "@react-google-maps/api";
 import type { NextPage } from "next";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
@@ -9,7 +10,6 @@ import { env } from "../env/client.mjs";
 
 const googleMapsLibraries: LoadScriptProps["libraries"] = ["places"];
 
-import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nConfig from "../../next-i18next.config.mjs";
 
@@ -32,7 +32,7 @@ const Home: NextPage = () => {
   const router = useRouter();
 
   if (session) {
-    router.push("/manage");
+    void router.push("/manage");
   }
 
   return (

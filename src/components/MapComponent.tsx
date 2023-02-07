@@ -1,7 +1,7 @@
 import { GoogleMap, InfoWindowF, MarkerF } from "@react-google-maps/api";
 import { useMemo } from "react";
-import mapStyles from "../styles/mapStyles";
-import { MapProps } from "./DisplayMap";
+import { mapStyle } from "../styles/mapStyles";
+import type { MapProps } from "./DisplayMap";
 
 const containerStyle = {
   height: "100vh",
@@ -23,7 +23,7 @@ export default function MapComponent({
   );
   const options = useMemo<MapOptions>(
     () => ({
-      styles: mapStyles,
+      styles: mapStyle,
       disableDefaultUI: true,
       clickableIcons: false,
     }),

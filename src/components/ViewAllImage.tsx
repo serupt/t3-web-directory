@@ -1,8 +1,9 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { PlaceImages } from "@prisma/client";
-import { Dispatch, Fragment, SetStateAction } from "react";
+import type { PlaceImages } from "@prisma/client";
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
+import type { Dispatch, SetStateAction } from "react";
+import { Fragment } from "react";
 
 interface ViewAllImageProps {
   entryName: string;
@@ -75,9 +76,10 @@ export default function ViewAllImage({
                               rel="noreferrer"
                             >
                               <Image
+                                alt="pictures of business"
                                 src={placeImages.image_url}
-                                layout="fill"
-                                objectFit="cover"
+                                fill
+                                style={{ objectFit: "cover" }}
                                 className="rounded-md"
                               />
                             </a>

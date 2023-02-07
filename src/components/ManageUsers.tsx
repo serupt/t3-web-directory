@@ -1,16 +1,16 @@
-import { User } from "@prisma/client";
+import type { User } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { trpc } from "../utils/trpc";
+import { api } from "../utils/api";
 import LoadingOverlay from "./LoadingOverlay";
 import AddUser from "./ManageUsers/AddUser";
 import ChangeUsername from "./ManageUsers/ChangeUsername";
 
 import { useTranslation } from "next-i18next";
-import UserTable from "./ManageUsers/UserTable";
 import ChangePassword from "./ManageUsers/ChangePassword";
 import DeleteConfirmation from "./ManageUsers/DeleteConfirmation";
+import UserTable from "./ManageUsers/UserTable";
 
 function getSuccessNotificationMessage(message: string) {
   toast.success(message, {
@@ -49,32 +49,32 @@ export default function ManageUsers() {
 
   const { data: session } = useSession();
 
-  const getUsers = trpc.users.getAll.useQuery();
+  const getUsers = api.users.getAll.useQuery();
 
-  const createUser = trpc.users.create.useMutation({
+  const createUser = api.users.create.useMutation({
     onSuccess: () => {
-      getUsers.refetch();
+      void getUsers.refetch();
       getSuccessNotificationMessage("User added successfully!");
     },
     onError: (e) => getErrorNotificationMessage(e.message),
   });
-  const editUsername = trpc.users.editUsername.useMutation({
+  const editUsername = api.users.editUsername.useMutation({
     onSuccess: () => {
-      getUsers.refetch();
+      void getUsers.refetch();
       getSuccessNotificationMessage("User edited successfully!");
     },
     onError: (e) => getErrorNotificationMessage(e.message),
   });
-  const editPassword = trpc.users.editPassword.useMutation({
+  const editPassword = api.users.editPassword.useMutation({
     onSuccess: () => {
-      getUsers.refetch();
+      void getUsers.refetch();
       getSuccessNotificationMessage("User edited successfully!");
     },
     onError: (e) => getErrorNotificationMessage(e.message),
   });
-  const deleteUser = trpc.users.delete.useMutation({
+  const deleteUser = api.users.delete.useMutation({
     onSuccess: () => {
-      getUsers.refetch();
+      void getUsers.refetch();
       getSuccessNotificationMessage("User deleted successfully!");
     },
     onError: (e) => getErrorNotificationMessage(e.message),
@@ -108,7 +108,7 @@ export default function ManageUsers() {
       <main className="overflow-x-auto px-2">
         {getUsers.isFetched &&
         getUsers.data &&
-        session?.user.role === "SUPERADMIN" ? (
+        session?.user?.role === "SUPERADMIN" ? (
           <UserTable
             users={getUsers.data}
             setSelectedUser={setSelectedUser}
@@ -118,7 +118,7 @@ export default function ManageUsers() {
           />
         ) : getUsers.isFetched &&
           getUsers.data &&
-          session?.user.role === "ADMIN" ? (
+          session?.user?.role === "ADMIN" ? (
           <UserTable
             users={getUsers.data.filter((user) => user.role === "USER")}
             setSelectedUser={setSelectedUser}

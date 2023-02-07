@@ -1,8 +1,8 @@
-import { LoadScriptProps, useLoadScript } from "@react-google-maps/api";
+import type { LoadScriptProps } from "@react-google-maps/api";
+import { useLoadScript } from "@react-google-maps/api";
 import type { NextPage } from "next";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import EditingComponent from "../../components/EditingComponent";
 import LoadingOverlay from "../../components/LoadingOverlay";
 import Login from "../../components/Login";
@@ -28,7 +28,6 @@ const AdminEdit: NextPage = () => {
     googleMapsApiKey: env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
     libraries: googleMapsLibraries,
   });
-  const router = useRouter();
   const { data: session } = useSession();
 
   if (!session) {

@@ -1,4 +1,5 @@
-import { LoadScriptProps, useLoadScript } from "@react-google-maps/api";
+import type { LoadScriptProps } from "@react-google-maps/api";
+import { useLoadScript } from "@react-google-maps/api";
 import type { NextPage } from "next";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
@@ -10,7 +11,6 @@ import ManageEntryLayout from "../../layout/ManageEntryLayout";
 
 const googleMapsLibraries: LoadScriptProps["libraries"] = ["places"];
 
-import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nConfig from "../../../next-i18next.config.mjs";
 

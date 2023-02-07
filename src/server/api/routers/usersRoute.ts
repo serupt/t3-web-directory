@@ -7,9 +7,9 @@ import {
   editPasswordSchema,
   editUsernameSchema,
 } from "../../../utils/validation/users.schema";
-import { adminProcedure, router } from "../trpc";
+import { adminProcedure, createTRPCRouter } from "../trpc";
 
-export const usersRouter = router({
+export const usersRouter = createTRPCRouter({
   getAll: adminProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.user.findMany();
   }),

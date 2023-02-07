@@ -88,27 +88,32 @@ export default function ManageEntryLayout({
         <nav>
           {Menu.map((item, index) => {
             return (
-              <Link href={`${item.href}`} key={index}>
-                <a className="block rounded-full py-2.5 px-4 transition duration-200 hover:bg-primary-700">
-                  <div className=" flex items-center space-x-5 p-1">
-                    <span>{item.icon}</span>
-                    <span>{t(`${item.name.toLocaleLowerCase()}`)}</span>
-                  </div>
-                </a>
+              <Link
+                className="block rounded-full py-2.5 px-4 transition duration-200 hover:bg-primary-700"
+                href={`${item.href}`}
+                key={index}
+              >
+                <div className=" flex items-center space-x-5 p-1">
+                  <span>{item.icon}</span>
+                  <span>{t(`${item.name.toLocaleLowerCase()}`)}</span>
+                </div>
               </Link>
             );
           })}
 
-          {session?.user.role === "ADMIN" || session?.user.role === "SUPERADMIN"
+          {session?.user?.role === "ADMIN" ||
+          session?.user?.role === "SUPERADMIN"
             ? AdminMenu.map((item, index) => {
                 return (
-                  <Link href={`${item.href}`} key={index}>
-                    <a className="block rounded-full py-2.5 px-4 transition duration-200 hover:bg-primary-700">
-                      <div className="flex items-center space-x-5 p-1">
-                        <span>{item.icon}</span>
-                        <span>{t(`${item.name.toLocaleLowerCase()}`)}</span>
-                      </div>
-                    </a>
+                  <Link
+                    className="block rounded-full py-2.5 px-4 transition duration-200 hover:bg-primary-700"
+                    href={`${item.href}`}
+                    key={index}
+                  >
+                    <div className="flex items-center space-x-5 p-1">
+                      <span>{item.icon}</span>
+                      <span>{t(`${item.name.toLocaleLowerCase()}`)}</span>
+                    </div>
                   </Link>
                 );
               })

@@ -1,8 +1,8 @@
-import { Place, PlaceImages } from "@prisma/client";
+import type { Place, PlaceImages } from "@prisma/client";
 import { useTranslation } from "next-i18next";
-import { trpc } from "../../utils/trpc";
-import { useState } from "react";
 import Image from "next/image";
+import { useState } from "react";
+import { api } from "../../utils/api";
 import ViewAllImage from "../ViewAllImage";
 
 interface SelectedEntryViewProps {
@@ -14,22 +14,22 @@ export default function SelectedEntryView({
 }: SelectedEntryViewProps) {
   const { t } = useTranslation("common");
 
-  const getImage = trpc.images.getPlaceImages.useQuery({
+  const getImage = api.images.getPlaceImages.useQuery({
     placeId: selectedEntry.id,
   });
 
   const [carouselIndex, setCarouselIndex] = useState(0);
 
   const prevSlide = (placeImage: PlaceImages[]) => {
-    const newIndex =
-      carouselIndex === 0 ? placeImage.length! - 1 : carouselIndex - 1;
-    setCarouselIndex(newIndex);
+    setCarouselIndex(
+      carouselIndex === 0 ? placeImage.length - 1 : carouselIndex - 1
+    );
   };
 
   const nextSlide = (placeImage: PlaceImages[]) => {
-    const newIndex =
-      carouselIndex === placeImage.length! - 1 ? 0 : carouselIndex + 1;
-    setCarouselIndex(newIndex);
+    setCarouselIndex(
+      carouselIndex === placeImage.length - 1 ? 0 : carouselIndex + 1
+    );
   };
 
   const [viewAllImage, setViewAllImage] = useState(false);
@@ -42,9 +42,7 @@ export default function SelectedEntryView({
           {selectedEntry.name}
           <div>
             <a
-              href={`https://www.google.com/maps/dir/?api=1&destination=${
-                selectedEntry.latitude + "," + selectedEntry.longitude
-              }`}
+              href={`https://www.google.com/maps/dir/?api=1&destination=${selectedEntry.latitude},${selectedEntry.longitude}`}
               target="_blank"
               rel="noreferrer"
               className="link text-lg text-blue-500"
@@ -59,12 +57,13 @@ export default function SelectedEntryView({
             <div className="carousel w-full ">
               <div className="carousel-item relative h-48 w-full">
                 <Image
+                  alt="picture of business"
                   src={
                     getImage.data.at(carouselIndex)?.image_url ||
                     "https://picsum.photos/200/300"
                   }
-                  layout="fill"
-                  objectFit="cover"
+                  fill
+                  style={{ objectFit: "cover" }}
                   className="rounded-md"
                 />
                 <div className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">

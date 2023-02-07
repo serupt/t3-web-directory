@@ -1,8 +1,9 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Dispatch, Fragment, SetStateAction } from "react";
+import type { Dispatch, SetStateAction } from "react";
+import { Fragment } from "react";
 
 import { useTranslation } from "next-i18next";
-import { ImageDeleteInput } from "../utils/validation/image.schema";
+import type { ImageDeleteInput } from "../utils/validation/image.schema";
 
 interface DeleteConfirmationProps {
   currentID: ImageDeleteInput;

@@ -3,7 +3,7 @@ import {
   imageSchema,
   uploadImageSchema,
 } from "../../../utils/validation/image.schema";
-import { publicProcedure, protectedProcedure, router } from "../trpc";
+import { publicProcedure, protectedProcedure, createTRPCRouter } from "../trpc";
 import { deleteImageSchema } from "../../../utils/validation/image.schema";
 import { v2 as cloudinary } from "cloudinary";
 import { env } from "../../../env/server.mjs";
@@ -15,7 +15,7 @@ cloudinary.config({
   secure: true,
 });
 
-export const imageRouter = router({
+export const imageRouter = createTRPCRouter({
   getPlaceImages: publicProcedure
     .input(imageSchema)
     .query(async ({ ctx, input }) => {
@@ -52,7 +52,7 @@ export const imageRouter = router({
     .input(deleteImageSchema)
     .mutation(async ({ ctx, input }) => {
       try {
-        cloudinary.uploader.destroy(input.image_public_id);
+        await cloudinary.uploader.destroy(input.image_public_id);
         const deleteEntry = await ctx.prisma.placeImages.delete({
           where: {
             id: input.imageId,

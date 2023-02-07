@@ -5,9 +5,9 @@ import {
   editPlaceSchema,
   placeSchema,
 } from "../../../utils/validation/entries.schema";
-import { protectedProcedure, publicProcedure, router } from "../trpc";
+import { protectedProcedure, publicProcedure, createTRPCRouter } from "../trpc";
 
-export const placesRouter = router({
+export const placesRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.place.findMany();
   }),

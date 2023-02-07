@@ -1,43 +1,34 @@
-import { Place, User } from "@prisma/client";
+import type { User } from "@prisma/client";
 import {
-  Fragment,
-  useEffect,
-  useState,
-  useMemo,
-  Dispatch,
-  SetStateAction,
-} from "react";
-import {
+  CellContext,
+  ColumnDef,
+  ColumnFiltersState,
   createColumnHelper,
+  FilterFn,
   flexRender,
   getCoreRowModel,
-  getPaginationRowModel,
-  useReactTable,
-  getSortedRowModel,
-  SortingState,
-  Column,
-  Table,
-  ColumnFiltersState,
-  getFilteredRowModel,
+  getFacetedMinMaxValues,
   getFacetedRowModel,
   getFacetedUniqueValues,
-  getFacetedMinMaxValues,
-  sortingFns,
-  FilterFn,
-  SortingFn,
-  ColumnDef,
-  FilterFns,
-  CellContext,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  SortingState,
+  useReactTable,
 } from "@tanstack/react-table";
-
 import {
-  RankingInfo,
-  rankItem,
-  compareItems,
-} from "@tanstack/match-sorter-utils";
+  Dispatch,
+  Fragment,
+  SetStateAction,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+
+import { Menu, Transition } from "@headlessui/react";
+import { RankingInfo, rankItem } from "@tanstack/match-sorter-utils";
 import DebouncedInput from "../EditingComponents/DebouncedInput";
 import Filter from "../EditingComponents/Filter";
-import { Menu, Transition } from "@headlessui/react";
 
 import { useTranslation } from "next-i18next";
 
@@ -52,6 +43,7 @@ declare module "@tanstack/table-core" {
 
 const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
   // Rank the item
+  //@ts-ignore
   const itemRank = rankItem(row.getValue(columnId), value);
 
   // Store the itemRank info

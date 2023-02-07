@@ -1,6 +1,7 @@
-import { Place } from "@prisma/client";
-import { Dispatch, SetStateAction, useState } from "react";
-import { trpc } from "../utils/trpc";
+import type { Place } from "@prisma/client";
+import type { Dispatch, SetStateAction } from "react";
+import { useState } from "react";
+import { api } from "../utils/api";
 import LoadingOverlay from "./LoadingOverlay";
 import MapComponent from "./MapComponent";
 import SideMapComponent from "./SideMapComponent";
@@ -14,7 +15,7 @@ export interface MapProps {
 }
 
 export default function DisplayMap() {
-  const getEntries = trpc.places.getAll.useQuery();
+  const getEntries = api.places.getAll.useQuery();
   const [selectedEntry, setSelectedEntry] = useState<Place>();
   const [selectedTag, setSelectedTag] = useState("");
 

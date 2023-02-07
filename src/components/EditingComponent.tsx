@@ -1,18 +1,18 @@
-import { Place } from "@prisma/client";
+import type { Place } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { Fragment, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { trpc } from "../utils/trpc";
+import { api } from "../utils/api";
 import AddEntry from "./EditingComponents/AddEntry";
 import EditEntry from "./EditingComponents/EditEntry";
 import ImportFromCSV from "./EditingComponents/ImportFromCSV";
 import LoadingOverlay from "./LoadingOverlay";
 
 import { useTranslation } from "next-i18next";
-import { Menu, Transition } from "@headlessui/react";
 import Gallery from "./Gallery";
 import DeleteEntryConfirmation from "./EditingComponents/DeleteEntryConfirmation";
 import EditTable from "./EditingComponents/EditTable";
+import { type Session } from "next-auth";
 
 function getUniqueTags(data: Place[]) {
   const uniqueTag: string[] = [];
@@ -60,14 +60,12 @@ function getErrorNotificationMessage(message: string) {
   });
 }
 
-function checkIfAdmin(session: any) {
-  if (session?.user?.role === "ADMIN") {
-    return true;
-  }
-  return false;
-}
-
-const tableThreads = ["Name", "Address", "Category", "Tags", "Updated_At", ""];
+// function checkIfAdmin(session: Session) {
+//   if (session?.user?.role === "ADMIN") {
+//     return true;
+//   }
+//   return false;
+// }
 
 export default function EditingComponent() {
   const { data: session } = useSession();
@@ -84,11 +82,12 @@ export default function EditingComponent() {
   const [importOpen, setImportOpen] = useState(false);
 
   // Check if user is admin
-  const getEntries = checkIfAdmin(session)
-    ? trpc.places.getAll.useQuery()
-    : trpc.places.getUserPlaces.useQuery();
+  const getEntries =
+    session && session.user?.role === "ADMIN"
+      ? api.places.getAll.useQuery()
+      : api.places.getUserPlaces.useQuery();
 
-  const addEntry = trpc.places.addEntry.useMutation({
+  const addEntry = api.places.addEntry.useMutation({
     onSuccess: () => {
       getEntries.refetch();
       getSuccessNotificationMessage("Entry added successfully!");
@@ -96,7 +95,7 @@ export default function EditingComponent() {
     onError: (e) => getErrorNotificationMessage(e.message),
   });
 
-  const editEntry = trpc.places.editEntry.useMutation({
+  const editEntry = api.places.editEntry.useMutation({
     onSuccess: () => {
       getEntries.refetch();
       getSuccessNotificationMessage("Entry edited successfully");
@@ -104,7 +103,7 @@ export default function EditingComponent() {
     onError: (e) => getErrorNotificationMessage(e.message),
   });
 
-  const deleteEntry = trpc.places.deleteEntry.useMutation({
+  const deleteEntry = api.places.deleteEntry.useMutation({
     onSuccess: () => {
       getEntries.refetch();
       getSuccessNotificationMessage("Entry deleted successfully!");
@@ -112,7 +111,7 @@ export default function EditingComponent() {
     onError: (e) => getErrorNotificationMessage(e.message),
   });
 
-  const importEntries = trpc.places.addManyEntries.useMutation({
+  const importEntries = api.places.addManyEntries.useMutation({
     onSuccess: () => {
       getEntries.refetch();
       getSuccessNotificationMessage("Entries imported successfully!");
@@ -126,7 +125,7 @@ export default function EditingComponent() {
     <div>
       <nav className="mb-[-10px] flex items-center space-x-5 px-5 pt-3">
         <button
-          className="btn btn-sm gap-2 bg-secondary-700 text-white hover:bg-secondary-600"
+          className="btn-sm btn gap-2 bg-secondary-700 text-white hover:bg-secondary-600"
           onClick={() => setAddModalOpened(true)}
         >
           <svg
@@ -147,7 +146,7 @@ export default function EditingComponent() {
         </button>
         <button
           onClick={() => setImportOpen(true)}
-          className="btn btn-sm gap-2 bg-secondary-700 text-white hover:bg-secondary-600"
+          className="btn-sm btn gap-2 bg-secondary-700 text-white hover:bg-secondary-600"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

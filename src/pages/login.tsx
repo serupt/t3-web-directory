@@ -1,10 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { NextPage } from "next";
+import type { NextPage } from "next";
 import { signIn } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { LoginInput, loginSchema } from "../utils/validation/login.schema";
+import type { SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import type { LoginInput } from "../utils/validation/login.schema";
+import { loginSchema } from "../utils/validation/login.schema";
 
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -31,7 +33,7 @@ const LoginPage: NextPage = () => {
   });
 
   const onSubmit: SubmitHandler<LoginInput> = async (data) => {
-    signIn("credentials", {
+    await signIn("credentials", {
       username: data.username,
       password: data.password,
       redirect: false,
@@ -40,14 +42,14 @@ const LoginPage: NextPage = () => {
         // console.log(response);
         if (response && response.ok) {
           // Authenticate user
-          router.push("/manage");
+          void router.push("/manage");
         } else {
-          router.push("/error");
+          void router.push("/error");
         }
       })
       .catch((error) => {
         console.log(error);
-        router.push("/error");
+        void router.push("/error");
       });
   };
   return (

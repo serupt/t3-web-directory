@@ -1,5 +1,5 @@
-import { Place } from "@prisma/client";
-import { Dispatch, SetStateAction } from "react";
+import type { Place } from "@prisma/client";
+import type { Dispatch, SetStateAction } from "react";
 
 interface SelectedTagViewProps {
   entryData: Place[];

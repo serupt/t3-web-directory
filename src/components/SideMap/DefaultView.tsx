@@ -3,8 +3,8 @@ import {
   getUniqueCategoryTags,
 } from "../SideMapComponent";
 
-import { Place } from "@prisma/client";
-import { Dispatch, SetStateAction } from "react";
+import type { Place } from "@prisma/client";
+import type { Dispatch, SetStateAction } from "react";
 
 interface DefaultViewProps {
   entryData: Place[];
@@ -19,7 +19,7 @@ export default function DefaultView({
     <div>
       {getUniqueCategories(entryData).map((category, index) => {
         return (
-          <div key={index} tabIndex={0} className="collapse collapse-arrow">
+          <div key={index} tabIndex={0} className="collapse-arrow collapse">
             <div className="collapse-title  bg-primary-800 text-xl font-medium">
               {category}
             </div>
