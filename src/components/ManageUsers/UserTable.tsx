@@ -129,7 +129,7 @@ export default function UserTable({
           (info as CellContext<User, Date>).getValue().toLocaleDateString() +
           " " +
           (info as CellContext<User, Date>).getValue().toLocaleTimeString(),
-        header: () => <span>Updated At</span>,
+        header: () => <span>Created At</span>,
         meta: {
           align: "center",
         },
@@ -358,7 +358,7 @@ export default function UserTable({
                               }[header.column.getIsSorted() as string] ?? null}
                             </div>
                             {header.column.getCanFilter() &&
-                            header.id !== "tags" &&
+                            header.id !== "created_at" &&
                             header.id !== "updated_at" ? (
                               <div>
                                 <Filter column={header.column} table={table} />
