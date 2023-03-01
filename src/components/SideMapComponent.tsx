@@ -138,7 +138,7 @@ export default function SideMapComponent({
           </div>
         </div>
         <div className="bottom sticky flex h-16 items-center justify-center space-x-2">
-          <img src="/nyct.svg" className="h-16 w-56" />
+          {/* <img src="/nyct.svg" className="h-16 w-56" /> */}
         </div>
       </div>
     </>

@@ -10,7 +10,6 @@ import ManageEntryLayout from "../../layout/ManageEntryLayout";
 
 const googleMapsLibraries: LoadScriptProps["libraries"] = ["places"];
 
-import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nConfig from "../../../next-i18next.config.mjs";
 
